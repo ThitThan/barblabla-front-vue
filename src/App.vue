@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">XXX</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+
+    <router-view/>  <!-- ห้ามลบ!! เอาไว้โหลดหน้าอื่นๆ มาแสดง -->
   </div>
 </template>
 
