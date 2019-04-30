@@ -1,6 +1,6 @@
 <template>
   <div id="not-found">
-    <h5 style='margin:auto'>ยังไม่ได้ทำจ้า รอแปบนะ .__.</h5>
+    <h5 style='margin:auto'>ยังไม่ได้ทำจ้า รอแปบนะ :3</h5>
   </div>
 </template>
 

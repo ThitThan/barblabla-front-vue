@@ -1,39 +1,47 @@
 <template>
-  <div>
-    <!-- dropdown -->
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!">one</a></li>
-      <li><a href="#!">two</a></li>
-      <li class="divider"></li>
-      <li><a href="#!">three</a></li>
-    </ul>
 
-    <div class='nav-dark'>
+  <div class='nav-dark z-depth-1 valign-wrapper'>
+    <!-- [DESKTOP] LOGO -->
+    <router-link v-show='windowWidth > 540' to='/'>
+      <img src='@/assets/refeel-logo.png' style='height: 36px'/>
+    </router-link>
+
+    <!-- [MOBILE] LOGO & LOGOUT -->
+    <div v-show='windowWidth <= 540'
+      style='width: 100%; padding-top: 8px;'>
       <router-link to='/'>
-        <img src='@/assets/refeel-logo.png' style='height: 48px'/>
+        <img src='@/assets/refeel-logo.png' style='height: 36px'/>
       </router-link>
 
-      <ul ref='tabs' class="tabs tabs-transparent left" :style="'width: ' + (windowWidth > 540 ? 'fit-content':'100%')">
-
-        <li v-for='tab in tabs'
-          v-bind:key='tab.name'
-          class='tab'>
-          <router-link :to='tab.path'>{{ tab.name }}</router-link>
-        </li>
-
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
-
-      </ul>
-      <!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
-      <ul id="nav-mobile" class="right">
-        <li>
-          <!-- <a class="waves-effect waves-light btn deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a> -->
-          <a class="waves-effect waves-light btn deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a>
-        </li>
-      </ul>
+      <a class='waves-effect waves-light btn deep-purple darken-2 right' @click="performLogout()">ล้อคเอาท์</a>
     </div>
+    
+    <!-- TAB -->
+    <ul ref='tabs' class="tabs tabs-transparent left" :style="'width: ' + (windowWidth > 540 ? 'fit-content':'100%')">
+
+      <li v-for='tab in tabs'
+        v-bind:key='tab.name'
+        :class="'tab ' + ($route.path === tab.path ? 'active':'')">
+
+        <router-link :to='tab.path'
+          :class="$route.path === tab.path ? 'active':''">
+          <!-- {{ $route.path + ' ' + tab.name }} -->
+          {{ tab.name }}
+        </router-link>
+
+      </li>
+
+    </ul>
+
+    <!-- [DESKTOP] LOGOUT -->
+    <a v-show='windowWidth > 540' 
+      class='waves-effect waves-light btn deep-purple darken-2 right' 
+      @click="performLogout()">
+      ล้อคเอาท์
+    </a>
 
   </div>
+
 </template>
 
 <script>
@@ -65,8 +73,16 @@ export default ({
           name : 'หน้าหลัก',
         },
         {
-          path : '/about',
-          name : 'เกี่ยวกับ',
+          path : '/tables',
+          name : 'จัดการโต๊ะ',
+        },
+        {
+          path : '/staffs',
+          name : 'จัดการสตาฟ',
+        },
+        {
+          path : '/test',
+          name : 'test',
         },
         // {
         //   path : '/history',
@@ -136,18 +152,15 @@ export default ({
 #title {
   font-size: 21px;
 }
-#home {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #f9f9f9;
-  /* padding-top: 96px; */
-  /* padding-bottom: 96px; */
-}
 .nav-dark {
   /* background: #ffffff; */
   background: #1F1623;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 0px 12px;
+
+  min-height: 48px;
+
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .dz-tabnav {

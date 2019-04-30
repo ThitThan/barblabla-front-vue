@@ -115,13 +115,11 @@ input {
 
 // Nav-sticky
 .sticky {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
 }
 .i-nav {
   width: 100vw;
-
-  padding: 12px 12px;
 }
 </style>
