@@ -139,7 +139,7 @@ form {
 }
 .dz-fixed-width {
   /* max-width: 360px; */
-  width: 360px;
+  width: 320px;
   margin: auto;
 }
 
