@@ -121,5 +121,6 @@ input {
 }
 .i-nav {
   width: 100vw;
+  max-width: 100%;
 }
 </style>
