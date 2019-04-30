@@ -5,14 +5,14 @@
       
       <!-- header (logo + title + subtitle) -->
       <div class=''>
-        <!-- <img class='logo uk-margin-remove-bottom' 
-              alt="DIZCARD logo" src="@/assets/logo-small.png"> -->
-        <h4>
+        <img class='logo uk-margin-remove-bottom' style='margin-bottom: 24px;'
+              alt="logo" src="@/assets/refeel-logo.png">
+        <!-- <h4>
           Barblabla
-        </h4>
-        <div class='' style='font-size: 15px'>
-          {{ /*welcome, please login*/ }}
-          กรุณาเข้าสู่ระบบ <br/> เพื่อเข้าไปจัดการบาร์ของคุณ
+        </h4> -->
+        <div class='' style='font-size: 15px;'>
+          กรุณาเข้าสู่ระบบ 
+          <!-- <br/> เพื่อเข้าไปจัดการบาร์ของคุณ -->
         </div>
       </div>
 
@@ -29,17 +29,19 @@
       </div>
 
       <!-- login button container -->
-      <div class=''>
+      <div id='button-frame'>
         <button class="waves-effect waves-light btn deep-purple darken-2" type='submit' v-show='!isLoading' >เข้าสู่ระบบ</button>
 
         <div v-show='isLoading'>
-          <div class="spinner-layer spinner-green">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
+          <div class="preloader-wrapper small active">
+            <div class="spinner-layer spinner-yellow-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +114,7 @@ export default {
 }
 </script>
 
-<style bounded>
+<style scoped>
 /* body {
   font-family: 'Mitr', sans-serif;
 } */
@@ -120,12 +122,12 @@ form {
   margin: auto;
 }
 #login-form {
-  border-radius: 4px;
+  border-radius: 12px;
   /* background-color: #2C2332; */
   background-color: #24202F;
 
   /* background-color: #ffffff10; */
-  padding: 36px 24px;
+  padding: 36px 32px;
 }
 .logo {
   /* width: 84px;  */
@@ -136,9 +138,12 @@ form {
   background-position: 50% 50%;
 }
 .dz-fixed-width {
-  max-width: 360px;
+  /* max-width: 360px; */
+  width: 360px;
   margin: auto;
-  /* margin-top: auto;
-  margin-bottom: auto; */
+}
+
+#button-frame {
+  margin-top: 24px;
 }
 </style>

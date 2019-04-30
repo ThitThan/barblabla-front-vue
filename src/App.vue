@@ -11,7 +11,7 @@
       Login
     </div> -->
 
-    <NavBar v-if='$route.name && !routesWithNoNav.includes($route.name)' :currentNavPath="currentNavPath"/>
+    <NavBar class='i-nav sticky' v-if='$route.name && !routesWithNoNav.includes($route.name)' :currentNavPath="currentNavPath"/>
     <transition name='slide-fade' mode='out-in'>
       <router-view ref='router'/>  <!-- ห้ามลบ!! เอาไว้โหลดหน้าอื่นๆ มาแสดง -->
     </transition>
@@ -35,15 +35,20 @@ export default {
     return {
       currentNavPath: null,
 
-      routesWithNoNav: [ 'login', 'join' ],
+      routesWithNoNav: [ 
+        'login' 
+      ],
     }
   },
   watch:{
     $route (to, from){
-      // console.log(to.path)
-      this.currentNavPath = to.path
+      this.currentNavPath = to.name.toString()
 
-      console.log(!this.routesWithNoNav.includes(to.name))
+      // console.log(JSON.stringify(to))
+      // console.log(this.routesWithNoNav)
+      // console.log(this.routesWithNoNav[0] + ' ---> ' + (this.routesWithNoNav[0] === 'login'))
+      // console.log(this.currentNavPath + ' ---> ' + (this.currentNavPath === 'login'))
+      // console.log(!this.routesWithNoNav.includes(to.name))
     }
   },
   created() {
@@ -105,5 +110,18 @@ input {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(10px);
   opacity: 0;
+}
+
+
+// Nav-sticky
+.sticky {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.i-nav {
+  width: 100vw;
+
+  padding: 12px 12px;
 }
 </style>

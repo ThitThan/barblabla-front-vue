@@ -1,35 +1,37 @@
 <template>
   <div>
-    <nav class="nav-extended navbar-fixed nav-dark">
-      <div class="nav-wrapper">
-        <ul class="tabs tabs-transparent left" style='width: fit-content'>
-          <li>
-            <router-link to='/'>
-              <img src='@/assets/refeel-logo.png' style='height: 48px'/>
-            </router-link>
-          </li>
-          <li v-for='tab in tabs'
-            v-bind:key='tab.name'
-            class='tab'>
-            <router-link :to='tab.path'>{{ tab.name }}</router-link>
-          </li>
-        </ul>
-        <!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
-        <ul id="nav-mobile" class="right">
-          <li>
-            <a class="waves-effect waves-light btn deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a>
-          </li>
-          
-          <!-- <button class="waves-effect waves-light btn deep-purple darken-2" type='submit' v-show='!isLoading' >ล้อคเอ้าท์</button> -->
-        </ul>
-      </div>
-    </nav>
+    <!-- dropdown -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">one</a></li>
+      <li><a href="#!">two</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">three</a></li>
+    </ul>
 
-    <!-- <ul class="sidenav" id="mobile-demo">
-      <li><a href="sass.html">Sass</a></li>
-      <li><a href="badges.html">Components</a></li>
-      <li><a href="collapsible.html">JavaScript</a></li>
-    </ul> -->
+    <div class='nav-dark'>
+      <router-link to='/'>
+        <img src='@/assets/refeel-logo.png' style='height: 48px'/>
+      </router-link>
+
+      <ul ref='tabs' class="tabs tabs-transparent left" :style="'width: ' + (windowWidth > 540 ? 'fit-content':'100%')">
+
+        <li v-for='tab in tabs'
+          v-bind:key='tab.name'
+          class='tab'>
+          <router-link :to='tab.path'>{{ tab.name }}</router-link>
+        </li>
+
+        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+
+      </ul>
+      <!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+      <ul id="nav-mobile" class="right">
+        <li>
+          <!-- <a class="waves-effect waves-light btn deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a> -->
+          <a class="waves-effect waves-light btn deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a>
+        </li>
+      </ul>
+    </div>
 
   </div>
 </template>
@@ -41,6 +43,9 @@ import { Component, Vue } from 'vue-property-decorator';
 // PARSE
 import Parse from 'parse'
 const Username = Parse.Object.extend("Username")
+
+// Materialize
+import '../../node_modules/materialize-css/dist/js/materialize.js'
 
 export default ({
   name: 'navbar',
@@ -118,7 +123,10 @@ export default ({
   },
   mounted() {
     // init tabs
-    // this.$refs['tabs'].tabs();
+    // console.log(JSON.stringify(this.$refs['tabs']))
+    // this.$refs['tabs'].tabs()
+
+    var instance = M.Tabs.init(this.$refs['tabs'], []);
   },
 })
 // export default class Home extends Vue {}

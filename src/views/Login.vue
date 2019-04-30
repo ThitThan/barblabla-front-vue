@@ -45,8 +45,7 @@ export default {
   justify-items: center;
   height: 100vh;
   width: 100vw;
-}
-.centered-card {
-  margin: auto;
+
+  display: flex;
 }
 </style>
