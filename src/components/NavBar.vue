@@ -73,11 +73,11 @@ export default ({
           name : 'หน้าหลัก',
         },
         {
-          path : '/tables',
+          path : '/manage/tables',
           name : 'จัดการโต๊ะ',
         },
         {
-          path : '/staffs',
+          path : '/manage/staffs',
           name : 'จัดการสตาฟ',
         },
         {
@@ -153,14 +153,16 @@ export default ({
   font-size: 21px;
 }
 .nav-dark {
-  /* background: #ffffff; */
   background: #1F1623;
+  /* background: #1B0F27; */
   padding: 0px 12px;
 
   min-height: 48px;
 
   display: flex;
   flex-wrap: wrap;
+
+  z-index: 999;
 }
 
 .dz-tabnav {

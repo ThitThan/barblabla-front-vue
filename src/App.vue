@@ -67,10 +67,12 @@ export default {
   text-align: center;
   color: #ffffff80;
 
+  min-height: 100vh;
+}
+html {
   // background-color: #1A1B20;
   background-color: #231A2B;
   // background-color: #231A2C;
-  min-height: 100vh;
 }
 h1, h2, h3, h4, h5, h6, label, input, div {
   font-family: 'Prompt', sans-serif !important;
@@ -122,5 +124,65 @@ input {
 .i-nav {
   width: 100vw;
   max-width: 100%;
+}
+
+//
+// Dark Theme overrides
+//
+.tabs.tabs-transparent .indicator {
+  background-color: #fff;
+}
+.collection {
+  border: 1px solid #e0e0e020;
+}
+.collection .collection-item {
+  // background: #1B0F27;
+  background: #ffffff0a;
+  border-bottom: 1px solid #e0e0e020;
+}
+
+//
+// Bootstrap badge
+//
+.i-badge {
+  display: inline-flex;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.i-badge-pill {
+  padding-right: .6em;
+  padding-left: .6em;
+  border-radius: 10rem;
+}
+.i-badge-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+.i-badge-dark {
+  color: #fff;
+  // background-color: #85797933;
+  background-color: #ffffff20;
+}
+
+
+//
+// FAB
+//
+.i-item {
+  padding: 4px 0;
+}
+.i-icon {
+  font-size: 15px!important;
+  margin-right: 4px;
+}
+.i-fab {
+  margin: 24px 0;
 }
 </style>
