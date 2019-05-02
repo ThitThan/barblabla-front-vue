@@ -74,11 +74,14 @@ html {
   background-color: #231A2B;
   // background-color: #231A2C;
 }
-h1, h2, h3, h4, h5, h6, label, input, div {
+h1, h2, h3, h4, h5, h6, label, input, div, button {
   font-family: 'Prompt', sans-serif !important;
 }
 input {
   color: #fff;
+}
+label {
+  font-size: 0.9rem;
 }
 #nav {
   padding: 30px;
@@ -140,6 +143,12 @@ input {
   background: #ffffff0a;
   border-bottom: 1px solid #e0e0e020;
 }
+.btn-flat {
+  color: #ffffff80;
+}
+// .input:not(.browser-default):focus {
+//   border-bottom-color: #ffc107;
+// }
 
 //
 // Bootstrap badge
@@ -172,6 +181,13 @@ input {
 }
 
 
+// 
+// Button
+// 
+i.left {
+  margin-right: 8px;
+}
+
 //
 // FAB
 //
@@ -184,5 +200,40 @@ input {
 }
 .i-fab {
   margin: 24px 0;
+}
+
+// 
+// Wave effects override
+// 
+.collection .waves-effect {
+  display: inherit;
+}
+
+// 
+// Flex
+// 
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-left {
+  align-items: left;
+}
+
+//
+// Modal
+// 
+.modal {
+  background-color: #1A1B20;
+  // background-color: #231A2B;
+  // background-color: #231A2C;
+}
+.modal .modal-content {
+  padding: 32px 24px;
+
+  max-width: 400px;
+  margin: auto;
 }
 </style>

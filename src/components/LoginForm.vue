@@ -30,8 +30,10 @@
 
       <!-- login button container -->
       <div id='button-frame'>
+        <!-- button -->
         <button class="waves-effect waves-light btn deep-purple darken-2" type='submit' v-show='!isLoading' >เข้าสู่ระบบ</button>
 
+        <!-- หมุนๆ ตอนโหลด -->
         <div v-show='isLoading'>
           <div class="preloader-wrapper small active">
             <div class="spinner-layer spinner-yellow-only">

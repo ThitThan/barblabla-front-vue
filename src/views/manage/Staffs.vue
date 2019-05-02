@@ -1,12 +1,31 @@
 <template>
   <div class="about container">
+    <!-- current user dialog -->
+    <!-- <Modal v-model='showDialog' @close='saveUserData(user, false)'> -->
+    <Modal v-model='showDialog'>
+      <StaffDetail :user='selectedUser' @saved='closeDetailDialog()'/>
+    </Modal>
+
+    <!-- titles -->
     <h2>สตาฟ</h2>
     <h6>{{ users.length }} คน</h6>
     <br>
 
     <!-- หมุนๆ ตอนโหลด -->
     <div id='loading' v-if='isLoading'>
-      Loading..
+      <div v-show='isLoading'>
+        <div class="preloader-wrapper small active">
+          <div class="spinner-layer spinner-yellow-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id='content' v-else>
@@ -14,9 +33,10 @@
       <ul class='collection' v-if='users.length > 0'>
 
         <!-- แต่ละแถว -->
-        <li class='collection-item'
+        <li class='collection-item waves-effect waves-light'
           v-for='u in users' 
-          v-bind:key='u.id'>
+          v-bind:key='u.id'
+          @click='showViewDialog(u)'>
 
           <div class='i-item' align='left'>
             <!-- username -->
@@ -50,30 +70,46 @@
       </div>
 
       <!-- ปุ่ม + -->
-      <a class="btn-floating btn-large waves-effect waves-light deep-purple darken-2 i-fab">
+      <a class="btn-floating btn-large waves-effect waves-light deep-purple darken-2 i-fab"
+        @click='showAddDialog()'>
         <i class="material-icons">add</i>
       </a>
 
     </div>
-
   </div>
 </template>
 
 <script>
 import Parse from 'parse'
+import Modal from '@/components/Modal'
+import StaffDetail from '@/components/manage/StaffDetail';
 
 export default {
+  components: {
+    Modal,
+    StaffDetail,
+  },
   data() {
     return {
       isLoading: false,
 
-      // users: [
-      //   'Into the Spider-Verse',
-      //   'The Last Jedi',
-      //   'End Game',
-      // ],
       users: [],
       currentUser: null,
+
+      showDialog: false,
+      selectedUser: null,
+    }
+  },
+  watch: {
+    addDialogVisible(newVal, oldVal) {
+      if (newVal === false) {
+        this.selectedUser = null
+      }
+    },
+    viewDialogVisible(newVal, oldVal) {
+      if (newVal === false) {
+        this.selectedUser = null
+      }
     }
   },
   created() {
@@ -94,6 +130,21 @@ export default {
       this.currentUser = currentUser
       this.users = users
       this.isLoading = false
+    },
+    showAddDialog() {
+      this.selectedUser = null
+      this.showDialog = true
+    },
+    showViewDialog(user) {
+      this.selectedUser = user
+      this.showDialog = true
+    },
+
+    closeDetailDialog() {
+      this.showDialog = false
+      this.selectedUser = null
+
+      this.loadUsers()  // update the user list
     },
   }
 }

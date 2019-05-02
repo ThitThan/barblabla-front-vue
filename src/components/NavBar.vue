@@ -1,5 +1,4 @@
 <template>
-
   <div class='nav-dark z-depth-1 valign-wrapper'>
     <!-- [DESKTOP] LOGO -->
     <router-link v-show='windowWidth > 540' to='/'>
@@ -8,12 +7,13 @@
 
     <!-- [MOBILE] LOGO & LOGOUT -->
     <div v-show='windowWidth <= 540'
+      id='app-bar'
       style='width: 100%; padding-top: 8px;'>
       <router-link to='/'>
         <img src='@/assets/refeel-logo.png' style='height: 36px'/>
       </router-link>
 
-      <a class='waves-effect waves-light btn deep-purple darken-2 right' @click="performLogout()">ล้อคเอาท์</a>
+      <a class='waves-effect waves-light btn-small deep-purple darken-2 right' @click="performLogout()">ล้อคเอาท์</a>
     </div>
     
     <!-- TAB -->
@@ -35,7 +35,7 @@
 
     <!-- [DESKTOP] LOGOUT -->
     <a v-show='windowWidth > 540' 
-      class='waves-effect waves-light btn deep-purple darken-2 right' 
+      class='waves-effect waves-light btn-small deep-purple darken-2 right' 
       @click="performLogout()">
       ล้อคเอาท์
     </a>
@@ -163,6 +163,10 @@ export default ({
   flex-wrap: wrap;
 
   z-index: 999;
+}
+#app-bar {
+  display: flex;
+  justify-content: space-between;
 }
 
 .dz-tabnav {

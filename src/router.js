@@ -32,7 +32,7 @@ export default new Router({
     {
       path: '/manage/staffs',
       name: 'manage-staffs',
-      component: () => import('@/views/manages/Staffs.vue')
+      component: () => import('@/views/manage/Staffs.vue')
     },
     {
       path: '*',

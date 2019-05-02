@@ -1,0 +1,158 @@
+<template>
+  <!-- หมุนๆ ตอนโหลด -->
+  <div>
+    <div id='loading' v-if='isLoading'>
+      <div v-show='isLoading'>
+        <div class="preloader-wrapper small active">
+          <div class="spinner-layer spinner-yellow-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id='content i-modal-container flex flex-column flex-left' v-else>
+      <h4 style='margin-bottom: 32px'>
+        <!-- {{ title }} -->
+        {{ user ? 'ข้อมูลพนักงาน':'เพิ่มพนักงาน' }}
+      </h4>
+      <!-- <p v-if='user !== null'>
+        {{ JSON.stringify(user) }}
+      </p> -->
+
+      <!-- username -->
+      <label for='username'>ชื่อผู้ใช้</label>
+      <div class="input-field col">
+        <i class="material-icons prefix">account_circle</i>
+        <input v-model='username' id='username' placeholder='ชื่อผู้ใช้' type='text'/>
+      </div>
+
+      <!-- isAdmin -->
+      <div>
+        <label>สิทธิ์ผู้ดูแลระบบ</label>
+        <div class='input-field col'>
+          <div class="switch">
+            <label>
+              <!-- <i class="material-icons prefix">lock_open</i> -->
+              <input type="checkbox" v-model='isAdmin'>
+              <span class="lever"></span>
+              <!-- <i class="material-icons prefix">lock</i> -->
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- save button -->
+      <div style='margin-top: 48px;'>
+        <!-- button -->
+        <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')" @click='saveUserData()'>
+          <i class="material-icons left">save</i>
+          บันทึก
+        </button>
+
+        <!-- หมุนๆ ระหว่างเซฟ -->
+        <!-- <div v-show='isLoading'>
+          <div class="preloader-wrapper small active">
+            <div class="spinner-layer spinner-yellow-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+    </div>
+  </div>
+
+</template>
+
+<script>
+import Parse from 'parse'
+import Modal from '@/components/Modal'
+
+export default {
+  props: {
+    user: {
+      type: Parse.User,
+    },
+    // title: {
+    //   type: String,
+    //   default: () => 'ข้อมูลพนักงาน'
+    // },
+  },
+  data() {
+    return {
+      isLoading: false,
+      isSaving: false,
+
+      username: '',
+      isAdmin: false,
+    }
+  },
+  watch: {
+    user(newU, oldU) {
+      if (newU !== null) {
+        this.username = newU.getUsername()
+        this.isAdmin = newU.get('isAdmin')
+      }
+      else {
+        this.username = ''
+        this.isAdmin = false
+      }
+    }
+  },
+  mounted() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, []);
+  },
+  methods: {
+    saveUserData() {
+      this.isSaving = true    // start saving
+
+      let user = this.user
+
+      if (user === null) {
+        user = new Parse.User()
+        user.setPassword('12345')
+      }
+
+      user.set('username', this.username)
+      user.set('isAdmin', this.isAdmin)
+
+      // await user.save({ useMasterKey : true })
+      user.save( { useMasterKey : true })
+      .then(
+        (object) => {
+          console.log('success')
+          this.isSaving = false   // finished saving
+          this.$emit('saved', user)
+        },
+        (object, error) => {
+          console.log('error')
+          this.isSaving = false   // finished saving
+          // this.$emit('saved', user)
+        }
+      )
+
+    },
+  }
+}
+</script>
+
+<style scoped>
+#username {
+  font-size: 19px;
+}
+</style>
+
