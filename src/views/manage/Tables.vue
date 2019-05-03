@@ -1,6 +1,10 @@
 
 <template>
   <div class="container">
+    <Modal v-model='showDialog'>
+      <h1>dee jaa</h1>
+    </Modal>
+
     <!-- titles -->
     <h2> โต๊ะ </h2>
     <h6>{{ table.length }} ตัว</h6>
@@ -8,12 +12,18 @@
     <br>
     
     <ul class="collection">
-      <li class="collection-item" v-for="t in table" v-bind:key='t'>
+      <li class="collection-item" v-for="t in table" v-bind:key='t.id'>
         <div> </div>
         {{t.get('TableNumber')}}
         {{t.get("Seat")}}
       </li>
     </ul>
+
+    <!-- ปุ่ม + -->
+    <a class="btn-floating btn-large waves-effect waves-light deep-purple darken-2 i-fab"
+      @click='showAddDialog()'>
+      <i class="material-icons">add</i>
+    </a>
 
     <!-- หมุนๆ ตอนโหลด -->
     <div id='loading' v-if='isLoading'>
@@ -36,21 +46,29 @@
 
 <script>
 import Parse from  "parse"
-
 var Tableja = Parse.Object.extend("Tableja");
 
+import Modal from '@/components/Modal'
+
 export default {
+  components: {
+    Modal,
+  },
   data() {
     return {
       isLoading: false,
       name: 'dsdasd',
 
       table: [],
+
+      showDialog: false,
     }
   },
-  created() {
+  mounted() {
     this.name = '5555'
     this.data_load();
+
+    // this.showDialog = true
   },
   methods: {
     hello() {
@@ -63,6 +81,15 @@ export default {
       let tables = await query.find()
 
       this.table = tables
+    },
+    
+    showAddDialog() {
+      this.selectedTable = null
+      this.showDialog = true
+    },
+    showViewDialog(user) {
+      this.selectedTable = user
+      this.showDialog = true
     },
   }
 }
