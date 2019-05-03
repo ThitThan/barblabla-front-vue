@@ -2,8 +2,8 @@
   <div class="about container">
     <!-- current user dialog -->
     <!-- <Modal v-model='showDialog' @close='saveUserData(user, false)'> -->
-    <Modal v-model='showDialog'>
-      <StaffDetail :user='selectedUser' @saved='closeDetailDialog()'/>
+    <Modal v-model='showDialog' @close='selectedUser = null'>
+      <StaffDetail :user='selectedUser' @saved='closeDetailDialog()' />
     </Modal>
 
     <!-- titles -->
@@ -122,6 +122,7 @@ export default {
 
       // Get all users
       const query = new Parse.Query(Parse.User)
+      query.descending('isAdmin')   // show admin first, then regular staffs (true > false, so descending)
       let users = await query.find()
 
       // Get the current users

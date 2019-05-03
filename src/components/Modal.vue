@@ -1,5 +1,11 @@
 <template>
   <div class="modal" ref='modal'>
+    <!-- close button -->
+    <div class='flex' style='margin-bottom: -32px; padding-top: 16px; padding-right: 16px; justify-content: flex-end'>
+      <button :class="'btn-floating btn-small waves-effect waves-light grey darken-2'" align='left' @click='close'>
+        <i class="material-icons left">close</i>
+      </button>
+    </div>
     <!-- children view -->
     <div class="modal-content">
       <slot></slot>
@@ -24,6 +30,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.modalVisible = false
+    },
   },
   watch:{
     // for v-model
@@ -55,6 +64,8 @@ export default {
       onCloseEnd: () => {
         this.modalVisible = false
       },
+      // dismissible: false,
+      preventScrolling: false,
     }
     this.modalInstance = M.Modal.init(this.$refs['modal'], options);
     // console.log(this.$refs['modal'])

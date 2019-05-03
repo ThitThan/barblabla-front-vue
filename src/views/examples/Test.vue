@@ -1,6 +1,7 @@
+
 <template>
   <div class="about container">
-    <h3>This is an about page</h3>
+    <h3>This is the test page</h3>
 
     <input placeholder="ชื่อ" v-model='name'>
 

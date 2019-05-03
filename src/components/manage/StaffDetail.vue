@@ -20,7 +20,7 @@
     <div id='content i-modal-container flex flex-column flex-left' v-else>
       <h4 style='margin-bottom: 32px'>
         <!-- {{ title }} -->
-        {{ user ? 'ข้อมูลพนักงาน':'เพิ่มพนักงาน' }}
+        {{ user ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }}
       </h4>
       <!-- <p v-if='user !== null'>
         {{ JSON.stringify(user) }}
@@ -48,6 +48,11 @@
         </div>
       </div>
 
+      <!-- warning -->
+      <label class='red-text' v-if='isAdmin === false && user !== null && user.get("isAdmin") === true'>
+        {{ "\"" + username + "\"" }} จะไม่สามารถแก้ไขข้อมูลใดๆ ในระบบได้อีกต่อไป
+      </label>
+
       <!-- save button -->
       <div style='margin-top: 48px;'>
         <!-- button -->
@@ -55,9 +60,13 @@
           <i class="material-icons left">save</i>
           บันทึก
         </button>
+        <!-- <button :class="'waves-effect waves-light btn red darken-2 ' + (isSaving ? 'btn-disabled':'')" @click=''>
+          <i class="material-icons left">save</i>
+          ลบ
+        </button> -->
 
         <!-- หมุนๆ ระหว่างเซฟ -->
-        <!-- <div v-show='isLoading'>
+        <div v-show='isLoading'>
           <div class="preloader-wrapper small active">
             <div class="spinner-layer spinner-yellow-only">
               <div class="circle-clipper left">
@@ -69,7 +78,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
 
     </div>
@@ -131,15 +140,15 @@ export default {
       user.set('isAdmin', this.isAdmin)
 
       // await user.save({ useMasterKey : true })
-      user.save( { useMasterKey : true })
+      user.save(null, { useMasterKey: true })
       .then(
         (object) => {
           console.log('success')
           this.isSaving = false   // finished saving
           this.$emit('saved', user)
         },
-        (object, error) => {
-          console.log('error')
+        (error) => {
+          console.error(error)
           this.isSaving = false   // finished saving
           // this.$emit('saved', user)
         }
