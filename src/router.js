@@ -34,10 +34,19 @@ export default new Router({
       name: 'manage-staffs',
       component: () => import('@/views/manage/Staffs.vue')
     },
+
+    {
+      path: '/manage/tables',
+      name: 'manage-tables',
+      component: () => import('@/views/manage/Tables.vue')
+    },
+    
+    //Not found
     {
       path: '*',
       name: '404',
       component: () => import('@/views/NotFound.vue')
     },
+    
   ]
 })

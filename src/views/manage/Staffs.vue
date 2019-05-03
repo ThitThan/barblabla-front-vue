@@ -1,5 +1,5 @@
 <template>
-  <div class="about container">
+  <div class="container">
     <!-- current user dialog -->
     <!-- <Modal v-model='showDialog' @close='saveUserData(user, false)'> -->
     <Modal v-model='showDialog' @close='selectedUser = null'>
