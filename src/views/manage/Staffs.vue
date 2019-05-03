@@ -3,7 +3,7 @@
     <!-- current user dialog -->
     <!-- <Modal v-model='showDialog' @close='saveUserData(user, false)'> -->
     <Modal v-model='showDialog' @close='selectedUser = null'>
-      <StaffDetail :user='selectedUser' @saved='closeDetailDialog()' />
+      <StaffDetail :user='selectedUser' @save='closeDetailDialog()' @destroy='closeDetailDialog()'/>
     </Modal>
 
     <!-- titles -->

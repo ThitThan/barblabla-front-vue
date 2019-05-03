@@ -233,7 +233,7 @@ i.left {
 .modal .modal-content {
   padding: 32px 24px;
 
-  max-width: 400px;
-  margin: auto;
+  // max-width: 400px;
+  // margin: auto;
 }
 </style>

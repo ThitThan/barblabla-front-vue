@@ -9,7 +9,7 @@
     
     <ul class="collection">
       <li class="collection-item" v-for="t in table" v-bind:key='t'>
-        <div> </div>
+        <div>   </div>
         {{t.get('TableNumber')}}
         {{t.get("Seat")}}
       </li>
@@ -43,13 +43,13 @@ export default {
   data() {
     return {
       isLoading: false,
-      name: 'dsdasd',
+      name: '...',
 
       table: [],
     }
   },
   created() {
-    this.name = '5555'
+    this.name = '...'
     this.data_load();
   },
   methods: {
