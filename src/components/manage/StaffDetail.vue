@@ -24,9 +24,6 @@
         <!-- {{ title }} -->
         {{ user ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }}
       </h4>
-      <!-- <p v-if='user !== null'>
-        {{ JSON.stringify(user) }}
-      </p> -->
 
       <!-- username -->
       <label for='username'>ชื่อผู้ใช้</label>
