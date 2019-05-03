@@ -33,10 +33,13 @@
       </div>
 
       <!-- change password -->
-      <label for='newpassword'>รหัสผ่านใหม่</label>
+      <label for='newpassword'>
+        {{ user === null ? 'กำหนดรหัสผ่าน':'กำหนดรหัสผ่านใหม่'}}
+      </label>
       <div class="input-field col">
         <i class="material-icons prefix">lock</i>
-        <input v-model='newpassword' id='newpassword' placeholder='ใส่รหัสผ่านใหม่' type='password' />
+        <input v-model='newpassword' id='newpassword' type='password' 
+          placeholder='(ใส่รหัสผ่าน)'  />
       </div>
 
       <!-- isAdmin -->
@@ -55,7 +58,7 @@
       </div>
 
       <!-- warning -->
-      <label class='red-text' v-if='isAdmin === false && user !== null && user.get("isAdmin") === true'>
+      <label class='red-text' v-if='isAdmin === false && user && user.get("isAdmin") === true'>
         {{ "\"" + username + "\"" }} จะไม่สามารถแก้ไขข้อมูลใดๆ ในระบบได้อีกต่อไป
       </label>
 
@@ -75,9 +78,9 @@
 
     </div>
 
-
-    <!-- close button -->
-    <div class='flex' style='padding-top: -20px; padding-right: 0px; justify-content: flex-end'>
+    <!-- destroy button (hidden when the user is viewing their own account detail) -->
+    <div v-show='user && !isCurrentUser'
+      class='flex' style='padding-top: -20px; padding-right: 0px; justify-content: flex-end'>
       <button :class="'btn-floating btn-small waves-effect waves-light red darken-2' + (isDeleting ? 'btn-disabled':'')" align='left'
         @click='deleteUserData()'>
         <i class="material-icons left">delete</i>
@@ -95,7 +98,7 @@
 
   export default {
     props: {
-      user: {
+      value: {
         type: Parse.User,
       },
       // title: {
@@ -109,19 +112,28 @@
         isSaving: false,
         isDeleting: false,
 
+        user: null,
         username: '',
         newpassword: '',
         isAdmin: false,
+        isCurrentUser: false,
       }
     },
     watch: {
+      value(newU, oldU) {
+        this.user = newU
+      },
+
       user(newU, oldU) {
-        if (newU !== null) {
+        console.log(oldU + ' -> ' + newU)
+        if (newU !== null && newU !== undefined) {
           this.username = newU.getUsername()
           this.isAdmin = newU.get('isAdmin')
+          this.isCurrentUser = (newU.id === Parse.User.current().id)
         } else {
           this.username = ''
           this.isAdmin = false
+          this.isCurrentUser = false
         }
         this.newpassword = ''
       }
@@ -139,6 +151,7 @@
             (object) => {
               console.log('remove this user success')
               this.isDeleting = false // finished saving
+              this.user = object
               this.$emit('destroy')
             },
             (error) => {
@@ -163,7 +176,6 @@
         if (this.newpassword.length > 0) {
           user.setPassword(this.newpassword)
         }
-        console.log(this.newpassword)
 
         // await user.save({ useMasterKey : true })
         user.save(null, {
@@ -173,6 +185,7 @@
             (object) => {
               console.log('success')
               this.isSaving = false // finished saving
+              this.$emit('input', user)
               this.$emit('save', user)
             },
             (error) => {
@@ -196,5 +209,9 @@
     max-width: 400px;
     margin: auto;
 
+  }
+
+  label {
+    margin-top: 8px;
   }
 </style>

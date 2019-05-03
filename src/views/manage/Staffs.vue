@@ -3,7 +3,7 @@
     <!-- current user dialog -->
     <!-- <Modal v-model='showDialog' @close='saveUserData(user, false)'> -->
     <Modal v-model='showDialog' @close='selectedUser = null'>
-      <StaffDetail :user='selectedUser' @save='closeDetailDialog()' @destroy='closeDetailDialog()'/>
+      <StaffDetail v-model='selectedUser' @save='closeDetailDialog($event)' @destroy='closeDetailDialog($event)'/>
     </Modal>
 
     <!-- titles -->
@@ -101,16 +101,13 @@ export default {
     }
   },
   watch: {
-    addDialogVisible(newVal, oldVal) {
+    showDialog(newVal, oldVal) {
       if (newVal === false) {
-        this.selectedUser = null
+        console.log('close!!')
+        this.selectedUser = undefined     // set to undefined to clear the form (null is for adding new user, an obj is for editing existing user)
+        // this.selectedUser = null
       }
     },
-    viewDialogVisible(newVal, oldVal) {
-      if (newVal === false) {
-        this.selectedUser = null
-      }
-    }
   },
   created() {
     // load name from db
@@ -143,7 +140,7 @@ export default {
 
     closeDetailDialog() {
       this.showDialog = false
-      this.selectedUser = null
+      // this.selectedUser = null
 
       this.loadUsers()  // update the user list
     },

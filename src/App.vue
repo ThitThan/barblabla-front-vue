@@ -87,6 +87,9 @@ h1, h2, h3, h4, h5, h6, label, input, div, button {
 input {
   color: #fff;
 }
+input::placeholder {
+  color: #ffffff4d;
+}
 label {
   font-size: 0.9rem;
 }

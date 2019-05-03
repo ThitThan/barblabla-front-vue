@@ -118,7 +118,7 @@ export default ({
   },
   beforeCreate() {
     this.user = Parse.User.current();
-    console.log(this.user)
+    // console.log(this.user)
     if (this.user) {
       this.user.fetch();
     }
