@@ -12,13 +12,8 @@
     <br>
     
     <ul class="collection">
-<<<<<<< HEAD
-      <li class="collection-item" v-for="t in table" v-bind:key='t'>
-        <div>   </div>
-=======
       <li class="collection-item" v-for="t in table" v-bind:key='t.id'>
         <div> </div>
->>>>>>> master
         {{t.get('TableNumber')}}
         {{t.get("Seat")}}
       </li>
@@ -69,13 +64,8 @@ export default {
       showDialog: false,
     }
   },
-<<<<<<< HEAD
   created() {
     this.name = '...'
-=======
-  mounted() {
-    this.name = '5555'
->>>>>>> master
     this.data_load();
 
     // this.showDialog = true
