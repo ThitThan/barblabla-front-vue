@@ -1,10 +1,24 @@
 <template>
   <div class="home">
     <h2>สตาฟ</h2>
-    <h6></h6>
     <br>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <HelloWorld msg="Welcome to Your aiaiaia"/>
+
+
+<ul class="collection">
+  <li class='collection-item waves-effect waves-light'>
+<div class="row">
+      <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+      <div class='col s1'> 1 </div>
+      <div class='col s3'>6-columns (one-half)</div>
+      <div class='col s2'>6-columns (one-half)</div>
+      <div class='col s4'>6-columns (one-half)</div>
+      <div class='col s2'>6-columns (one-half)</div>
+    </div>
+   </li>
+      
+    </ul>
+    
 
     
   </div>
