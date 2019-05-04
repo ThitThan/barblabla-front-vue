@@ -251,4 +251,16 @@ i.left {
   // max-width: 400px;
   // margin: auto;
 }
+.modal {
+  max-width: 540px;
+  max-height: 80%;
+}
+@media only screen and (max-width: 640px) {
+  .modal {
+    width: 90%;
+
+    top: 5% !important;
+    max-height: 90%;
+  }
+}
 </style>
