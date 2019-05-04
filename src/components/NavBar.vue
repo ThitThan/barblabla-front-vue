@@ -15,7 +15,7 @@
 
       <a class='waves-effect waves-light btn-small deep-purple darken-2 right' @click="performLogout()">ล้อคเอาท์</a>
     </div>
-    
+
     <!-- TAB -->
     <ul ref='tabs' class="tabs tabs-transparent left" :style="'width: ' + (windowWidth > 540 ? 'fit-content':'100%')">
 
@@ -34,8 +34,8 @@
     </ul>
 
     <!-- [DESKTOP] LOGOUT -->
-    <a v-show='windowWidth > 540' 
-      class='waves-effect waves-light btn-small deep-purple darken-2 right' 
+    <a v-show='windowWidth > 540'
+      class='waves-effect waves-light btn-small deep-purple darken-2 right'
       @click="performLogout()">
       ล้อคเอาท์
     </a>
@@ -46,21 +46,21 @@
 
 <script>
 // COMPONENTS
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 // PARSE
 import Parse from 'parse'
-const Username = Parse.Object.extend("Username")
 
 // Materialize
 import '../../node_modules/materialize-css/dist/js/materialize.js'
+const Username = Parse.Object.extend('Username')
 
 export default ({
   name: 'navbar',
   components: {
     // StoreName
   },
-  data() {
+  data () {
     return {
       // store: '&nbsp;',
       // name: '&nbsp;',
@@ -69,60 +69,60 @@ export default ({
 
       tabs: [
         {
-          path : '/',
-          name : 'หน้าหลัก',
+          path: '/',
+          name: 'หน้าหลัก'
         },
         {
-          path : '/manage/tables',
-          name : 'จัดการโต๊ะ',
+          path: '/manage/tables',
+          name: 'จัดการโต๊ะ'
         },
         {
-          path : '/manage/staffs',
-          name : 'จัดการสตาฟ',
+          path: '/manage/staffs',
+          name: 'จัดการสตาฟ'
         },
         {
-          path : '/test',
-          name : 'test',
-        },
+          path: '/test',
+          name: 'test'
+        }
         // {
         //   path : '/history',
         //   name : 'ประวัติ',
         // },
       ],
 
-      windowWidth: 0,
+      windowWidth: 0
     }
   },
   props: {
     currentNavPath: {
       type: String,
-      default: null,
+      default: null
     }
   },
   methods: {
     // navigateTo(link) {
-    //  
+    //
     //  this.$router.push({ path: link, params: { }})
-    // 
-    //},
-    performLogout() {
+    //
+    // },
+    performLogout () {
       Parse.User.logOut().then(() => {
         this.$router.push({ path: '/login' })
       })
     },
 
-    handleResize() {
-      this.windowWidth = window.innerWidth;
+    handleResize () {
+      this.windowWidth = window.innerWidth
       // this.window.height = window.innerHeight;
     }
   },
-  beforeCreate() {
-    this.user = Parse.User.current();
+  beforeCreate () {
+    this.user = Parse.User.current()
     // console.log(this.user)
     if (this.user) {
-      this.user.fetch();
+      this.user.fetch()
     }
-    
+
     // Check if the user had logged in
     if (!this.user) {
       this.$router.push({ path: '/login' })
@@ -132,7 +132,7 @@ export default ({
     // watch window size
     window.removeEventListener('resize', this.handleResize)
   },
-  created() {
+  created () {
     if (this.user) {
       // grab some data
     }
@@ -141,13 +141,13 @@ export default ({
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },
-  mounted() {
+  mounted () {
     // init tabs
     // console.log(JSON.stringify(this.$refs['tabs']))
     // this.$refs['tabs'].tabs()
 
-    var instance = M.Tabs.init(this.$refs['tabs'], []);
-  },
+    var instance = M.Tabs.init(this.$refs['tabs'], [])
+  }
 })
 // export default class Home extends Vue {}
 </script>

@@ -11,16 +11,16 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       name: '...'
     }
   },
-  created() {
+  created () {
     this.name = '5555'
   },
   methods: {
-    hello() {
+    hello () {
       alert('Hello!')
     }
   }

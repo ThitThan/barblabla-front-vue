@@ -38,7 +38,7 @@
       </label>
       <div class="input-field col">
         <i class="material-icons prefix">lock</i>
-        <input v-model='newpassword' id='newpassword' type='password' 
+        <input v-model='newpassword' id='newpassword' type='password'
           placeholder='(ใส่รหัสผ่าน)'  />
       </div>
 
@@ -93,111 +93,110 @@
 </template>
 
 <script>
-  import Parse from 'parse'
-  import Modal from '@/components/Modal'
+import Parse from 'parse'
+import Modal from '@/components/Modal'
 
-  export default {
-    props: {
-      value: {
-        type: Parse.User,
-      },
-      // title: {
-      //   type: String,
-      //   default: () => 'ข้อมูลพนักงาน'
-      // },
+export default {
+  props: {
+    value: {
+      type: Parse.User
+    }
+    // title: {
+    //   type: String,
+    //   default: () => 'ข้อมูลพนักงาน'
+    // },
+  },
+  data () {
+    return {
+      isLoading: false,
+      isSaving: false,
+      isDeleting: false,
+
+      user: null,
+      username: '',
+      newpassword: '',
+      isAdmin: false,
+      isCurrentUser: false
+    }
+  },
+  watch: {
+    value (newU, oldU) {
+      this.user = newU
     },
-    data() {
-      return {
-        isLoading: false,
-        isSaving: false,
-        isDeleting: false,
 
-        user: null,
-        username: '',
-        newpassword: '',
-        isAdmin: false,
-        isCurrentUser: false,
+    user (newU, oldU) {
+      console.log(oldU + ' -> ' + newU)
+      if (newU !== null && newU !== undefined) {
+        this.username = newU.getUsername()
+        this.isAdmin = newU.get('isAdmin')
+        this.isCurrentUser = (newU.id === Parse.User.current().id)
+      } else {
+        this.username = ''
+        this.isAdmin = false
+        this.isCurrentUser = false
       }
+      this.newpassword = ''
+    }
+  },
+  mounted () {
+    var elems = document.querySelectorAll('select')
+    var instances = M.FormSelect.init(elems, [])
+  },
+  methods: {
+    deleteUserData () {
+      this.user.destroy({
+        useMasterKey: true
+      })
+        .then(
+          (object) => {
+            console.log('remove this user success')
+            this.isDeleting = false // finished saving
+            this.user = object
+            this.$emit('destroy')
+          },
+          (error) => {
+            console.error(error)
+            this.isDeleting = false // finished saving
+            // this.$emit('saved', user)
+          }
+        )
     },
-    watch: {
-      value(newU, oldU) {
-        this.user = newU
-      },
+    saveUserData () {
+      this.isSaving = true // start saving
 
-      user(newU, oldU) {
-        console.log(oldU + ' -> ' + newU)
-        if (newU !== null && newU !== undefined) {
-          this.username = newU.getUsername()
-          this.isAdmin = newU.get('isAdmin')
-          this.isCurrentUser = (newU.id === Parse.User.current().id)
-        } else {
-          this.username = ''
-          this.isAdmin = false
-          this.isCurrentUser = false
-        }
-        this.newpassword = ''
+      let user = this.user
+
+      if (user === null) {
+        user = new Parse.User()
+        // user.setPassword('12345')
       }
-    },
-    mounted() {
-      var elems = document.querySelectorAll('select');
-      var instances = M.FormSelect.init(elems, []);
-    },
-    methods: {
-      deleteUserData() {
-        this.user.destroy({
-            useMasterKey: true
-          })
-          .then(
-            (object) => {
-              console.log('remove this user success')
-              this.isDeleting = false // finished saving
-              this.user = object
-              this.$emit('destroy')
-            },
-            (error) => {
-              console.error(error)
-              this.isDeleting = false // finished saving
-              // this.$emit('saved', user)
-            }
-          )
-      },
-      saveUserData() {
-        this.isSaving = true // start saving
 
-        let user = this.user
+      user.set('username', this.username)
+      user.set('isAdmin', this.isAdmin)
+      if (this.newpassword.length > 0) {
+        user.setPassword(this.newpassword)
+      }
 
-        if (user === null) {
-          user = new Parse.User()
-          // user.setPassword('12345')
-        }
-
-        user.set('username', this.username)
-        user.set('isAdmin', this.isAdmin)
-        if (this.newpassword.length > 0) {
-          user.setPassword(this.newpassword)
-        }
-
-        // await user.save({ useMasterKey : true })
-        user.save(null, {
-            useMasterKey: true
-          })
-          .then(
-            (object) => {
-              console.log('success')
-              this.isSaving = false // finished saving
-              this.$emit('input', user)
-              this.$emit('save', user)
-            },
-            (error) => {
-              console.error(error)
-              this.isSaving = false // finished saving
-              // this.$emit('saved', user)
-            }
-          )
-
-      },
+      // await user.save({ useMasterKey : true })
+      user.save(null, {
+        useMasterKey: true
+      })
+        .then(
+          (object) => {
+            console.log('success')
+            this.isSaving = false // finished saving
+            this.$emit('input', user)
+            this.$emit('save', user)
+          },
+          (error) => {
+            console.error(error)
+            this.isSaving = false // finished saving
+            // this.$emit('saved', user)
+          }
+        )
     }
   }
+}
 </script>
 
 <style scoped>

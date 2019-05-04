@@ -10,13 +10,14 @@
     <h6>{{ table.length }} ตัว</h6>
 
     <br>
-    
+
     <ul class="collection">
       <li class="collection-item" v-for="t in table" v-bind:key='t.id'>
         <div> </div>
         {{t.get('TableNumber')}}
         {{t.get("Seat")}}
         {{t.get('Reserve')}}
+        {{t.get('Zone')}}
       </li>
     </ul>
 
@@ -46,52 +47,52 @@
 </template>
 
 <script>
-import Parse from  "parse"
-var Tableja = Parse.Object.extend("Tableja");
+import Parse from 'parse'
 
 import Modal from '@/components/Modal'
+var Tableja = Parse.Object.extend('Tableja')
 
 export default {
   components: {
-    Modal,
+    Modal
   },
-  data() {
+  data () {
     return {
       isLoading: false,
       name: '...',
 
       table: [],
 
-      showDialog: false,
+      showDialog: false
     }
   },
-  created() {
+  created () {
     this.name = '...'
-    this.data_load();
+    this.data_load()
 
     // this.showDialog = true
   },
   methods: {
-    hello() {
+    hello () {
       alert('Hello!')
     },
 
-    async data_load() {
+    async data_load () {
       const query = new Parse.Query(Tableja)
-      query.ascending('TableNumber')   // show admin first, then regular staffs (true > false, so descending)
+      query.ascending('TableNumber') // show admin first, then regular staffs (true > false, so descending)
       let tables = await query.find()
 
       this.table = tables
     },
-    
-    showAddDialog() {
+
+    showAddDialog () {
       this.selectedTable = null
       this.showDialog = true
     },
-    showViewDialog(user) {
+    showViewDialog (user) {
       this.selectedTable = user
       this.showDialog = true
-    },
+    }
   }
 }
 </script>

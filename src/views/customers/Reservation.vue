@@ -10,14 +10,13 @@
       <div>ยังไม่ได้ทำจ้า รอแปบนะ :3</div>
     </div>
 
-
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'reservation',
+  name: 'reservation'
 }
 </script>
 
@@ -39,4 +38,3 @@ export default {
 }
 
 </style>
-

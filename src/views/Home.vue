@@ -6,44 +6,40 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <HelloWorld msg="Welcome to Your aiaiaia"/>
 
-    
   </div>
-  
-  
-
 
 </template>
 
 <script>
-import Parse from  "parse"
+import Parse from 'parse'
 
-var Tableja = Parse.Object.extend("Tableja");
+var Tableja = Parse.Object.extend('Tableja')
 
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       name: 'dsdasd',
 
-      table: [],
+      table: []
     }
   },
-  created() {
+  created () {
     this.name = '5555'
-    this.data_load();
+    this.data_load()
   },
   methods: {
-    hello() {
+    hello () {
       alert('Hello!')
     },
 
-    async data_load() {
+    async data_load () {
       const query = new Parse.Query(Tableja)
-      query.ascending('TabkeNumber')   // show admin first, then regular staffs (true > false, so descending)
+      query.ascending('TabkeNumber') // show admin first, then regular staffs (true > false, so descending)
       let tables = await query.find()
 
       this.table = tables
-    },
+    }
   }
 }
 // @ is an alias to /src
