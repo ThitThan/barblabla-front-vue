@@ -4,69 +4,54 @@
     <br>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
+    <ul class="collection" v-if="u.get('Reservation')">
 
-<ul class="collection">
-  <li class='collection-item waves-effect waves-light'>
-<div class="row">
-      <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-      <div class='col s1'> 1 </div>
-      <div class='col s3'>6-columns (one-half)</div>
-      <div class='col s2'>6-columns (one-half)</div>
-      <div class='col s4'>6-columns (one-half)</div>
-      <div class='col s2'>6-columns (one-half)</div>
-    </div>
-   </li>
-      
-    </ul>
-    
+    <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
 
-    
+      <!-- หัวตาราง -->
+        <li class='collection-item waves-effect waves-light'>
+          <div class="row">
+            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+            <div class="col s2">เลขโต๊ะ</div>
+            <div class="col s3">รายชื่อลูกค้า</div>
+            <div class="col s3">สถานะ</div>
+            <div class="col s2">โซนการนั่ง</div>
+            <div class="col s2">-</div>
+          </div>
+        </li>
+      </ul>
   </div>
-  
-  
-
-
 </template>
 
 <script>
-import Parse from  "parse"
-
+import Parse from "parse";
 var Tableja = Parse.Object.extend("Tableja");
 
 export default {
   data() {
     return {
       isLoading: false,
-      name: 'dsdasd',
+      name: "dsdasd",
 
-      table: [],
-    }
+      table: []
+    };
   },
   created() {
-    this.name = '5555'
+    this.name = "5555";
     this.data_load();
   },
   methods: {
     hello() {
-      alert('Hello!')
+      alert("Hello!");
     },
 
     async data_load() {
-      const query = new Parse.Query(Tableja)
-      query.ascending('TabkeNumber')   // show admin first, then regular staffs (true > false, so descending)
-      let tables = await query.find()
+      const query = new Parse.Query(Tableja);
+      query.ascending("TabkeNumber"); // show admin first, then regular staffs (true > false, so descending)
+      let tables = await query.find();
 
-      this.table = tables
-    },
+      this.table = tables;
+    }
   }
-}
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
-// export default {
-//   name: 'home',
-//   components: {
-//     HelloWorld
-//   }
-// }
+};
 </script>

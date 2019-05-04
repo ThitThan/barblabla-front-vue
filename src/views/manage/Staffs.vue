@@ -148,6 +148,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
 #username {
   font-size: 19px;
