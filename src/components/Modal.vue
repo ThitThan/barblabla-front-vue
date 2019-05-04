@@ -64,7 +64,11 @@ export default {
         this.modalVisible = false
       },
       // dismissible: false,
+<<<<<<< HEAD
       preventScrolling: true
+=======
+      preventScrolling: false,
+>>>>>>> parent of 0a4321b... improve "Modal" UX for mobile
     }
     this.modalInstance = M.Modal.init(this.$refs['modal'], options)
     // console.log(this.$refs['modal'])
