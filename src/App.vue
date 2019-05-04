@@ -1,26 +1,111 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <!-- <div id="nav" v-if='!routesWithNoNav.includes($route.name)'>
+      <h1>{{ $route.name }}</h1>
+      <h3>{{ currentNavPath }}</h3>
+      <h5>{{ !routesWithNoNav.includes($route.name) }}</h5>
+      <router-link to="/">XXX</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <div v-else>
+      Login
+    </div> -->
+
+    <NavBar class='i-nav sticky' v-if='$route.name && !routesWithNoNav.includes($route.name)' :currentNavPath="currentNavPath"/>
+    <transition name='slide-fade' mode='out-in'>
+      <router-view ref='router'/>  <!-- ห้ามลบ!! เอาไว้โหลดหน้าอื่นๆ มาแสดง -->
+    </transition>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
   </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
+import '../node_modules/materialize-css/dist/css/materialize.css'
+import '../node_modules/materialize-css/dist/js/materialize.js'
+
+import Parse from 'parse'
+
 export default {
-  name: 'App'
+  name: 'app',
+  components: {
+    NavBar
+  },
+  data() {
+    return {
+      currentNavPath: null,
+
+      routesWithNoNav: [ 
+        'login',
+        'customers-reservation',
+      ],
+
+      publicRoutes: [
+        'login',
+        'customers-reservation',
+      ],
+    }
+  },
+  watch:{
+    $route (to, from){
+      this.currentNavPath = to.name.toString()
+
+      let user = Parse.User.current()
+      if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
+        this.$router.push('/login')
+      }
+    }
+  },
+  created() {
+
+  }
 }
 </script>
 
-<style>
+<style lang='scss'>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  // font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Prompt', sans-serif !important;
+  // font-family: 'K2D', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #ffffff80;
+
+  min-height: 100vh;
+}
+html {
+  // background-color: #1A1B20;
+  background-color: #231A2B;
+  // background-color: #231A2C;
+}
+h1, h2, h3, h4, h5, h6, label, input, div, button {
+  font-family: 'Prompt', sans-serif !important;
+}
+input {
+  color: #fff;
+}
+input::placeholder {
+  color: #ffffff4d;
+}
+label {
+  font-size: 0.9rem;
+}
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
   color: #2c3e50;
+<<<<<<< HEAD
 <<<<<<< HEAD
   margin-top: 60px;
 =======
+=======
+>>>>>>> parent of 609c478... กูอัพไรวะ
 }
 
 #nav a.router-link-exact-active {
@@ -171,6 +256,21 @@ i.left {
 
   // max-width: 400px;
   // margin: auto;
+<<<<<<< HEAD
 >>>>>>> parent of 0a4321b... improve "Modal" UX for mobile
+=======
+}
+.modal {
+  max-width: 540px;
+  max-height: 80%;
+}
+@media only screen and (max-width: 640px) {
+  .modal {
+    width: 90%;
+
+    top: 5% !important;
+    max-height: 90%;
+  }
+>>>>>>> parent of 609c478... กูอัพไรวะ
 }
 </style>

@@ -56,11 +56,11 @@
 <script>
 // PARSE
 import Parse from 'parse'
-const Username = Parse.Object.extend('Username')
+const Username = Parse.Object.extend("Username");
 
 export default {
   name: 'login-form',
-  data () {
+  data() {
     return {
       user: '',
       pwd: '',
@@ -73,7 +73,7 @@ export default {
     //     phone = phone.substring(1, phone.length);
     //   this.phone = phone;
     // },
-    async performLogin () {
+    async performLogin() {
       this.isLoading = true
 
       // Grab the data
@@ -82,13 +82,14 @@ export default {
       // console.log(typeof user)
       // console.log(user)
 
-      var isError = false
+      var isError = false;
       try {
         const user = await Parse.User.logIn(username, password)
 
         this.$router.push('/')
-      } catch (error) {
-        var msg
+      } 
+      catch (error) {
+        var msg;
         switch (error.code) {
           case 100:
             msg = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ'
@@ -110,8 +111,8 @@ export default {
       }
 
       this.isLoading = false
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -20,14 +20,14 @@ export default {
     // login,
     LoginForm
   },
-  created () {
+  created() {
     // Check if the user had already logged in
     Parse.User.currentAsync().then((user) => {
       if (user) {
         this.$router.push({ path: '/' })
       }
-    })
-  }
+    });
+  },
 }
 </script>
 

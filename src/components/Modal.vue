@@ -20,7 +20,7 @@ export default {
   props: [
     'value'
   ],
-  data () {
+  data() {
     return {
       isLoading: true,
 
@@ -30,11 +30,11 @@ export default {
     }
   },
   methods: {
-    close () {
+    close() {
       this.modalVisible = false
-    }
+    },
   },
-  watch: {
+  watch:{
     // for v-model
     value (newVal, oldVal) {
       this.modalVisible = newVal
@@ -45,7 +45,8 @@ export default {
       if (newVal) {
         this.modalInstance.open()
         this.$emit('open', newVal)
-      } else {
+      }
+      else {
         this.modalInstance.close()
         this.$emit('close', newVal)
       }
@@ -53,9 +54,9 @@ export default {
       this.$emit('input', newVal)
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
     let options = {
       onOpenEnd: () => {
         this.modalVisible = true
@@ -65,15 +66,19 @@ export default {
       },
       // dismissible: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       preventScrolling: true
 =======
       preventScrolling: false,
 >>>>>>> parent of 0a4321b... improve "Modal" UX for mobile
+=======
+      preventScrolling: true,
+>>>>>>> parent of 609c478... กูอัพไรวะ
     }
-    this.modalInstance = M.Modal.init(this.$refs['modal'], options)
+    this.modalInstance = M.Modal.init(this.$refs['modal'], options);
     // console.log(this.$refs['modal'])
     // console.log(this.modalInstance)
-  }
+  },
 }
 </script>
 
@@ -82,3 +87,4 @@ export default {
   font-size: 19px;
 }
 </style>
+

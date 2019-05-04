@@ -34,7 +34,7 @@
 
         <!-- แต่ละแถว -->
         <li class='collection-item waves-effect waves-light'
-          v-for='u in users'
+          v-for='u in users' 
           v-bind:key='u.id'
           @click='showViewDialog(u)'>
 
@@ -82,14 +82,14 @@
 <script>
 import Parse from 'parse'
 import Modal from '@/components/Modal'
-import StaffDetail from '@/components/manage/StaffDetail'
+import StaffDetail from '@/components/manage/StaffDetail';
 
 export default {
   components: {
     Modal,
-    StaffDetail
+    StaffDetail,
   },
-  data () {
+  data() {
     return {
       isLoading: false,
 
@@ -97,29 +97,29 @@ export default {
       currentUser: null,
 
       showDialog: false,
-      selectedUser: null
+      selectedUser: null,
     }
   },
   watch: {
-    showDialog (newVal, oldVal) {
+    showDialog(newVal, oldVal) {
       if (newVal === false) {
         console.log('close!!')
-        this.selectedUser = undefined // set to undefined to clear the form (null is for adding new user, an obj is for editing existing user)
+        this.selectedUser = undefined     // set to undefined to clear the form (null is for adding new user, an obj is for editing existing user)
         // this.selectedUser = null
       }
-    }
+    },
   },
-  created () {
+  created() {
     // load name from db
     this.loadUsers()
   },
   methods: {
-    async loadUsers () {
+    async loadUsers() {
       this.isLoading = true
 
       // Get all users
       const query = new Parse.Query(Parse.User)
-      query.descending('isAdmin') // show admin first, then regular staffs (true > false, so descending)
+      query.descending('isAdmin')   // show admin first, then regular staffs (true > false, so descending)
       let users = await query.find()
 
       // Get the current users
@@ -129,21 +129,21 @@ export default {
       this.users = users
       this.isLoading = false
     },
-    showAddDialog () {
+    showAddDialog() {
       this.selectedUser = null
       this.showDialog = true
     },
-    showViewDialog (user) {
+    showViewDialog(user) {
       this.selectedUser = user
       this.showDialog = true
     },
 
-    closeDetailDialog () {
+    closeDetailDialog() {
       this.showDialog = false
       // this.selectedUser = null
 
-      this.loadUsers() // update the user list
-    }
+      this.loadUsers()  // update the user list
+    },
   }
 }
 </script>
@@ -156,3 +156,4 @@ export default {
   /* font-size: 1px; */
 }
 </style>
+

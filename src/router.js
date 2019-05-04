@@ -46,13 +46,13 @@ export default new Router({
       name: 'customers-reservation',
       component: () => import('@/views/customers/Reservation.vue')
     },
-
-    // Not found
+    
+    //Not found
     {
       path: '*',
       name: '404',
       component: () => import('@/views/NotFound.vue')
-    }
-
+    },
+    
   ]
 })
