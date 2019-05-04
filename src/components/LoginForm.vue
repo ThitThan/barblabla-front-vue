@@ -5,7 +5,7 @@
       
       <!-- header (logo + title + subtitle) -->
       <div class=''>
-        <img class='logo uk-margin-remove-bottom' style='margin-bottom: 24px;'
+        <img class='logo' style='margin-bottom: 24px;'
               alt="logo" src="@/assets/refeel-logo.png">
         <!-- <h4>
           Barblabla

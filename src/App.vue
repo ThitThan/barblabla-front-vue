@@ -26,6 +26,8 @@ import NavBar from '@/components/NavBar'
 import '../node_modules/materialize-css/dist/css/materialize.css'
 import '../node_modules/materialize-css/dist/js/materialize.js'
 
+import Parse from 'parse'
+
 export default {
   name: 'app',
   components: {
@@ -36,7 +38,13 @@ export default {
       currentNavPath: null,
 
       routesWithNoNav: [ 
-        'login' 
+        'login',
+        'customers-reservation',
+      ],
+
+      publicRoutes: [
+        'login',
+        'customers-reservation',
       ],
     }
   },
@@ -44,11 +52,10 @@ export default {
     $route (to, from){
       this.currentNavPath = to.name.toString()
 
-      // console.log(JSON.stringify(to))
-      // console.log(this.routesWithNoNav)
-      // console.log(this.routesWithNoNav[0] + ' ---> ' + (this.routesWithNoNav[0] === 'login'))
-      // console.log(this.currentNavPath + ' ---> ' + (this.currentNavPath === 'login'))
-      // console.log(!this.routesWithNoNav.includes(to.name))
+      let user = Parse.User.current()
+      if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
+        this.$router.push('/login')
+      }
     }
   },
   created() {
@@ -79,6 +86,9 @@ h1, h2, h3, h4, h5, h6, label, input, div, button {
 }
 input {
   color: #fff;
+}
+input::placeholder {
+  color: #ffffff4d;
 }
 label {
   font-size: 0.9rem;
@@ -146,6 +156,16 @@ label {
 .btn-flat {
   color: #ffffff80;
 }
+.modal {
+  background-color: #1A1B20;
+  // background-color: #231A2B;
+  // background-color: #231A2C;
+}
+.card {
+  background-color: #24202F;
+  border-radius: 12px;
+}
+
 // .input:not(.browser-default):focus {
 //   border-bottom-color: #ffc107;
 // }
@@ -225,15 +245,22 @@ i.left {
 //
 // Modal
 // 
-.modal {
-  background-color: #1A1B20;
-  // background-color: #231A2B;
-  // background-color: #231A2C;
-}
 .modal .modal-content {
   padding: 32px 24px;
 
-  max-width: 400px;
-  margin: auto;
+  // max-width: 400px;
+  // margin: auto;
+}
+.modal {
+  max-width: 540px;
+  max-height: 80%;
+}
+@media only screen and (max-width: 640px) {
+  .modal {
+    width: 90%;
+
+    top: 5% !important;
+    max-height: 90%;
+  }
 }
 </style>

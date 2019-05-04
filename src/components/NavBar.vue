@@ -118,6 +118,10 @@ export default ({
   },
   beforeCreate() {
     this.user = Parse.User.current();
+    // console.log(this.user)
+    if (this.user) {
+      this.user.fetch();
+    }
     
     // Check if the user had logged in
     if (!this.user) {

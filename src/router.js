@@ -40,6 +40,12 @@ export default new Router({
       name: 'manage-tables',
       component: () => import('@/views/manage/Tables.vue')
     },
+
+    {
+      path: '/customers/reservation',
+      name: 'customers-reservation',
+      component: () => import('@/views/customers/Reservation.vue')
+    },
     
     //Not found
     {
