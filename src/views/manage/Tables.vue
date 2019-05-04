@@ -12,6 +12,7 @@
         <div> </div>
         {{t.get('TableNumber')}}
         {{t.get("Seat")}}
+        {{t.get('Reserve')}}
       </li>
     </ul>
 
@@ -59,7 +60,7 @@ export default {
 
     async data_load() {
       const query = new Parse.Query(Tableja)
-      query.ascending('TabkeNumber')   // show admin first, then regular staffs (true > false, so descending)
+      query.ascending('TableNumber')   // show admin first, then regular staffs (true > false, so descending)
       let tables = await query.find()
 
       this.table = tables
