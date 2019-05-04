@@ -100,12 +100,8 @@ label {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
-<<<<<<< HEAD
-<<<<<<< HEAD
   margin-top: 60px;
-=======
-=======
->>>>>>> parent of 609c478... กูอัพไรวะ
+
 }
 
 #nav a.router-link-exact-active {
@@ -256,9 +252,6 @@ i.left {
 
   // max-width: 400px;
   // margin: auto;
-<<<<<<< HEAD
->>>>>>> parent of 0a4321b... improve "Modal" UX for mobile
-=======
 }
 .modal {
   max-width: 540px;
@@ -271,6 +264,5 @@ i.left {
     top: 5% !important;
     max-height: 90%;
   }
->>>>>>> parent of 609c478... กูอัพไรวะ
 }
 </style>
