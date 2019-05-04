@@ -14,9 +14,23 @@
     <ul class="collection">
       <li class="collection-item" v-for="t in table" v-bind:key='t.id'>
         <div> </div>
-        {{t.get('TableNumber')}}
+
+        <div class='i-item' align='left'>
+          {{t.get('TableNumber')}}
+          {{t.get('Zone')}}
+        </div>  
+        
+        <!-- ว่าง/ไม่ว่าง -->
+        <div id='' class='right i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = 'Reserve = false' >
+          ยังว่างเด้อ
+        </div>
+        <div class='right i-badge i-badge-pill i-badge-dark valign-wrapper' v-else> 
+          อดไป ไม่ต้องแดก 
+        </div>
+
         {{t.get("Seat")}}
-        {{t.get('Reserve')}}
+        
+        
       </li>
     </ul>
 
@@ -59,6 +73,8 @@ export default {
     return {
       isLoading: false,
       name: '...',
+
+      // Reserve: false,
 
       table: [],
 
