@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <Modal v-model='showDialog'>
-      <h1>ยังไม่ได้ทำนะ อิสัส</h1>
+      <h1>dee jaa</h1>
     </Modal>
 
     <!-- titles -->
