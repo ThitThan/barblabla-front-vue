@@ -21,7 +21,7 @@
 
         <div class='content from flex flex-column flex-left' v-else>
             <h4 style='margin-bottom: 32px'>
-                {{ table ? 'แก้ไขโต๊ะ':'เพิ่มโต๊ะ'}}
+                {{ (table && table.id) ? 'แก้ไขโต๊ะ':'เพิ่มโต๊ะ'}}
             </h4>
 
             <!-- table No -->
@@ -40,7 +40,7 @@
 
             <!-- Zone -->
             <div>
-                <label>โซน</label>
+                <label>โซนห้องแอร์</label>
                 <div class = 'input-field col'>
                     <div class="switch">
                         <label>

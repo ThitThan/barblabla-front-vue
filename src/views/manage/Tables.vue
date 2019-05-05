@@ -14,20 +14,27 @@
     <ul class="collection">
 
     <div class="row">
-            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-            <div class="col s3">เลขโต๊ะ</div>
-            <div class="col s1 left">โซน</div>
-            <div class="col s4">จำนวนที่</div>
-            <div class="col s3">สถานะ</div>
+      <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+      <div class="col s3">เลขโต๊ะ</div>
+      <div class="col s1 left">โซน</div>
+      <div class="col s4">จำนวนที่</div>
+      <div class="col s3">สถานะ</div>
     </div>
 
-    <li class="collection-item row" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
+    <li class="collection-item row waves-effect waves-light" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
 
         <!-- เลขโต๊ะ -->         
         <div class="col s3">{{t.get('TableNumber')}}</div>
         
         <!--Zone -->
-        <div class='col s1 left i-badge i-badge-pill i-badge-warning valign-wrapper'>{{t.get('Zone')}}</div>
+        <div class='col s1 valign-wrapper'>
+          <div class='i-badge i-badge-pill i-badge-warning' v-if="t.get('Zone')">
+            INDOOR
+          </div>
+          <div class='i-badge i-badge-pill i-badge-warning valign-wrapper' v-else>
+            OUTDOOR
+          </div>
+        </div>
 
         <!-- จำนวนที่ -->
         <div class='col s4'>{{t.get('Seat')}}</div>
@@ -130,7 +137,7 @@ export default {
     },
     
     showAddDialog() {
-      this.selectedTable = null
+      this.selectedTable = new Tableja()
       this.showDialog = true
     },
     showViewDialog(tables) {

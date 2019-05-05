@@ -80,13 +80,9 @@ export default ({
           path : '/manage/staffs',
           name : 'จัดการสตาฟ',
         },
-        {
-          path : '/test',
-          name : 'test',
-        },
         // {
-        //   path : '/history',
-        //   name : 'ประวัติ',
+        //   path : '/test',
+        //   name : 'test',
         // },
       ],
 

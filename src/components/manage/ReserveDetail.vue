@@ -77,7 +77,7 @@
 <script>
   import Parse from 'parse'
   var Reservation = Parse.Object.extend("Reservation");
-  var Tablejaa = Parse.Object.extend("Tablejaa");
+  var Tableja = Parse.Object.extend("Tableja");
   var Customer = Parse.Object.extend("Customer");
   // import Modal from '@/components/Modal'
 
