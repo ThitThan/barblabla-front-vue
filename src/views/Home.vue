@@ -2,7 +2,8 @@
   <div class="home">
     <h2>สตาฟ</h2>
     <br>
-    <span>{{ moment().format('MMMM Do YYYY, h:mm:ss a') }}</span>
+   <!-- display current date and time -->
+    <span>{{ moment().format('Do MMMM YYYY, h:mm:ss a') }}</span>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
     <ul class="collection" v-if='table.length > 0'>
@@ -80,6 +81,11 @@ export default {
     hello() {
       alert("Hello!");
     },
+    methods: {
+  moment: function () {
+    return moment();
+  }
+},
 
     async data_load() {
       const query = new Parse.Query(Tableja);
