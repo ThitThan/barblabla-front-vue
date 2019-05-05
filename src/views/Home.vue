@@ -4,7 +4,7 @@
     <br>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
-    <ul class="collection" v-if="u.get('Reservation')">
+    <ul class="collection" v-if='table.length > 0'>
 
     <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
 
@@ -20,6 +20,7 @@
           </div>
         </li>
       </ul>
+  
   </div>
 </template>
 
