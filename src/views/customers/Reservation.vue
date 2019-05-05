@@ -79,7 +79,7 @@ export default {
         // });
 
         // Context
-        MessengerExtensions.getContext('YOUR_APP_ID', 
+        MessengerExtensions.getContext('2310738632317537', 
           function success(thread_context) {
             // success
             this.facebookPSID = thread_context['psid']
