@@ -16,8 +16,8 @@
     <div class="row">
             <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
             <div class="col s3">เลขโต๊ะ</div>
-            <div class="col s3">โซน</div>
-            <div class="col s3">จำนวนที่</div>
+            <div class="col s1 left">โซน</div>
+            <div class="col s4">จำนวนที่</div>
             <div class="col s3">สถานะ</div>
     </div>
 
@@ -27,10 +27,10 @@
         <div class="col s3">{{t.get('TableNumber')}}</div>
         
         <!--Zone -->
-        <div class='col s3'>{{t.get('Zone')}}</div>
+        <div class='col s1 left i-badge i-badge-pill i-badge-warning valign-wrapper'>{{t.get('Zone')}}</div>
 
         <!-- จำนวนที่ -->
-        <div class='col s3'>{{t.get('Seat')}}</div>
+        <div class='col s4'>{{t.get('Seat')}}</div>
 
         <!-- ป้าย ว่าง/ไม่ว่าง -->
         <div class='col s3'>

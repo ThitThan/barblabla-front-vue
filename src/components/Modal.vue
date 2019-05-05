@@ -65,7 +65,7 @@ export default {
         this.modalVisible = false
       },
       // dismissible: false,
-      preventScrolling: false,
+      preventScrolling: true,
     }
     this.modalInstance = M.Modal.init(this.$refs['modal'], options);
     // console.log(this.$refs['modal'])

@@ -4,13 +4,20 @@
       <ReserveDetail v-model='curR' :curT='curT' @save='hideDialog' />
     </Modal>
 
-    <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <section>
-      <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
-      <p class="time shadow" v-text="currentTime"></p>
-    </section>
+    <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
+    <span>{{ moment().locale('th').format('dddd Do MMMM YYYY')}}</span>
+    <!-- <span class='time shadow' v-text="currentTime"></span> -->
+    
+    
+    
+    <br>
+    <br>
+    
+    
+
+
 
     <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
@@ -33,13 +40,11 @@
         </div>
 
         <!-- แต่ละแถว -->
-        <div
-          class="row waves-effect waves-light"
-          v-for="t in table"
-          v-bind:key="t.id"
-          @click="displayDialog(t)"
-        >
-          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+        <div class="row waves-effect waves-light" 
+        v-for="t in table" 
+        v-bind:key="t.id"
+        @click='displayDialog(t)'>
+          <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
           <div class="col s2">{{ t.get('TableNumber') }}</div>
           <div class="col s3">
             <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('name') }}</div>
@@ -52,6 +57,7 @@
           </div>
           <div class="col s2">{{t.get('Zone')}}</div>
           <div class="col s2">-</div>
+        </div>
         </div>
       </li>
     </ul>
@@ -66,10 +72,10 @@
 // }
 
 section.section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 140px;
+  //display: flex;
+  //flex-direction: column;
+  //align-items: center;
+  //padding-top: 140px;
   background: transparent;
 }
 
@@ -88,7 +94,7 @@ h3.is-3:not(:last-child) {
 }
 
 // .shadow {
-//   text-shadow: 0 0 15px rgba(100, 100, 100, .35);
+//   text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
 // }
 </style>
 
@@ -145,7 +151,7 @@ export default {
         textColor: "white",
         borderRadius: "1em",
         border: "1px solid gray",
-        width: 350
+        width: 300
       },
 
       //drive

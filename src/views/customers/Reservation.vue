@@ -7,36 +7,35 @@
       <h4 style='margin-bottom: 12px; margin-top: 0px'>
         [ข้อมูลการจอง]
       </h4>
+      <label>{{ facebookPSID }}</label>
       <div class="row">
 
+        <form class="col s12" @submit.prevent="makeReservation()">
+          <div class="row">
+              <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
+            <div class="input-field col s12">
+              <input id="์name" v-model="name" type="text">
+            </div>
+          </div>
+          <div class="row">
+            <label for="amount">จำนวน(คน)</label>
+            <div class="input-field col s12">
+              <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
+            </div>
+          </div>    
+          <div class="row">
+            <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
+            <div class="input-field col s12">
+              <input id="์tel" v-model="phone" type="tel" >
+            </div>    
+          </div>
+          <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>    
+        </form>
 
-    <form class="col s12" @submit.prevent="makeReservation()">
-      <div class="row">
-          <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
-        <div class="input-field col s12">
-          <input id="์name" v-model="name" type="text">
-        </div>
       </div>
-    <div class="row">
-          <label for="amount">จำนวน(คน)</label>
-        <div class="input-field col s12">
-          <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
-        </div>
-    </div>    
-    <div class="row">
-          <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
-        <div class="input-field col s12">
-          <input id="์tel" v-model="phone" type="tel" >
-        </div>    
-      </div>
-     <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
-    <i class="material-icons right">send</i>
-  </button>    
-    </form>
-  </div>
     </div>
-
-
   </div>
 </template>
 
@@ -51,9 +50,42 @@ export default {
       amount: '',
       name:'',
       phone:'',
+
+      facebookPSID: 'N/A',
     }
   },
+  created() {
+    this.setupFacebookAPI()
+  },
   methods: {
+    setupFacebookAPI() {
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
+
+      window.extAsyncInit = function() {
+        // the Messenger Extensions JS SDK is done loading 
+        console.log('messenger SDK loaded!!')
+
+        // Context
+        MessengerExtensions.getContext('2310738632317537', 
+          function success(thread_context) {
+            // success
+            this.facebookPSID = thread_context['psid']
+            console.log('facebook PSID gathered')
+          }.bind(this),
+          function error(err) {
+            // error
+            console.log('fail to get facebook PSID')
+            this.facebookPSID = 'error ' + JSON.stringify(err)
+          }.bind(this)
+        );
+      }.bind(this);
+    },
     async makeReservation() {
 
       let amount= parseInt(this.amount)
@@ -84,6 +116,7 @@ export default {
       }
       cus.set('name', name)
       cus.set('phone', phone)
+      cus.set('facebookPSID', this.facebookPSID)
       await cus.save()
 
       // actually submitting
