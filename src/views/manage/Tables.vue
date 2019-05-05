@@ -98,7 +98,16 @@ export default {
       selectedTable: null,
     }
 
-    Reserve : fa
+    // Reserve : fa
+  },
+  watch: {
+    showDialog(newVal, oldVal) {
+      if (newVal === false) {
+        console.log('close!!')
+        this.selectedTable = undefined     // set to undefined to clear the form (null is for adding new user, an obj is for editing existing user)
+        // this.selectedUser = null
+      }
+    },
   },
   created() {
     this.name = '...'
@@ -130,6 +139,12 @@ export default {
       console.log(tables)
     },
 
+    closeDetailDialog() {
+      this.showDialog = false
+      // this.selectedUser = null
+
+      this.data_load()  // update the user list
+    },
     
   }
 }

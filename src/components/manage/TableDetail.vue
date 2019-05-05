@@ -44,7 +44,7 @@
                 <div class = 'input-field col'>
                     <div class="switch">
                         <label>
-                            <input type="checkbox" v-model='isAdmin'>
+                            <input type="checkbox" v-model='Zone'>
                             <span class="lever"></span>
                         </label>
                     </div>
@@ -72,6 +72,7 @@
 <script>
 
 import Parse from 'parse'
+import { parse } from 'path';
 var Tableja = Parse.Object.extend("Tableja");
 // import Modal from '@/components/Modal'
 
@@ -86,8 +87,11 @@ export default {
         isLoading: false,
         isSaving: false,
         isDeleting: false,
-
-        table: null,
+        
+        TableNumber: '',
+        Zone: true,
+        Seat: '',
+        table: '',
       }
   },
 
@@ -99,22 +103,24 @@ export default {
       table(newT, oldT){
           console.log(oldT + '->' +newT)
           if(newT != null && newT != undefined){
-              
+            this.TableNumber = newT.get('TableNumber')
+            this.Zone = newT.get('Zone')
+            this.Seat = newT.get('Seat')
           }
       },      
   },
-
-  saveTableData(){
+methods: {
+saveTableData(){
     this.isSAving = true //start saving
 
     let table = this.table
 
     if(table == null){
-        table = new Parse.Table()
+        table = new Tableja()
     } 
 
-    table.set('TableNumber', this.TableNumber)    
-    table.set('Seat', this.Seat)
+    table.set('TableNumber', parseInt(this.TableNumber))    
+    table.set('Seat', parseInt(this.Seat))
     table.set('Zone', this.Zone)
 
     //await TAble.save
@@ -126,7 +132,7 @@ export default {
             console.log('success')
             this.isSaving = false // finish saving
             this.$emit('input', table)
-            this.$emit('save', user)
+            this.$emit('save', table)
         },
         (error) => {
             console.error(error)
@@ -134,6 +140,8 @@ export default {
         }        
     )
   },
+},
+  
     
 }
 
