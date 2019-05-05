@@ -1,40 +1,22 @@
 <template>
   <div class="home">
     <Modal v-model="showDialog">
-      <h1>ปุ่มนี้ไว้ทำไรวะ</h1>
-      
-      <div v-if="curT">
-        <!-- table -->
-        <label>{{ curT }}</label>
-
-        <hr>
-
-        <!-- reservation -->
-        <label v-if='curR'> 
-          {{ curR }}
-        </label>
-      </div>
+      <ReserveDetail v-model='curR' :curT='curT' @save='hideDialog' />
     </Modal>
 
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
     <section>
-    <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
-    <p class="time shadow" v-text="currentTime"></p>
-</section>
-
+      <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
+      <p class="time shadow" v-text="currentTime"></p>
+    </section>
 
     <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-  <center>
-     <vue-dropdown
-      :config="config"
-      @setSelectedOption="setNewSelectedOption($event);"
-    ></vue-dropdown>
-  </center>
-  
-       
+    <center>
+      <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
+    </center>
 
     <ul class="collection" v-if="table.length > 0">
       <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
@@ -51,18 +33,16 @@
         </div>
 
         <!-- แต่ละแถว -->
-        <div class="row waves-effect waves-light" 
-        v-for="t in table" 
-        v-bind:key="t.id"
-        @click='displayDialog(t)'>
+        <div
+          class="row waves-effect waves-light"
+          v-for="t in table"
+          v-bind:key="t.id"
+          @click="displayDialog(t)"
+        >
           <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
           <div class="col s2">{{ t.get('TableNumber') }}</div>
           <div class="col s3">
-            <div v-if="reservation[t.id]">
-              
-              {{ reservation[t.id].get('customer').get('name') }}
-              
-              </div>
+            <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('name') }}</div>
             <div v-else>-</div>
           </div>
           <div class="col s3">
@@ -76,17 +56,14 @@
       </li>
     </ul>
   </div>
-  
 </template>
 
 
 <style lang="scss">
-
 // body, html {
 //   width: 100%;
 //   height: 100%;
 // }
-
 
 section.section {
   display: flex;
@@ -96,7 +73,8 @@ section.section {
   background: transparent;
 }
 
-h3.is-3, p.time {
+h3.is-3,
+p.time {
   color: white;
 }
 
@@ -122,31 +100,31 @@ import vueDropdown from "@/components/vue-dropdown/vue-dropdown";
 
 var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
-var moment = require('moment');
+var moment = require("moment");
 
 import Modal from "@/components/Modal";
-
+import ReserveDetail from '@/components/manage/ReserveDetail' 
 
 export default {
   components: {
     vueDropdown,
-    Modal
+    Modal,
+    ReserveDetail,
   },
   data() {
     return {
-      
-      moment:moment,
+      moment: moment,
       isLoading: false,
       name: "dsdasd",
       table: [],
-       message: 'Current Time:',
-    currentTime: null,
-      
+      message: "Current Time:",
+      currentTime: null,
+
       table: [],
       reservation: {
         // 'tableID': 'reserve'
       },
-      
+
       // priao
       displayAvailable: true,
       displayReserved: true,
@@ -179,33 +157,32 @@ export default {
   created() {
     this.name = "5555";
     this.data_load();
-    this.currentTime = moment().format('LTS');
+    this.currentTime = moment().format("LTS");
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
-  
   },
 
   methods: {
     updateCurrentTime() {
-      this.currentTime = moment().format('LTS');
+      this.currentTime = moment().format("LTS");
     },
-    setNewSelectedOption(selectedOption){
+    setNewSelectedOption(selectedOption) {
       this.config.placeholder = selectedOption.value;
-      switch(selectedOption.value) {
-        case 'แสดงทั้งหมด':
-          console.log('1')
-          this.displayAvailable = true
-          this.displayReserved = true
-        break;
-        case 'ว่าง':
-          this.displayAvailable = true
-          this.displayReserved = false
-          console.log('2')
-        break;
-        case 'จองแล้ว':
-          console.log('3')
-          this.displayAvailable = false
-          this.displayReserved = true
-        break;
+      switch (selectedOption.value) {
+        case "แสดงทั้งหมด":
+          console.log("1");
+          this.displayAvailable = true;
+          this.displayReserved = true;
+          break;
+        case "ว่าง":
+          this.displayAvailable = true;
+          this.displayReserved = false;
+          console.log("2");
+          break;
+        case "จองแล้ว":
+          console.log("3");
+          this.displayAvailable = false;
+          this.displayReserved = true;
+          break;
       }
     },
     displayDialog(t) {
@@ -213,14 +190,18 @@ export default {
       this.showDialog = true;
       this.curT = t;
       this.curR = this.reservation[t.id];
+    },
+    hideDialog() {
 
     },
     hello() {
       alert("Hello!");
-      
     },
 
     async data_load() {
+      // reset old data
+      this.curR = null
+
       const query = new Parse.Query(Tableja);
       query.ascending("TableNumber");
       let tables = await query.find(); // get the list of table
@@ -244,7 +225,6 @@ export default {
 
       this.table = tables;
     }
-    
   }
 };
 </script>
