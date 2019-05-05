@@ -9,34 +9,32 @@
       </h4>
       <div class="row">
 
+        <form class="col s12" @submit.prevent="makeReservation()">
+          <div class="row">
+              <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
+            <div class="input-field col s12">
+              <input id="์name" v-model="name" type="text">
+            </div>
+          </div>
+          <div class="row">
+            <label for="amount">จำนวน(คน)</label>
+            <div class="input-field col s12">
+              <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
+            </div>
+          </div>    
+          <div class="row">
+            <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
+            <div class="input-field col s12">
+              <input id="์tel" v-model="phone" type="tel" >
+            </div>    
+          </div>
+          <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>    
+        </form>
 
-    <form class="col s12" @submit.prevent="makeReservation()">
-      <div class="row">
-          <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
-        <div class="input-field col s12">
-          <input id="์name" v-model="name" type="text">
-        </div>
       </div>
-    <div class="row">
-          <label for="amount">จำนวน(คน)</label>
-        <div class="input-field col s12">
-          <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
-        </div>
-    </div>    
-    <div class="row">
-          <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
-        <div class="input-field col s12">
-          <input id="์tel" v-model="phone" type="tel" >
-        </div>    
-      </div>
-     <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
-    <i class="material-icons right">send</i>
-  </button>    
-    </form>
-  </div>
     </div>
-
-
   </div>
 </template>
 
@@ -55,7 +53,6 @@ export default {
   },
   methods: {
     async makeReservation() {
-
       let amount= this.amount
       let name= this.name
       let phone= this.phone
