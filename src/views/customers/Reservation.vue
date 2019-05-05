@@ -5,9 +5,35 @@
 
     <div class='content card i-card'>
       <h4 style='margin-bottom: 12px; margin-top: 0px'>
-        จองโต๊ะ
+        [ข้อมูลการจอง]
       </h4>
-      <div>ยังไม่ได้ทำจ้า รอแปบนะ :3</div>
+      <div class="row">
+
+
+    <form class="col s12" @submit.prevent="makeReservation()">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="์name" type="text">
+          <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
+        </div>
+      </div>
+    <div class="row">
+        <div class="input-field col s12">
+          <input id="์amount" type="text" >
+          <label for="amount">จำนวน(คน)</label>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="input-field col s12">
+          <input id="์tel" type="text" >
+          <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
+        </div>    
+      </div>
+     <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>    
+    </form>
+  </div>
     </div>
 
 
@@ -18,6 +44,13 @@
 
 export default {
   name: 'reservation',
+  methods: {
+    makeReservation() {
+      alert('fdsfdsg')
+
+      // actually submitting
+    },
+  },
 }
 </script>
 
