@@ -19,10 +19,17 @@
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <section>
-    <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
     <p class="time shadow" v-text="currentTime"></p>
-</section>
+    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}</span>
+    <!-- <span class='time shadow' v-text="currentTime"></span> -->
+    
+    
+    
+    <br>
+    <br>
+    
+    
+
 
 
     <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
@@ -89,10 +96,10 @@
 
 
 section.section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 140px;
+  //display: flex;
+  //flex-direction: column;
+  //align-items: center;
+  //padding-top: 140px;
   background: transparent;
 }
 
@@ -110,7 +117,7 @@ h3.is-3:not(:last-child) {
 }
 
 // .shadow {
-//   text-shadow: 0 0 15px rgba(100, 100, 100, .35);
+//   text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
 // }
 </style>
 
