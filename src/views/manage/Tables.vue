@@ -21,11 +21,11 @@
         </div>  
         
         <!-- ว่าง/ไม่ว่าง -->
-        <div id='' class='right i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = 'Reserve = false' >
+        <div class='right i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = "t.get('Reserve') == false" >
           ยังว่างเด้อ
         </div>
         <div class='right i-badge i-badge-pill i-badge-dark valign-wrapper' v-else> 
-          อดไป ไม่ต้องแดก 
+          อดจอง ไม่ต้องแดก
         </div>
 
         {{t.get("Seat")}}
@@ -68,6 +68,7 @@ import Modal from '@/components/Modal'
 export default {
   components: {
     Modal,
+
   },
   data() {
     return {
@@ -80,10 +81,13 @@ export default {
 
       showDialog: false,
     }
+
+    Reserve : fa
   },
   created() {
     this.name = '...'
     this.data_load();
+    // this.Reserve;
 
     // this.showDialog = true
   },
@@ -94,7 +98,7 @@ export default {
 
     async data_load() {
       const query = new Parse.Query(Tableja)
-      query.ascending('TableNumber')   // show admin first, then regular staffs (true > false, so descending)
+      query.ascending('TableNumber')   //List the table by Num
       let tables = await query.find()
 
       this.table = tables
@@ -108,6 +112,8 @@ export default {
       this.selectedTable = user
       this.showDialog = true
     },
+
+    
   }
 }
 </script>
