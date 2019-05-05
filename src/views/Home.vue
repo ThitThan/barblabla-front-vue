@@ -66,16 +66,16 @@
 
 
 <style lang="scss">
-// body, html {
-//   width: 100%;
-//   height: 100%;
-// }
+body, html {
+  width: 100%;
+  height: 100%;
+}
 
 section.section {
-  //display: flex;
-  //flex-direction: column;
-  //align-items: center;
-  //padding-top: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 140px;
   background: transparent;
 }
 
@@ -93,9 +93,6 @@ h3.is-3:not(:last-child) {
   font-size: 3em;
 }
 
-// .shadow {
-//   text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
-// }
 </style>
 
 
@@ -198,7 +195,9 @@ export default {
       this.curR = this.reservation[t.id];
     },
     hideDialog() {
+      this.showDialog = false
 
+      this.data_load()
     },
     hello() {
       alert("Hello!");

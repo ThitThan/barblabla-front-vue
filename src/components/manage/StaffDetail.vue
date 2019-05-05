@@ -185,8 +185,6 @@
             (object) => {
               console.log('success')
               this.isSaving = false // finished saving
-              this.$emit('input', user)
-              this.$emit('save', user)
             },
             (error) => {
               console.error(error)
