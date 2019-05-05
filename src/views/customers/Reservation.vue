@@ -70,13 +70,6 @@ export default {
       window.extAsyncInit = function() {
         // the Messenger Extensions JS SDK is done loading 
         console.log('messenger SDK loaded!!')
-        
-        // MessengerExtensions.getUserID(function success(uids) {
-        //     // User ID was successfully obtained. 
-        //     this.facebookPSID = uids.psid;
-        //   }, function error(err, errorMessage) {      
-        //   // Error handling code
-        // });
 
         // Context
         MessengerExtensions.getContext('2310738632317537', 
@@ -123,6 +116,7 @@ export default {
       }
       cus.set('name', name)
       cus.set('phone', phone)
+      cus.set('facebookPSID', facebookPSID)
       await cus.save()
 
       // actually submitting
