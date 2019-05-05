@@ -16,10 +16,22 @@
       </div>
     </Modal>
 
-    <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span>
+    <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
+    <span>{{ moment().locale('th').format('dddd Do MMMM YYYY')}}</span>
+    <!-- <span class='time shadow' v-text="currentTime"></span> -->
+    
+    
+    
+    <br>
+    <br>
+    
+    
+
+
+
+    <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
   <center>
      <vue-dropdown
@@ -49,10 +61,14 @@
         v-for="t in table" 
         v-bind:key="t.id"
         @click='displayDialog(t)'>
-          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+          <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
           <div class="col s2">{{ t.get('TableNumber') }}</div>
           <div class="col s3">
-            <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('Name')}}</div>
+            <div v-if="reservation[t.id]">
+              
+              {{ reservation[t.id].get('customer').get('name') }}
+              
+              </div>
             <div v-else>-</div>
           </div>
           <div class="col s3">
@@ -63,11 +79,47 @@
           <div class="col s2">{{t.get('Zone')}}</div>
           <div class="col s2">-</div>
         </div>
+        </div>
       </li>
     </ul>
   </div>
   
 </template>
+
+
+<style lang="scss">
+
+// body, html {
+//   width: 100%;
+//   height: 100%;
+// }
+
+
+section.section {
+  //display: flex;
+  //flex-direction: column;
+  //align-items: center;
+  //padding-top: 140px;
+  background: transparent;
+}
+
+h3.is-3, p.time {
+  color: white;
+}
+
+h3.is-3:not(:last-child) {
+  margin: 0;
+  padding: 0;
+}
+
+.time {
+  font-size: 3em;
+}
+
+// .shadow {
+//   text-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
+// }
+</style>
 
 
 
@@ -89,16 +141,22 @@ export default {
   },
   data() {
     return {
+      
       moment:moment,
       isLoading: false,
       name: "dsdasd",
       table: [],
-
+       message: 'Current Time:',
+    currentTime: null,
+      
       table: [],
       reservation: {
         // 'tableID': 'reserve'
       },
+      
       // priao
+      displayAvailable: true,
+      displayReserved: true,
       config: {
         options: [
           {
@@ -128,15 +186,41 @@ export default {
   created() {
     this.name = "5555";
     this.data_load();
+    this.currentTime = moment().format('LTS');
+    setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  
   },
 
   methods: {
-
+    updateCurrentTime() {
+      this.currentTime = moment().format('LTS');
+    },
+    setNewSelectedOption(selectedOption){
+      this.config.placeholder = selectedOption.value;
+      switch(selectedOption.value) {
+        case 'แสดงทั้งหมด':
+          console.log('1')
+          this.displayAvailable = true
+          this.displayReserved = true
+        break;
+        case 'ว่าง':
+          this.displayAvailable = true
+          this.displayReserved = false
+          console.log('2')
+        break;
+        case 'จองแล้ว':
+          console.log('3')
+          this.displayAvailable = false
+          this.displayReserved = true
+        break;
+      }
+    },
     displayDialog(t) {
       console.log(t);
       this.showDialog = true;
       this.curT = t;
       this.curR = this.reservation[t.id];
+
     },
     hello() {
       alert("Hello!");
