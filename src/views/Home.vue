@@ -55,7 +55,7 @@
         v-for="t in table" 
         v-bind:key="t.id"
         @click='displayDialog(t)'>
-          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+          <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
           <div class="col s2">{{ t.get('TableNumber') }}</div>
           <div class="col s3">
             <div v-if="reservation[t.id]">
@@ -72,6 +72,7 @@
           </div>
           <div class="col s2">{{t.get('Zone')}}</div>
           <div class="col s2">-</div>
+        </div>
         </div>
       </li>
     </ul>
