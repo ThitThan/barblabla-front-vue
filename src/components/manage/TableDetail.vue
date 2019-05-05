@@ -31,12 +31,32 @@
                 <input v-model = 'TableNumber' id='TableNumber' placeholder = 'เลขโต๊ะ' type='text' />
             </div>
 
+            <!-- Seat -->
+            <label for = 'Seat'> จำนวนที่ </label>
+            <div class = "input-field col">
+                <i class = "material-icons prefix">account_circle</i>
+                <input v-model = 'Seat' id='Seat' placeholder = 'จำนวนที่' type='text' />
+            </div>
+
+            <!-- Zone -->
+            <div>
+                <label>โซน</label>
+                <div class = 'input-field col'>
+                    <div class="switch">
+                        <label>
+                            <input type="checkbox" v-model='isAdmin'>
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <!--ปุ่มเซฟนะจ๊ะ-->
             <div style='margin-top: 48px'>
 
                 <!-- button -->
                 <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
-                @click='saveUserData()'>
+                @click='saveTableData()'>
                     <i class="material-icons left">save</i>
                     บันทึก
                 </button>
