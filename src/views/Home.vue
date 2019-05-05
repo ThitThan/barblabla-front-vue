@@ -19,7 +19,13 @@
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span>
+    <section>
+    <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
+    <p class="time shadow" v-text="currentTime"></p>
+</section>
+
+
+    <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
   <center>
      <vue-dropdown
@@ -74,6 +80,41 @@
 </template>
 
 
+<style lang="scss">
+
+// body, html {
+//   width: 100%;
+//   height: 100%;
+// }
+
+
+section.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 140px;
+  background: transparent;
+}
+
+h3.is-3, p.time {
+  color: white;
+}
+
+h3.is-3:not(:last-child) {
+  margin: 0;
+  padding: 0;
+}
+
+.time {
+  font-size: 3em;
+}
+
+// .shadow {
+//   text-shadow: 0 0 15px rgba(100, 100, 100, .35);
+// }
+</style>
+
+
 
 <script>
 import Parse from "parse";
@@ -93,15 +134,19 @@ export default {
   },
   data() {
     return {
+      
       moment:moment,
       isLoading: false,
       name: "dsdasd",
       table: [],
-
+       message: 'Current Time:',
+    currentTime: null,
+      
       table: [],
       reservation: {
         // 'tableID': 'reserve'
       },
+      
       // priao
       displayAvailable: true,
       displayReserved: true,
@@ -134,9 +179,15 @@ export default {
   created() {
     this.name = "5555";
     this.data_load();
+    this.currentTime = moment().format('LTS');
+    setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  
   },
 
   methods: {
+    updateCurrentTime() {
+      this.currentTime = moment().format('LTS');
+    },
     setNewSelectedOption(selectedOption){
       this.config.placeholder = selectedOption.value;
       switch(selectedOption.value) {
