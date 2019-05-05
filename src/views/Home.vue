@@ -46,26 +46,26 @@
 
         <!-- แต่ละแถว -->
         <div class="row waves-effect waves-light" 
-          v-for="t in table" 
-          v-bind:key="t.id"
-          @click='displayDialog(t)'>
-            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-
-            <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
-              <div class="col s2">{{ t.get('TableNumber') }}</div>
-              <div class="col s3">
-                <div v-if="reservation[t.id]" >{{ reservation[t.id].get('customer').get('Name')}}</div>
-                <div v-else>-</div>
+        v-for="t in table" 
+        v-bind:key="t.id"
+        @click='displayDialog(t)'>
+          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+          <div class="col s2">{{ t.get('TableNumber') }}</div>
+          <div class="col s3">
+            <div v-if="reservation[t.id]">
+              
+              {{ reservation[t.id].get('customer').get('name') }}
+              
               </div>
-              <div class="col s3">
-                <div v-if="reservation[t.id]">จองแล้ว</div>
-                <div v-else>ว่าง</div>
-                <!-- {{ reservation[t.id] }} -->
-              </div>
-              <div class="col s2">{{t.get('Zone')}}</div>
-              <div class="col s2">-</div>
-            </div>
-            <!-- //table -->
+            <div v-else>-</div>
+          </div>
+          <div class="col s3">
+            <div v-if="reservation[t.id]">จองแล้ว</div>
+            <div v-else>ว่าง</div>
+            <!-- {{ reservation[t.id] }} -->
+          </div>
+          <div class="col s2">{{t.get('Zone')}}</div>
+          <div class="col s2">-</div>
         </div>
       </li>
     </ul>
@@ -162,6 +162,7 @@ export default {
       this.showDialog = true;
       this.curT = t;
       this.curR = this.reservation[t.id];
+
     },
     hello() {
       alert("Hello!");
