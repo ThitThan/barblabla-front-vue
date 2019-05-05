@@ -116,7 +116,7 @@ export default {
       }
       cus.set('name', name)
       cus.set('phone', phone)
-      cus.set('facebookPSID', facebookPSID)
+      cus.set('facebookPSID', this.facebookPSID)
       await cus.save()
 
       // actually submitting
