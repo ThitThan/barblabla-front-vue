@@ -23,12 +23,29 @@
           <!-- แต่ละแถว -->
           <div class='row  waves-effect waves-light'
           v-for='t in table' 
-          v-bind:key='t.Reserve'>
+          v-bind:key='t.id'>
             <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-            <div class="col s2">{{ t.get('TableNumber') }}</div> 
-            <div class="col s3">รายชื่อลูกค้า</div>
-            <div class="col s3">สถานะ</div>
-            <div class="col s2">{{t.get('Zone')}}</div>
+            <div class="col s2">
+              {{ t.get('TableNumber') }} </div> 
+            <div class="col s3">
+              <div v-if='reservation[t.id]'>
+                {{ t.get('Name') }}
+              </div>
+              <div v-else>
+                -
+              </div>
+              </div>
+            <div class="col s3">
+              <div v-if='reservation[t.id]'>
+                จองแล้ว
+              </div>
+              <div v-else>
+                -
+              </div>
+              <!-- {{ reservation[t.id] }} -->
+            </div>
+            <div class="col s2">
+              {{t.get('Zone')}} </div>
             <div class="col s2">-</div>
           </div>
         </li>
@@ -40,6 +57,8 @@
 <script>
 import Parse from "parse";
 var Tableja = Parse.Object.extend("Tableja");
+var Reservation = Parse.Object.extend("Reservation");
+
 
 export default {
   data() {
@@ -47,7 +66,10 @@ export default {
       isLoading: false,
       name: "dsdasd",
 
-      table: []
+      table: [],
+      reservation: {
+        // 'tableID': 'reserve'
+      },
     };
   },
   created() {
@@ -61,8 +83,24 @@ export default {
 
     async data_load() {
       const query = new Parse.Query(Tableja);
-      query.ascending("TableNumber"); // show admin first, then regular staffs (true > false, so descending)
-      let tables = await query.find();
+      query.ascending("TableNumber");
+      let tables = await query.find();    // get the list of table
+
+      for (var i = 0; i < tables.length ; i++) {
+        let t  = tables[i];
+        // console.log(t); 
+
+        const query = new Parse.Query(Reservation);
+        query.equalTo("Table", t);
+        let r = await query.first();
+
+        if(r !== null && r !== undefined) {
+          let cus = r.get("customer");
+          console.log(cus); 
+
+          this.reservation[t.id] = r
+        }
+      }
 
       this.table = tables;
     }
