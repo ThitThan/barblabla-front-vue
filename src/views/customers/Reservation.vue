@@ -55,40 +55,44 @@ export default {
     }
   },
   created() {
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
-
-    window.extAsyncInit = function() {
-      // the Messenger Extensions JS SDK is done loading 
-      console.log('messenger SDK loaded!!')
-      
-      // MessengerExtensions.getUserID(function success(uids) {
-      //     // User ID was successfully obtained. 
-      //     this.facebookPSID = uids.psid;
-      //   }, function error(err, errorMessage) {      
-      //   // Error handling code
-      // });
-
-      // Context
-      MessengerExtensions.getContext('YOUR_APP_ID', 
-        function success(thread_context) {
-          // success
-          this.facebookPSID = thread_context['psid']
-          console.log('facebook PSID gathered')
-        },
-        function error(err) {
-          // error
-          console.log('fail to get facebook PSID')
-        }
-      );
-    };
+    this.setupFacebookAPI()
   },
   methods: {
+    setupFacebookAPI() {
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
+
+      window.extAsyncInit = function() {
+        // the Messenger Extensions JS SDK is done loading 
+        console.log('messenger SDK loaded!!')
+        
+        // MessengerExtensions.getUserID(function success(uids) {
+        //     // User ID was successfully obtained. 
+        //     this.facebookPSID = uids.psid;
+        //   }, function error(err, errorMessage) {      
+        //   // Error handling code
+        // });
+
+        // Context
+        MessengerExtensions.getContext('YOUR_APP_ID', 
+          function success(thread_context) {
+            // success
+            this.facebookPSID = thread_context['psid']
+            console.log('facebook PSID gathered')
+          }.bind(this),
+          function error(err) {
+            // error
+            console.log('fail to get facebook PSID')
+            this.facebookPSID = 'error ' + JSON.stringify(err)
+          }.bind(this)
+        );
+      }.bind(this);
+    },
     async makeReservation() {
 
       let amount= parseInt(this.amount)
