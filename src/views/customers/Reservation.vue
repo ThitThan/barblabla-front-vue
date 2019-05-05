@@ -12,21 +12,21 @@
 
     <form class="col s12" @submit.prevent="makeReservation()">
       <div class="row">
-        <div class="input-field col s12">
-          <input id="์name" type="text">
           <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
+        <div class="input-field col s12">
+          <input id="์name" v-model="name" type="text">
         </div>
       </div>
     <div class="row">
-        <div class="input-field col s12">
-          <input id="์amount" type="number" >
           <label for="amount">จำนวน(คน)</label>
+        <div class="input-field col s12">
+          <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
         </div>
     </div>    
     <div class="row">
-        <div class="input-field col s12">
-          <input id="์tel" type="tel" >
           <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
+        <div class="input-field col s12">
+          <input id="์tel" v-model="phone" type="tel" >
         </div>    
       </div>
      <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
@@ -41,14 +41,45 @@
 </template>
 
 <script>
-
+import Parse from 'parse'
+var ReservationReq = Parse.Object.extend('ReservationReq')
+var Customer = Parse.Object.extend('Customer')
 export default {
   name: 'reservation',
+  data(){
+    return {
+      amount: 1,
+      name:'',
+      phone:'',
+    }
+  },
   methods: {
-    makeReservation() {
-      alert('บันทึกข้อมูลสำเร็จ')
+    async makeReservation() {
+
+      let amount= this.amount
+      let name= this.name
+      let phone= this.phone
+
+      var query = new Parse.Query(Customer)
+      query.equalTo("phone", phone)
+      var cus = await query.first()
+      console.log(cus)
+      
+      if(cus===undefined){
+        cus = new Customer()
+      }
+      cus.set('name', name)
+      cus.set('phone', phone)
+      await cus.save()
 
       // actually submitting
+      var req = new ReservationReq()
+      req.set('amount', amount)
+      req.set('customer', cus)
+      await req.save()
+
+      console.log('done!!')
+      alert('ได้รับข้อมูลการจองแล้ว')
     },
   },
 }

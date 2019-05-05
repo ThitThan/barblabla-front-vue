@@ -19,7 +19,7 @@
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <span>{{ moment().format('Do MMMM YYYY, h:mm:ss a') }}</span>
+    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
   <center>
      <vue-dropdown
@@ -81,8 +81,10 @@ import vueDropdown from "@/components/vue-dropdown/vue-dropdown";
 
 var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
+var moment = require('moment');
 
 import Modal from "@/components/Modal";
+
 
 export default {
   components: {
@@ -91,6 +93,7 @@ export default {
   },
   data() {
     return {
+      moment:moment,
       isLoading: false,
       name: "dsdasd",
       table: [],

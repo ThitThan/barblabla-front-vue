@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <Modal v-model='showDialog'>
-      <h1>ปุ่มนี้ไว้ทำไรวะ</h1>
+      <TableDetail v-model='selectedTable' @save='closeDetailDialog($event)' @destroy='closeDetailDialog($event)'/>
     </Modal>
 
     <!-- titles -->
@@ -21,7 +21,7 @@
             <div class="col s3">สถานะ</div>
     </div>
 
-    <li class="collection-item row" v-for="t in table" v-bind:key='t.id'>
+    <li class="collection-item row" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
 
         <!-- เลขโต๊ะ -->         
         <div class="col s3">{{t.get('TableNumber')}}</div>
@@ -44,7 +44,7 @@
         
         
     </li>
-    
+
     </ul>
 
     <!-- ปุ่ม + -->
@@ -74,6 +74,7 @@
 
 <script>
 import Parse from  "parse"
+import TableDetail from '@/components/manage/TableDetail'
 var Tableja = Parse.Object.extend("Tableja");
 
 import Modal from '@/components/Modal'
@@ -81,6 +82,7 @@ import Modal from '@/components/Modal'
 export default {
   components: {
     Modal,
+    TableDetail,
 
   },
   data() {
@@ -93,6 +95,7 @@ export default {
       table: [],
 
       showDialog: false,
+      selectedTable: null,
     }
 
     Reserve : fa
@@ -121,9 +124,10 @@ export default {
       this.selectedTable = null
       this.showDialog = true
     },
-    showViewDialog(user) {
-      this.selectedTable = user
+    showViewDialog(tables) {
+      this.selectedTable = tables
       this.showDialog = true
+      console.log(tables)
     },
 
     
