@@ -19,7 +19,13 @@
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span>
+    <section>
+    <!-- <h6 class="title is-3 shadow" v-text="message"></h6> -->
+    <p class="time shadow" v-text="currentTime"></p>
+</section>
+
+
+    <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
   <center>
      <vue-dropdown
@@ -46,32 +52,67 @@
 
         <!-- แต่ละแถว -->
         <div class="row waves-effect waves-light" 
-          v-for="t in table" 
-          v-bind:key="t.id"
-          @click='displayDialog(t)'>
-            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-
-            <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
-              <div class="col s2">{{ t.get('TableNumber') }}</div>
-              <div class="col s3">
-                <div v-if="reservation[t.id]" >{{ reservation[t.id].get('customer').get('Name')}}</div>
-                <div v-else>-</div>
+        v-for="t in table" 
+        v-bind:key="t.id"
+        @click='displayDialog(t)'>
+          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+          <div class="col s2">{{ t.get('TableNumber') }}</div>
+          <div class="col s3">
+            <div v-if="reservation[t.id]">
+              
+              {{ reservation[t.id].get('customer').get('name') }}
+              
               </div>
-              <div class="col s3">
-                <div v-if="reservation[t.id]">จองแล้ว</div>
-                <div v-else>ว่าง</div>
-                <!-- {{ reservation[t.id] }} -->
-              </div>
-              <div class="col s2">{{t.get('Zone')}}</div>
-              <div class="col s2">-</div>
-            </div>
-            <!-- //table -->
+            <div v-else>-</div>
+          </div>
+          <div class="col s3">
+            <div v-if="reservation[t.id]">จองแล้ว</div>
+            <div v-else>ว่าง</div>
+            <!-- {{ reservation[t.id] }} -->
+          </div>
+          <div class="col s2">{{t.get('Zone')}}</div>
+          <div class="col s2">-</div>
         </div>
       </li>
     </ul>
   </div>
   
 </template>
+
+
+<style lang="scss">
+
+// body, html {
+//   width: 100%;
+//   height: 100%;
+// }
+
+
+section.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 140px;
+  background: transparent;
+}
+
+h3.is-3, p.time {
+  color: white;
+}
+
+h3.is-3:not(:last-child) {
+  margin: 0;
+  padding: 0;
+}
+
+.time {
+  font-size: 3em;
+}
+
+// .shadow {
+//   text-shadow: 0 0 15px rgba(100, 100, 100, .35);
+// }
+</style>
 
 
 
@@ -93,15 +134,19 @@ export default {
   },
   data() {
     return {
+      
       moment:moment,
       isLoading: false,
       name: "dsdasd",
       table: [],
-
+       message: 'Current Time:',
+    currentTime: null,
+      
       table: [],
       reservation: {
         // 'tableID': 'reserve'
       },
+      
       // priao
       displayAvailable: true,
       displayReserved: true,
@@ -134,9 +179,15 @@ export default {
   created() {
     this.name = "5555";
     this.data_load();
+    this.currentTime = moment().format('LTS');
+    setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  
   },
 
   methods: {
+    updateCurrentTime() {
+      this.currentTime = moment().format('LTS');
+    },
     setNewSelectedOption(selectedOption){
       this.config.placeholder = selectedOption.value;
       switch(selectedOption.value) {
@@ -162,6 +213,7 @@ export default {
       this.showDialog = true;
       this.curT = t;
       this.curR = this.reservation[t.id];
+
     },
     hello() {
       alert("Hello!");

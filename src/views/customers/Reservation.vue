@@ -46,17 +46,32 @@ export default {
   name: 'reservation',
   data(){
     return {
-      amount: 1,
+      amount: '',
       name:'',
       phone:'',
     }
   },
   methods: {
     async makeReservation() {
-      let amount= this.amount
+
+      let amount= parseInt(this.amount)
       let name= this.name
       let phone= this.phone
 
+      if (name.length <1) {
+        alert('กรุณากรอกข้อมูลให้ครบ')
+        return;
+      }
+
+      if (!amount || amount <1) {
+        alert('กรุณาระบุจำนวนคน(หนึ่งคนขึ้นไป)')
+        return;
+      }
+      
+      if (phone.length <9) {
+        alert('กรุณาระบุหมายเลขโทรศัพท์ให้ถูกต้อง')
+        return;
+      }
       var query = new Parse.Query(Customer)
       query.equalTo("phone", phone)
       var cus = await query.first()
