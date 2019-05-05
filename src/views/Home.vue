@@ -2,6 +2,7 @@
   <div class="home">
     <h2>สตาฟ</h2>
     <br>
+    <span>{{ moment().format('MMMM Do YYYY, h:mm:ss a') }}</span>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
     <ul class="collection" v-if='table.length > 0'>
