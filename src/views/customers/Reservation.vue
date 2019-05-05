@@ -19,13 +19,13 @@
       </div>
     <div class="row">
         <div class="input-field col s12">
-          <input id="์amount" type="text" >
+          <input id="์amount" type="number" >
           <label for="amount">จำนวน(คน)</label>
         </div>
     </div>    
     <div class="row">
         <div class="input-field col s12">
-          <input id="์tel" type="text" >
+          <input id="์tel" type="tel" >
           <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
         </div>    
       </div>
