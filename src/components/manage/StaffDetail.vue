@@ -22,7 +22,7 @@
     <div class='content form flex flex-column flex-left' v-else>
       <h4 style='margin-bottom: 32px'>
         <!-- {{ title }} -->
-        {{ user ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }}
+        {{ (user && user.id) ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }}
       </h4>
 
       <!-- username -->
@@ -79,7 +79,7 @@
     </div>
 
     <!-- destroy button (hidden when the user is viewing their own account detail) -->
-    <div v-show='user && !isCurrentUser'
+    <div v-if='user && user.id && !isCurrentUser'
       class='flex' style='padding-top: -20px; padding-right: 0px; justify-content: flex-end'>
       <button :class="'btn-floating btn-small waves-effect waves-light red darken-2' + (isDeleting ? 'btn-disabled':'')" align='left'
         @click='deleteUserData()'>
@@ -125,7 +125,7 @@
       },
 
       user(newU, oldU) {
-        console.log(oldU + ' -> ' + newU)
+        // console.log(oldU + ' -> ' + newU)
         if (newU !== null && newU !== undefined) {
           this.username = newU.getUsername()
           this.isAdmin = newU.get('isAdmin')
@@ -158,6 +158,8 @@
               console.error(error)
               this.isDeleting = false // finished saving
               // this.$emit('saved', user)
+
+              alert('เกิดข้อผิดพลาด โปรดลองใหม่ในภายหลัง')
             }
           )
       },
@@ -183,13 +185,15 @@
           })
           .then(
             (object) => {
-              console.log('success')
+              console.log('saved successfully')
               this.isSaving = false // finished saving
+              this.$emit('save', user)
             },
             (error) => {
               console.error(error)
               this.isSaving = false // finished saving
-              // this.$emit('saved', user)
+
+              alert(error.message)
             }
           )
 

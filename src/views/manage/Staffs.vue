@@ -130,7 +130,7 @@ export default {
       this.isLoading = false
     },
     showAddDialog() {
-      this.selectedUser = null
+      this.selectedUser = new Parse.User()
       this.showDialog = true
     },
     showViewDialog(user) {
