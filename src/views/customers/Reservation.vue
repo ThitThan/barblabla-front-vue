@@ -29,7 +29,7 @@
           <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
         </div>    
       </div>
-     <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+     <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>    
     </form>
@@ -46,7 +46,7 @@ export default {
   name: 'reservation',
   methods: {
     makeReservation() {
-      alert('fdsfdsg')
+      alert('บันทึกข้อมูลสำเร็จ')
 
       // actually submitting
     },
