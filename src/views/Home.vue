@@ -174,7 +174,7 @@ export default {
         textColor: "white",
         borderRadius: "1em",
         border: "1px solid gray",
-        width: 350
+        width: 300
       },
 
       //drive

@@ -16,11 +16,10 @@
     </div>
 
     <div v-expand="isExpanded" class="options expand">
-      <div
-        v-for="option in configOptions"
+      
+        <div v-for="option in configOptions" v-bind:key="option"
         class="option"
-        @click="setCurrentSelectedOption(option);"
-      >
+        @click="setCurrentSelectedOption(option);">
         {{ option.value }}
       </div>
     </div>
