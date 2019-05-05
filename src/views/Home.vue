@@ -7,9 +7,9 @@
     <br>
     <!-- display current date and time -->
     <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
-    <span>{{ moment().locale('th').format('dddd Do MMMM YYYY')}}</span>
+    <span style='font-size: 15px;'>{{ moment().format('dddd Do MMMM YYYY')}}</span>
     <!-- <span class='time shadow' v-text="currentTime"></span> -->
-    
+
     
     
     <br>
@@ -25,7 +25,7 @@
       <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
     </center>
 
-    <ul class="collection" v-if="table.length > 0">
+    <ul class="collection" style='margin-top: 24px' v-if="table.length > 0">
       <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
 
       <!-- หัวตาราง -->
@@ -82,6 +82,8 @@ section.section {
 h3.is-3,
 p.time {
   color: white;
+  font-family: 'Overpass Mono', monospace;
+  font-size: 48px;
 }
 
 h3.is-3:not(:last-child) {
@@ -122,6 +124,7 @@ export default {
       table: [],
       message: "Current Time:",
       currentTime: null,
+      showColon: true,
 
       table: [],
       reservation: {
@@ -160,13 +163,18 @@ export default {
   created() {
     this.name = "5555";
     this.data_load();
-    this.currentTime = moment().format("LTS");
+    // this.currentTime = moment().format("LTS");
+    let timeFormat = this.showColon ? 'hh:mm': 'hh mm'
+    this.currentTime = moment().format(timeFormat);
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
 
   methods: {
     updateCurrentTime() {
-      this.currentTime = moment().format("LTS");
+      // this.currentTime = moment().format("LTS");
+      this.showColon = !this.showColon
+      let timeFormat = this.showColon ? 'hh:mm': 'hh mm'
+      this.currentTime = moment().format(timeFormat);
     },
     setNewSelectedOption(selectedOption) {
       this.config.placeholder = selectedOption.value;

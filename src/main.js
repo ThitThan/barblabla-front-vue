@@ -26,6 +26,7 @@ import moment from 'moment'
 //   }
 //   return (zero + num).slice(-digit);
 // }
+moment.locale('th')
 
 Vue.prototype.moment = moment
 
