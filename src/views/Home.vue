@@ -16,7 +16,6 @@
       </div>
     </Modal>
 
-    <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
     <section>
