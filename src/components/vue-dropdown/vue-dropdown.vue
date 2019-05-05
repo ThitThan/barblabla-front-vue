@@ -17,7 +17,7 @@
 
     <div v-expand="isExpanded" class="options expand">
       
-        <div v-for="option in configOptions" v-bind:key="option"
+        <div v-for="option in configOptions" v-bind:key="option.value"
         class="option"
         @click="setCurrentSelectedOption(option);">
         {{ option.value }}
