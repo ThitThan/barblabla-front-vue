@@ -46,22 +46,26 @@
 
         <!-- แต่ละแถว -->
         <div class="row waves-effect waves-light" 
-        v-for="t in table" 
-        v-bind:key="t.id"
-        @click='displayDialog(t)'>
-          <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-          <div class="col s2">{{ t.get('TableNumber') }}</div>
-          <div class="col s3">
-            <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('Name')}}</div>
-            <div v-else>-</div>
-          </div>
-          <div class="col s3">
-            <div v-if="reservation[t.id]">จองแล้ว</div>
-            <div v-else>ว่าง</div>
-            <!-- {{ reservation[t.id] }} -->
-          </div>
-          <div class="col s2">{{t.get('Zone')}}</div>
-          <div class="col s2">-</div>
+          v-for="t in table" 
+          v-bind:key="t.id"
+          @click='displayDialog(t)'>
+            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+
+            <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
+              <div class="col s2">{{ t.get('TableNumber') }}</div>
+              <div class="col s3">
+                <div v-if="reservation[t.id]" >{{ reservation[t.id].get('customer').get('Name')}}</div>
+                <div v-else>-</div>
+              </div>
+              <div class="col s3">
+                <div v-if="reservation[t.id]">จองแล้ว</div>
+                <div v-else>ว่าง</div>
+                <!-- {{ reservation[t.id] }} -->
+              </div>
+              <div class="col s2">{{t.get('Zone')}}</div>
+              <div class="col s2">-</div>
+            </div>
+            <!-- //table -->
         </div>
       </li>
     </ul>
@@ -96,6 +100,8 @@ export default {
         // 'tableID': 'reserve'
       },
       // priao
+      displayAvailable: true,
+      displayReserved: true,
       config: {
         options: [
           {
@@ -128,7 +134,26 @@ export default {
   },
 
   methods: {
-
+    setNewSelectedOption(selectedOption){
+      this.config.placeholder = selectedOption.value;
+      switch(selectedOption.value) {
+        case 'แสดงทั้งหมด':
+          console.log('1')
+          this.displayAvailable = true
+          this.displayReserved = true
+        break;
+        case 'ว่าง':
+          this.displayAvailable = true
+          this.displayReserved = false
+          console.log('2')
+        break;
+        case 'จองแล้ว':
+          console.log('3')
+          this.displayAvailable = false
+          this.displayReserved = true
+        break;
+      }
+    },
     displayDialog(t) {
       console.log(t);
       this.showDialog = true;
