@@ -17,10 +17,10 @@
     </Modal>
 
     <h2>สตาฟ</h2>
-    <br>
+
     <!-- display current date and time -->
-    <p class="time shadow" v-text="currentTime"></p>
-    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}</span>
+    <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
+    <span>{{ moment().locale('th').format('dddd Do MMMM YYYY')}}</span>
     <!-- <span class='time shadow' v-text="currentTime"></span> -->
     
     
