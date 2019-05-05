@@ -19,7 +19,7 @@
     <h2>สตาฟ</h2>
     <br>
     <!-- display current date and time -->
-    <span>{{ moment().format('Do MMMM YYYY, h:mm:ss a') }}</span>
+    <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
   <center>
      <vue-dropdown
