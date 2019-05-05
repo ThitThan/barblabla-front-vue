@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <Modal v-model='showDialog'>
-      <h1>dee jaa</h1>
+      <h1>ปุ่มนี้ไว้ทำไรวะ</h1>
     </Modal>
 
     <!-- titles -->
@@ -12,26 +12,39 @@
     <br>
     
     <ul class="collection">
-      <li class="collection-item" v-for="t in table" v-bind:key='t.id'>
-        <div> </div>
 
-        <div class='i-item' align='left'>
-          {{t.get('TableNumber')}}
-          {{t.get('Zone')}}
-        </div>  
-        
-        <!-- ว่าง/ไม่ว่าง -->
-        <div class='right i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = "t.get('Reserve') == false" >
-          ยังว่างเด้อ
-        </div>
-        <div class='right i-badge i-badge-pill i-badge-dark valign-wrapper' v-else> 
-          อดจอง ไม่ต้องแดก
-        </div>
+    <div class="row">
+            <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+            <div class="col s3">เลขโต๊ะ</div>
+            <div class="col s3">โซน</div>
+            <div class="col s3">จำนวนที่</div>
+            <div class="col s3">สถานะ</div>
+    </div>
 
-        {{t.get("Seat")}}
+    <li class="collection-item row" v-for="t in table" v-bind:key='t.id'>
+
+        <!-- เลขโต๊ะ -->         
+        <div class="col s3">{{t.get('TableNumber')}}</div>
+        
+        <!--Zone -->
+        <div class='col s3'>{{t.get('Zone')}}</div>
+
+        <!-- จำนวนที่ -->
+        <div class='col s3'>{{t.get('Seat')}}</div>
+
+        <!-- ป้าย ว่าง/ไม่ว่าง -->
+        <div class='col s3'>
+          <div class=' i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = "t.get('Reserve') == false" >
+            ว่าง
+          </div>
+          <div class=' i-badge i-badge-pill i-badge-dark valign-wrapper' v-else> 
+            ไม่ว่าง
+          </div>
+        </div>       
         
         
-      </li>
+    </li>
+    
     </ul>
 
     <!-- ปุ่ม + -->
@@ -117,3 +130,4 @@ export default {
   }
 }
 </script>
+
