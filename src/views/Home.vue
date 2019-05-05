@@ -3,7 +3,13 @@
     <h2>สตาฟ</h2>
     <br>
    <!-- display current date and time -->
-    <span>{{ moment().format('Do MMMM YYYY, h:mm:ss a') }}</span>
+   <div id="clock">
+    <p class="date">{{ date }}</p>
+    <p class="time">{{ time }}</p>
+    </div>
+
+
+   <span>{{moment().format('dddd Do MMMM YYYY,')}} {{moment().format('LTS')}}</span>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
     <ul class="collection" v-if='table.length > 0'>
@@ -59,11 +65,14 @@
 import Parse from "parse";
 var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
+var moment = require('moment');
+
 
 
 export default {
   data() {
     return {
+      moment:moment,
       isLoading: false,
       name: "dsdasd",
 
