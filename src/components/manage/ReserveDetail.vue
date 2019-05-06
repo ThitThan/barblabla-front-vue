@@ -39,7 +39,7 @@
             <div class="col s6">
               <p style="margin-bottom: 32px; font-size: 18px">
                 โซน:
-                {{ curT.get('Zone') }}
+                {{ curT.get('Zone') ? 'INSIDE':'OUTSIDE' }}
               </p>
             </div>
             <div class="col s6">

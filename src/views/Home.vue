@@ -14,8 +14,8 @@
     <div>
       <!-- dropdown -->
       <div style="margin: 24px 0px; height: 35px;">
-        <div
-          style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; width:70%;
+        <div class="container"
+          style="z-index: 9; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; max-width: 100%;
           text-align: left;">
         <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
           :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
@@ -81,7 +81,7 @@
               <div v-else>ว่าง</div>
               <!-- {{ reservation[t.id] }} -->
             </div>
-            <div class="col s2">{{t.get('Zone')}}</div>
+            <div class="col s2">{{ t.get('Zone') ? 'INSIDE':'OUTSIDE'}}</div>
             <div class="col s2">-</div>
           </div>
         </div>
@@ -212,7 +212,7 @@ export default {
         textColor: "white",
         borderRadius: "1em",
         border: "1px solid gray",
-        width: 300
+        width: 180,
       },
 
       //drive
@@ -224,7 +224,7 @@ export default {
       days: [
         'วันนี้',
         'พรุ่งนี้',
-        '..'
+        'วันมะรืน',
       ],
       selectedDay: -1,
       reserveDate: null,

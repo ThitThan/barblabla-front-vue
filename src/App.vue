@@ -187,9 +187,14 @@ label {
 }
 .modal {
   background-color: #1A1B20;
-  overflow: hidden;
+  // overflow: hidden;
+  -ms-overflow-style: none;  // IE 10+
+  scrollbar-width: none;  // Firefox
   // background-color: #231A2B;
   // background-color: #231A2C;
+}
+.modal::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
 }
 .card {
   background-color: #24202F;
@@ -283,14 +288,14 @@ i.left {
 }
 .modal {
   max-width: 540px;
-  max-height: 80%;
+  // max-height: 80%;
+
+  top: 5% !important;
+  max-height: 90%;
 }
 @media only screen and (max-width: 640px) {
   .modal {
     width: 90%;
-
-    top: 5% !important;
-    max-height: 90%;
   }
 }
 </style>
