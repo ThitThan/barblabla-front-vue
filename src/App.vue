@@ -162,6 +162,7 @@ label {
 }
 .modal {
   background-color: #1A1B20;
+  overflow: hidden;
   // background-color: #231A2B;
   // background-color: #231A2C;
 }
