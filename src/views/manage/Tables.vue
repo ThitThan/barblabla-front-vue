@@ -149,8 +149,10 @@ export default {
     showAddDialog() {
       let lastTable = this.table[this.table.length - 1]
       let newTable = new Tableja()
-      newTable.set("TableNumber", lastTable.get('TableNumber') + 1)
-      newTable.set("Zone", lastTable.get('Zone'))
+      if (lastTable) {
+        newTable.set("TableNumber", lastTable.get('TableNumber') + 1)
+        newTable.set("Zone", lastTable.get('Zone'))
+      }
       console.log(newTable)
 
       this.selectedTable = newTable
