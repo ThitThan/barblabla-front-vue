@@ -170,16 +170,19 @@ export default {
     this.name = "5555";
     this.data_load();
     // this.currentTime = moment().format("LTS");
-    let timeFormat = this.showColon ? 'hh:mm': 'hh mm'
+    let timeFormat = this.getTimeFormat()
     this.currentTime = moment().format(timeFormat);
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
 
   methods: {
+    getTimeFormat() {
+      return this.showColon ? 'HH:mm': 'HH mm'
+    },
     updateCurrentTime() {
       // this.currentTime = moment().format("LTS");
       this.showColon = !this.showColon
-      let timeFormat = this.showColon ? 'hh:mm': 'hh mm'
+      let timeFormat = this.getTimeFormat()
       this.currentTime = moment().format(timeFormat);
     },
     setNewSelectedOption(selectedOption) {
