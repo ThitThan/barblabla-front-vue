@@ -3,16 +3,14 @@
   <div class>
     <div class="nav-dark z-depth-1 valign-wrapper">
       <img src="@/assets/refeel-logo.png" style="height: 36px">
-      <a
-        class="waves-effect waves-light btn-small deep-purple darken-2"
-        @click="performLogout()"
-      >ล้อคเอาท์</a>
+      
     </div>
+    <a class="waves-effect waves-light btn-small deep-purple darken-2 right" @click="performLogout()">ล้อคเอาท์</a>
 
     <div class="about container">
       <h3>ข้อมูลการจอง</h3>
 
-      <hr>
+     
 
       <div style="margin: 24px 0px; height: 35px;">
         <center
@@ -22,15 +20,19 @@
         </center>
       </div>
 
-      <ul class="collection" style="margin-top: 24px">
-        <div class="collection-item">
-          เลขโต๊ะ
-          </div>
-        <ul class="element-item" style>
-          <div id class="i-badge i-badge-pill i-badge-warning valign-wrapper">
-            ผู้ดูแลระบบ
-            </div>
-        </ul>
+      <!-- ตาราง -->
+       <br>
+
+      <ul class="collection" style="margin-top: 14px; font-size: 19px">
+        <div class="collection-item">โต๊ะ </div>
+        <div class="row">
+          <ul class="col s6" style="margin-top: 10px; font-size: 23px">
+            <div id class="i-badge i-badge-pill i-badge-warning valign-wrapper">สถานะโต๊ะ</div>
+          </ul>
+          <ul class="col s6" style="margin-top: 10px; font-size: 18px">
+            <div id class="">-</div>
+          </ul>
+        </div>
       </ul>
     </div>
   </div>
@@ -43,6 +45,11 @@ var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
 
 export default {
+  props: {
+    value: {
+      type: Tableja,
+    },
+  },
   components: {
     vueDropdown
   },
@@ -76,6 +83,13 @@ export default {
     this.name = "";
   },
   methods: {
+    async data_load() {
+      const query = new Parse.Query(Tableja)
+      query.ascending('TableNumber')   //List the table by Num
+      let tables = await query.find()
+
+      this.table = tables
+    },
     performLogout() {
       Parse.User.logOut().then(() => {
         this.$router.push({ path: "/login" });
@@ -83,7 +97,32 @@ export default {
     },
     hello() {
       alert("Hello!");
-    }
+    },
+    async data_load() {
+      const query = new Parse.Query(Tableja)
+      query.ascending('TableNumber')   //List the table by Num
+      let tables = await query.find()
+
+      this.table = tables
+    },
+    
+    showAddDialog() {
+      this.selectedTable = new Tableja()
+      this.showDialog = true
+    },
+    showViewDialog(tables) {
+      this.selectedTable = tables
+      this.showDialog = true
+      console.log(tables)
+    },
+
+    closeDetailDialog() {
+      this.showDialog = false
+      // this.selectedUser = null
+
+      this.data_load()  // update the user list
+    },
+    
   }
 };
 </script>
