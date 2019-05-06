@@ -8,7 +8,7 @@
 $default-text-hover-color: black;
 $default-hover-color: #ffffff;
 $default-text-color: #fff;
-$option-padding: 4px 10px;
+$option-padding: 4px 7px;
 
 .dropdown {
   display: flex;
@@ -17,7 +17,7 @@ $option-padding: 4px 10px;
   flex-direction: column;
   width: var(--dropdown-width);
   position: relative;
-  border: 1px solid transparent;
+  border: 0px solid transparent;
   border-radius: 4px ;
   //var(--main-el-border-radius);
   cursor: pointer;
@@ -43,7 +43,7 @@ $option-padding: 4px 10px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border: solid $default-text-color;
+        border: 0px solid $default-text-color;
         background: transparent;
         border-width: 0 2px 2px 0;
         padding: 4px;
@@ -89,7 +89,7 @@ $option-padding: 4px 10px;
 }
 .dropdown.expanded {
   background: var(--dropdown-expanded-color);
-  border: var(--dropdown-border);
+  // border: var(--dropdown-border);
   transition: all 0.7s linear;
 }
 

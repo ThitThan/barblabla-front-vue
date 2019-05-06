@@ -96,12 +96,12 @@
   background-color: #48494d;
   border: none;
   color: white;
-  padding: 11px;
+  padding: 7px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
-  margin: 4px 2px;
+  margin: 4px 4px;
   cursor: pointer;
 }
 .button:hover {
@@ -120,12 +120,12 @@
 } */
 
 .dayButton {
-  border-radius: 30px;
+  border-radius: 4px;
   vertical-align: top;
 }
 </style>
 
-<!--style dropdown-->
+<!--style clock-->
 <style lang="scss">
 body,
 html {
@@ -145,7 +145,7 @@ h3.is-3,
 p.time {
   color: white;
   font-family: "Overpass Mono", monospace;
-  font-size: 48px;
+  font-size: 50px;
 }
 
 h3.is-3:not(:last-child) {
