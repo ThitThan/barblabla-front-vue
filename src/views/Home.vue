@@ -4,32 +4,37 @@
       <ReserveDetail v-model='curR' :curT='curT' @save='hideDialog' />
     </Modal>
 
-    <br>
-    <!-- display current date and time -->
-    <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
-    <span style='font-size: 15px;'>{{ moment().format('dddd Do MMMM YYYY')}}</span>
-    <!-- <span class='time shadow' v-text="currentTime"></span> -->
+    <div style='margin: 24px 0;'>
+      <!-- display current date and time -->
+      <p class="time shadow" style="margin-bottom:0px; margin-top:0px;" v-text="currentTime"></p>
+      <span style='font-size: 15px;'>{{ moment().format('dddd Do MMMM YYYY')}}</span>
+      <!-- <span class='time shadow' v-text="currentTime"></span> -->
+    </div>
 
-    
-    
-    <br>
-    <br>
-    
-    
-
-
-
-    <!-- <span>{{ moment().format('dddd Do MMMM YYYY, ')}}{{moment().format('LTS')}}</span> -->
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <center>
       <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
     </center>
 
+    <!-- หมุนๆ ตอนโหลด -->
+    <div style='margin-top: 24px' v-if='isLoading'>
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <ul class="collection" style='margin-top: 24px' v-if="table.length > 0">
       <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
 
-      <!-- หัวตาราง -->
       <li class="collection-item">
+        <!-- หัวตาราง -->
         <div class="row">
           <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
           <div class="col s2">เลขโต๊ะ</div>
@@ -120,8 +125,7 @@ export default {
     return {
       moment: moment,
       isLoading: false,
-      name: "dsdasd",
-      table: [],
+      // name: "dsdasd",
       message: "Current Time:",
       currentTime: null,
       showColon: true,
@@ -212,6 +216,8 @@ export default {
     },
 
     async data_load() {
+      this.isLoading = true;    // show the loading indicator
+
       const query = new Parse.Query(Tableja);
       query.ascending("TableNumber");
       let tables = await query.find(); // get the list of table
@@ -243,6 +249,7 @@ export default {
       }
 
       this.table = tables;
+      this.isLoading = false;    // hide the loading indicator
     }
   }
 };
