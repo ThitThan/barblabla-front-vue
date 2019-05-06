@@ -3,11 +3,9 @@
   <div class>
     <div class="nav-dark z-depth-1 valign-wrapper">
       <img src="@/assets/refeel-logo.png" style="height: 36px">
-      <a
-        class="waves-effect waves-light btn-small deep-purple darken-2"
-        @click="performLogout()"
-      >ล้อคเอาท์</a>
+      
     </div>
+    <a class="waves-effect waves-light btn-small deep-purple darken-2 right" @click="performLogout()">ล้อคเอาท์</a>
 
     <div class="about container">
       <h3>ข้อมูลการจอง</h3>
@@ -47,6 +45,11 @@ var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
 
 export default {
+  props: {
+    value: {
+      type: Tableja,
+    },
+  },
   components: {
     vueDropdown
   },
@@ -80,11 +83,13 @@ export default {
     this.name = "";
   },
   methods: {
-    table: [],
-    reservation: {
-      // 'tableID': 'reserve'
-    },
+    async data_load() {
+      const query = new Parse.Query(Tableja)
+      query.ascending('TableNumber')   //List the table by Num
+      let tables = await query.find()
 
+      this.table = tables
+    },
     performLogout() {
       Parse.User.logOut().then(() => {
         this.$router.push({ path: "/login" });

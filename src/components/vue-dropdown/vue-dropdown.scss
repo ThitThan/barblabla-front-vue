@@ -37,7 +37,7 @@ $option-padding: 4px 10px;
       padding: $option-padding;
       .text {
         //font-family: "Source Sans Pro", sans-serif;
-        font-size: 20px;
+        font-size: 14px;
       }
       .angle-down {
         display: flex;
@@ -70,7 +70,7 @@ $option-padding: 4px 10px;
       padding: $option-padding;
       height: 35px;
       font-family: "Source Sans Pro", sans-serif;
-      font-size: 18px;
+      font-size: 14px;
     }
     .option:hover {
       color: $default-text-hover-color;
