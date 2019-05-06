@@ -21,9 +21,9 @@
               <div class="input-field col s12">
                 <select v-model="date">
                   <option value="" disabled selected>เลือกวันที่ต้องการจอง</option>
-                  <option :value="day1">{{day1}}</option>
-                  <option :value="day2">{{day2}}</option>
-                  <option :value="day3">{{day3}}</option>
+                  <option :value="day1">{{moment().day(1).format('dddd Do MMMM YYYY')}}</option>
+                  <option :value="day2">{{moment().day(2).format('dddd Do MMMM YYYY')}}</option>
+                  <option :value="day3">{{moment().day(3).format('dddd Do MMMM YYYY')}}</option>
                 </select>
               <label for="date">วันที่ ({{ moment().format('dddd Do MMMM YYYY')}})</label>
               </div>
@@ -69,10 +69,10 @@ export default {
       name:'',
       phone:'',
       //date
-      date:'',
-      day1:'',
-      day2:'',
-      day3:'',
+      date: null,
+      day1: null,
+      day2: null,
+      day3: null,
       //fb
       facebookPSID: 'N/A',
 
@@ -89,9 +89,9 @@ export default {
   },
   methods: {
     setDate(){
-      this.day1 = moment().format('dddd Do MMMM YYYY')
-      this.day2 = moment().day(2).format('dddd Do MMMM YYYY')
-      this.day3 = moment().day(3).format('dddd Do MMMM YYYY')
+      this.day1 = moment().format("MM-DD-YYYY")     
+      this.day2 = moment().day(2).format("MM-DD-YYYY")
+      this.day3 = moment().day(3).format("MM-DD-YYYY")
     },
     
     setupFacebookAPI() {
@@ -127,7 +127,9 @@ export default {
       let amount= parseInt(this.amount)
       let name= this.name
       let phone= this.phone
-      alert(this.date)
+      let date = this.date
+      alert(date)
+      // alert(this.date)
       if (name.length <1) {
         alert('กรุณากรอกข้อมูลให้ครบ')
         return;
@@ -143,7 +145,7 @@ export default {
         return;
       }
 
-      if (this.date == '') {
+      if (date == '') {
         alert('กรุณาเลือกวันที่')
         return;
       }
@@ -157,6 +159,7 @@ export default {
       }
       cus.set('name', name)
       cus.set('phone', phone)
+      cus.set('date',date)
       cus.set('facebookPSID', this.facebookPSID)
       await cus.save()
 
