@@ -145,20 +145,8 @@
         }
         customer.set('name', username)
         customer.set('phone', telno)
-        customer.save()
-          .then(
-            (object) => {
-              console.log('save data success')
-              this.isSaving = false // finished saving
-              // // this.$emit('input', user)
-              // this.$emit('save', user)
-            },
-            (error) => {
-              console.error(error)
-              this.isSaving = false // finished saving
-              // this.$emit('saved', user)
-            }
-          )
+        await customer.save()
+        console.log('customer data updated')
 
         //
         // Reservation
@@ -169,20 +157,29 @@
         }
         reserv.set('customer', customer)
         reserv.set('Table', this.curT)
-        reserv.save()
-          .then(
-            (object) => {
-              console.log('save data success')
-              this.isSaving = false // finished saving
-              // // this.$emit('input', user)
-              this.$emit('save', reserv)
-            },
-            (error) => {
-              console.error(error)
-              this.isSaving = false // finished saving
-            }
-          )
+        await reserv.save()  
+        console.log('reservation data updated')
 
+        //
+        // Table
+        //
+        // let table = this.curT
+        // let reservList = table.get('Reservations')
+        // if (!reservList) {
+        //   reservList = []
+        // }
+        // reservList.push(reserv)
+        // table.set('Reservations', reservList)
+        // await table.save()
+        let table = this.curT
+        let relation = table.relation('Reservations')
+        relation.add(reserv)
+        await table.save()
+        console.log('table data updated')
+        
+        // Everything is saved --> transmit the 'save' event
+        this.isSaving = false
+        this.$emit('save', reserv)
       }
     }
 

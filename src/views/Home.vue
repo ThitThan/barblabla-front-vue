@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home container">
     <Modal v-model="showDialog">
       <ReserveDetail v-model='curR' :curT='curT' @save='hideDialog' />
     </Modal>
@@ -212,9 +212,6 @@ export default {
     },
 
     async data_load() {
-      // reset old data
-      this.curR = null
-
       const query = new Parse.Query(Tableja);
       query.ascending("TableNumber");
       let tables = await query.find(); // get the list of table
@@ -223,17 +220,26 @@ export default {
         let t = tables[i];
         // console.log(t);
 
-        const query = new Parse.Query(Reservation);
-        query.equalTo("Table", t);
-        let r = await query.first();
-
-        if (r !== null && r !== undefined) {
-          let cus = r.get("customer");
-          await cus.fetch();
-          console.log(cus);
-
-          this.reservation[t.id] = r;
+        let reservList = t.relation('Reservations')
+        let r = await reservList.query().select('customer').first()
+        if (r) {
+          this.reservation[t.id] = r
+          await r.get('customer').fetch()
+          console.log(r)
         }
+        
+
+        // const query = new Parse.Query(Reservation);
+        // query.equalTo("Table", t);
+        // let r = await query.first();
+
+        // if (r !== null && r !== undefined) {
+        //   let cus = r.get("customer");
+        //   await cus.fetch();
+        //   console.log(cus);
+
+        //   this.reservation[t.id] = r;
+        // }
       }
 
       this.table = tables;
