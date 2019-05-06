@@ -13,7 +13,7 @@
     </div>
       <center>
     <ul class="collection" >
-        <li class="collection-item flex flex-column flex-left" style='padding: 17px 26px;' v-for="c in customer" v-bind:key='c.id'>
+        <li class="collection-item flex flex-column " style='padding: 17px 26px;' v-for="c in customer" v-bind:key='c.id'>
             <div style='text-align: left; font-size: 22px'>
                 <i class="material-icons">person</i>
                 {{ c.get("name") }} 
