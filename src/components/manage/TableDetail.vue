@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class='content from flex flex-column flex-left' v-else>
+        <div class='content from flex flex-column' v-else>
             <h4 style='margin-bottom: 32px'>
                 {{ (table && table.id) ? 'แก้ไขโต๊ะ':'เพิ่มโต๊ะ'}}
             </h4>

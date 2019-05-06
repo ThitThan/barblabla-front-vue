@@ -13,44 +13,54 @@
     
     <ul class="collection">
 
-    <div class="row">
-      <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-      <div class="col s3">เลขโต๊ะ</div>
-      <div class="col s1 left">โซน</div>
-      <div class="col s4">จำนวนที่</div>
-      <div class="col s3">สถานะ</div>
-    </div>
+      <div class="row valign-wrapper table-header">
+        <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
+        <div class="col s3">เลขโต๊ะ</div>
+        <div class="col s5 left">โซน</div>
+        <div class="col s4">จำนวนที่</div>
+        <!-- <div class="col s3">สถานะ</div> -->
+      </div>
 
-    <li class="collection-item row waves-effect waves-light" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
+      <li
+        class="collection-item row valign-wrapper waves-effect waves-light" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
 
-        <!-- เลขโต๊ะ -->         
-        <div class="col s3">{{t.get('TableNumber')}}</div>
+          <!-- เลขโต๊ะ -->   
+          <div class="col s3">{{t.get('TableNumber')}}</div>
+          
+          <!--Zone -->
+          <div class='col s5 left'>
+            <div class='i-badge i-badge-pill i-badge-warning' v-if="t.get('Zone')">
+              INDOOR
+            </div>
+            <div class='i-badge i-badge-pill i-badge-warning' v-else>
+              OUTDOOR
+            </div>
+          </div>
+
+          <!-- จำนวนที่ -->
+          <div class='col s4'>{{ t.get('Seat') }} คน</div>
+      </li>
+
+      <!-- <li class="collection-item table-row flex flex-column flex-left valign-wrapper waves-effect waves-light" v-for="t in table" v-bind:key='t.id' @click='showViewDialog(t)'>
+
+        เลขโต๊ะ         
+        <div style='font-size: 24px; margin-bottom: 4px'>โต๊ะ {{t.get('TableNumber')}}</div>
         
-        <!--Zone -->
-        <div class='col s1 valign-wrapper'>
-          <div class='i-badge i-badge-pill i-badge-warning' v-if="t.get('Zone')">
-            INDOOR
+        <div class='flex'>
+          Zone
+          <div class='col subtitle' style='text-align: center; margin-right: 8px'>
+            <div class='i-badge i-badge-pill i-badge-warning' v-if="t.get('Zone')">
+              INDOOR
+            </div>
+            <div class='i-badge i-badge-pill i-badge-warning' v-else>
+              OUTDOOR
+            </div>
           </div>
-          <div class='i-badge i-badge-pill i-badge-warning valign-wrapper' v-else>
-            OUTDOOR
-          </div>
+
+          จำนวนที่
+          <div class='col subtitle'>{{t.get('Seat')}} ที่นั่ง</div>
         </div>
-
-        <!-- จำนวนที่ -->
-        <div class='col s4'>{{t.get('Seat')}}</div>
-
-        <!-- ป้าย ว่าง/ไม่ว่าง -->
-        <div class='col s3'>
-          <div class=' i-badge i-badge-pill i-badge-warning valign-wrapper' v-if = "t.get('Reserve') == false" >
-            ว่าง
-          </div>
-          <div class=' i-badge i-badge-pill i-badge-dark valign-wrapper' v-else> 
-            ไม่ว่าง
-          </div>
-        </div>       
-        
-        
-    </li>
+      </li> -->
 
     </ul>
 
@@ -163,4 +173,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.table-header {
+  height: 32px;
+  margin-bottom: 0;
+}
+.table-row {
+  padding: 16px 16px;
+}
+.subtitle {
+  font-size: 15px;
+}
+</style>
+
 

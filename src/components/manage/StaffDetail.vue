@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class='content form flex flex-column flex-left' v-else>
+    <div class='content form flex flex-column' v-else>
       <h4 style='margin-bottom: 32px'>
         <!-- {{ title }} -->
         {{ (user && user.id) ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }}

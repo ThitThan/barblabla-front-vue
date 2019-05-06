@@ -18,9 +18,13 @@
           style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; width:70%;
           text-align: left;"
         >
-          <button class="button dayButton">วันนี้</button>
+        <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
+          :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
+          {{ day }}
+        </a>
+          <!-- <button class="button dayButton">วันนี้</button>
           <button class="button dayButton">พรุ่งนี้</button>
-          <button class="button dayButton">8 พฤษภาคม</button>
+          <button class="button dayButton">8 พฤษภาคม</button> -->
           <vue-dropdown style="display: inline-block; margin-top: 4px; margin-left: 2px; right: 0px; float:right;" :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
         </div>
       </div>
@@ -101,16 +105,19 @@
   cursor: pointer;
 }
 .button:hover {
-  background-color: white;
-  color: black;
-}
-.button:active {
-  background-color: black;
+  background-color: #382741;
   color: white;
 }
-.button:visited{
-  background-color: black;
+.button:active {
+  background-color: #382741;
+  color: white;
 }
+.selected {
+  background-color: #382741;
+}
+/* .button:visited{
+  background-color: #382741;
+} */
 
 .dayButton {
   border-radius: 30px;
@@ -211,7 +218,15 @@ export default {
       //drive
       showDialog: false,
       curR: null,
-      curT: null
+      curT: null,
+
+      // date
+      days: [
+        'วันนี้',
+        'พรุ่งนี้',
+        '..'
+      ],
+      selectedDay: 0,
     };
   },
   created() {
