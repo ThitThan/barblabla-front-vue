@@ -89,9 +89,9 @@ export default {
   },
   methods: {
     setDate(){
-      this.day1 = moment().format("MM-DD-YYYY")     
-      this.day2 = moment().day(2).format("MM-DD-YYYY")
-      this.day3 = moment().day(3).format("MM-DD-YYYY")
+      this.day1 = moment().toDate()  
+      this.day2 = moment().day(2).toDate()  
+      this.day3 = moment().day(3).toDate()  
     },
     
     setupFacebookAPI() {
@@ -128,8 +128,9 @@ export default {
       let name= this.name
       let phone= this.phone
       let date = this.date
-      alert(date)
-      // alert(this.date)
+      // alert(date)
+      // alert(typeof date)
+      
       if (name.length <1) {
         alert('กรุณากรอกข้อมูลให้ครบ')
         return;

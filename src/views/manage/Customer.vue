@@ -11,22 +11,21 @@
     <div class="row">
        
     </div>
-      
+      <center>
     <ul class="collection" >
-        <li class="collection-item row" v-for="c in customer" v-bind:key='c.id'>
-            <div class="col s5"><i class="material-icons">person</i>{{ c.get("name") }}
-            <div class="col s12"><i class="material-icons">phone</i> {{ c.get("phone") }} 
+        <li class="collection-item flex flex-column " style='padding: 17px 26px;' v-for="c in customer" v-bind:key='c.id'>
+            <div style='text-align: left; font-size: 22px'>
+                <i class="material-icons">person</i>
+                {{ c.get("name") }} 
             </div>
+            <div style='text-align: left;'>
+                <i class="material-icons">phone</i> 
+                {{ c.get("phone") }} 
             </div>
-          <!-- <div class="col s3">
-             {{ c.get("name") }} 
-             </div>
-             <div class="col s2">
-            {{ c.get("phone") }} 
-             </div> -->
        
         </li>
     </ul>
+      </center>
   </div>
 </template>
 
