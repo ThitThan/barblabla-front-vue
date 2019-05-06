@@ -1,7 +1,7 @@
 
 <template>
   <div class="about container">
-    <h3>This is the test page</h3>
+    <h3>This is the staff page</h3>
 
     <input placeholder="ชื่อ" v-model='name'>
 
@@ -17,7 +17,7 @@ export default {
     }
   },
   created() {
-    this.name = '5555'
+    this.name = '555666665'
   },
   methods: {
     hello() {
