@@ -40,7 +40,7 @@
         <div class="row">
           <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
           <div class="col s2">เลขโต๊ะ</div>
-          <div class="col s3">รายชื่อลูกค้า</div>
+          <div class="col m3">รายชื่อลูกค้า</div>
           <div class="col s3">สถานะ</div>
           <div class="col s2">โซนการนั่ง</div>
           <div class="col s2">-</div>
@@ -53,7 +53,7 @@
         @click='displayDialog(t)'>
           <div v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
           <div class="col s2">{{ t.get('TableNumber') }}</div>
-          <div class="col s3">
+          <div class="col m3">
             <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('name') }}</div>
             <div v-else>-</div>
           </div>

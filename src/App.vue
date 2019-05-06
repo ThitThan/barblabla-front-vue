@@ -42,6 +42,11 @@ export default {
       routesWithNoNav: [ 
         'login',
         'customers-reservation',
+        'staff-home',
+      ],
+
+      staffRoutes: [
+        'staff-home',
       ],
 
       publicRoutes: [
@@ -54,15 +59,35 @@ export default {
     $route (to, from){
       this.currentNavPath = to.name.toString()
 
-      let user = Parse.User.current()
-      if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
-        this.$router.push('/login')
-      }
+      this.checkUserPermission()
     }
   },
   created() {
-
-  }
+    this.checkUserPermission()
+  },
+  methods: {
+    async checkUserPermission() {
+      if (this.currentNavPath) {
+        let user = Parse.User.current()
+        // console.log(user)
+        
+        // check login
+        console.log(this.currentNavPath)
+        if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
+            this.$router.push('/login')
+        }
+        else if (!this.publicRoutes.includes(this.currentNavPath)) {
+          await user.fetch()
+          let isAdmin = user.get('isAdmin')
+          // console.log(isAdmin)
+          // check admin
+          if (isAdmin !== true && !this.staffRoutes.includes(this.currentNavPath)) {
+            this.$router.push('/staff/home')
+          }
+        }
+      }
+    }
+  },
 }
 </script>
 
@@ -162,6 +187,7 @@ label {
 }
 .modal {
   background-color: #1A1B20;
+  overflow: hidden;
   // background-color: #231A2B;
   // background-color: #231A2C;
 }

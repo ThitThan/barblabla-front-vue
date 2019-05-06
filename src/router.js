@@ -48,6 +48,12 @@ export default new Router({
     },
 
     {
+      path: '/staff/home',
+      name: 'staff-home',
+      component: () => import('@/views/staff/Home.vue')
+    },
+
+    {
       path: '/customers/reservation',
       name: 'customers-reservation',
       component: () => import('@/views/customers/Reservation.vue')
