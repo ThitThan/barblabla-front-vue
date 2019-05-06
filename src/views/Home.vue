@@ -1,7 +1,7 @@
 <template>
   <div class="home container">
     <Modal v-model="showDialog">
-      <ReserveDetail v-model="curR" :curT="curT" @save="hideDialog"/>
+      <ReserveDetail v-model="curR" :curT="curT" :reserveDate='reserveDate' @save="hideDialog"/>
     </Modal>
 
     <div style="margin: 24px 0;">
@@ -16,12 +16,12 @@
       <div style="margin: 24px 0px; height: 35px;">
         <div
           style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; width:70%;
-          text-align: left;"
-        >
+          text-align: left;">
         <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
           :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
           {{ day }}
         </a>
+        <!-- {{ reserveDate }} -->
           <!-- <button class="button dayButton">วันนี้</button>
           <button class="button dayButton">พรุ่งนี้</button>
           <button class="button dayButton">8 พฤษภาคม</button> -->
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <ul class="collection" style="margin-top: 24px" v-if="table.length > 0">
+    <ul class="collection" style="margin-top: 24px" v-else>
       <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
 
       <li class="collection-item">
@@ -226,11 +226,19 @@ export default {
         'พรุ่งนี้',
         '..'
       ],
-      selectedDay: 0,
+      selectedDay: -1,
+      reserveDate: null,
     };
+  },
+  watch: {
+    selectedDay(newD) {
+      this.reserveDate = moment().day(newD + 1).endOf('day').toDate()
+      this.data_load()
+    }
   },
   created() {
     this.name = "5555";
+    this.selectedDay = 0;
     this.data_load();
     // this.currentTime = moment().format("LTS");
     let timeFormat = this.getTimeFormat();
@@ -284,6 +292,7 @@ export default {
     },
 
     async data_load() {
+      this.reservation = []
       this.isLoading = true; // show the loading indicator
 
       const query = new Parse.Query(Tableja);
@@ -293,10 +302,16 @@ export default {
       for (var i = 0; i < tables.length; i++) {
         let t = tables[i];
         // console.log(t);
-
+          // query.equalTo('merchant', Parse.User.current().get('merchantObj'))   // WHERE merchant = us
+          // query.lessThanOrEqualTo('createdAt', moment().subtract(val, 'day').endOf('day').toDate())
+          // query.greaterThanOrEqualTo('createdAt', moment().subtract(val, 'day').startOf('day').toDate())
         let reservList = t.relation("Reservations");
+        // console.log(reservList)
+        let date = moment().day(this.selectedDay + 1)
         let r = await reservList
           .query()
+          .lessThanOrEqualTo('date', date.endOf('day').toDate())
+          .greaterThanOrEqualTo('date', date.startOf('day').toDate())
           .select("customer")
           .first();
         if (r) {

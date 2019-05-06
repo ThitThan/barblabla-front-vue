@@ -11,9 +11,7 @@
       <h3>ข้อมูลการจอง</h3>
 
       <div style="margin: 24px 0px; height: 35px;">
-        <center
-          style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px;"
-        >
+        <center style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px;">
           <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
         </center>
       </div>
@@ -49,6 +47,7 @@
 </template>
 
 <script>
+import ReserveDetail from "@/components/manage/ReserveDetail";
 import vueDropdown from "@/components/vue-dropdown/vue-dropdown";
 import Parse from "parse";
 var Tableja = Parse.Object.extend("Tableja");
@@ -61,7 +60,8 @@ export default {
     }
   },
   components: {
-    vueDropdown
+    vueDropdown,
+    ReserveDetail
   },
   data() {
     return {
@@ -69,7 +69,9 @@ export default {
       displayAvailable: true,
       displayReserved: true,
       table: [],
-      reserveList: {},
+      reserveList: {
+        
+      },
       config: {
         options: [
           {
@@ -96,6 +98,28 @@ export default {
     this.data_load();
   },
   methods: {
+    setNewSelectedOption(selectedOption) {
+      this.config.placeholder = selectedOption.value;
+      switch (selectedOption.value) {
+        case "แสดงทั้งหมด":
+          console.log("1");
+          this.displayAvailable = true;
+          this.displayReserved = true;
+          break;
+        case "ว่าง":
+          this.displayAvailable = true;
+          this.displayReserved = false;
+          console.log("2");
+          break;
+        case "จองแล้ว":
+          console.log("3");
+          this.displayAvailable = false;
+          this.displayReserved = true;
+          break;
+      }
+    },
+    
+    
     async data_load() {
       // console.log('start loaind')
       const query = new Parse.Query(Tableja);
