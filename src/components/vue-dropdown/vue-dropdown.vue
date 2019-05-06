@@ -38,7 +38,7 @@ export default {
       backgroundColor: "#48494d",
       backgroundExpandedColor: "#48494d",
       hoverBackgroundColor: "#000000",
-      border: "1px solid  #48494d",
+      // border: "0px solid  #48494d",
       borderRadius: 0,
       textColor: "#fff",
       isExpanded: false

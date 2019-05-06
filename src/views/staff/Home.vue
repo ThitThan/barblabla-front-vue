@@ -1,6 +1,7 @@
 
 <template>
-  <div class>
+  <div>
+    
     <div class="nav-dark z-depth-1 valign-wrapper">
       <img src="@/assets/refeel-logo.png" style="height: 36px">
       
@@ -23,16 +24,29 @@
       <!-- ตาราง -->
        <br>
 
-      <ul class="collection" style="margin-top: 14px; font-size: 19px">
-        <div class="collection-item">โต๊ะ </div>
+      <ul class="collection" style="margin-top: 14px; font-size: 19px" v-for="t in table" v-bind:key='t.id'>
+        <div class="collection-item">โต๊ะ {{t.get('TableNumber')}}</div>
+        <!-- table -->
         <div class="row">
-          <ul class="col s6" style="margin-top: 10px; font-size: 23px">
-            <div id class="i-badge i-badge-pill i-badge-warning valign-wrapper">สถานะโต๊ะ</div>
-          </ul>
-          <ul class="col s6" style="margin-top: 10px; font-size: 18px">
-            <div id class="">-</div>
-          </ul>
+          <div class="col s6" style="margin-top: 10px; font-size: 23px">
+            <div class='i-badge i-badge-pill i-badge-warning' v-if="reserveList[t.id]">
+              จองแล้ว
+            </div>
+            <div class='i-badge i-badge-pill i-badge-warning' v-else>
+              ว่าง
+            </div>
+          </div>
+          <div class="col s6" style="margin-top: 10px; font-size: 18px" >
+            <!-- <div class="col s3">{{t.get('TableNumber')}}</div> -->
+            <div class="col s3" v-if='reserveList[t.id]'>
+              {{reserveList[t.id].get('customer').get('name')}}
+            </div>
+            <div v-else>
+              -
+            </div>
+          </div>
         </div>
+        <!-- table -->
       </ul>
     </div>
   </div>
@@ -58,6 +72,8 @@ export default {
       name: "...",
       displayAvailable: true,
       displayReserved: true,
+      table: [],
+      reserveList: {},
       config: {
         options: [
           {
@@ -81,12 +97,29 @@ export default {
   },
   created() {
     this.name = "";
+    this.data_load();
   },
   methods: {
     async data_load() {
+      // console.log('start loaind')
       const query = new Parse.Query(Tableja)
       query.ascending('TableNumber')   //List the table by Num
       let tables = await query.find()
+
+      for (var i = 0; i < tables.length; i++) {
+        let t = tables[i]
+        // console.log(t)
+
+        let reserv = await t.relation('Reservations').query().first()
+        // console.log(t.get('TableNumber') + ': ' + reserv.length)
+
+        if (reserv) {
+          await reserv.get('customer').fetch();
+          this.reserveList[t.id] = reserv
+        }
+      }
+
+      console.log(this.reserveList)
 
       this.table = tables
     },
@@ -97,13 +130,6 @@ export default {
     },
     hello() {
       alert("Hello!");
-    },
-    async data_load() {
-      const query = new Parse.Query(Tableja)
-      query.ascending('TableNumber')   //List the table by Num
-      let tables = await query.find()
-
-      this.table = tables
     },
     
     showAddDialog() {
