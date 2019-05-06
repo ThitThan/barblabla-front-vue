@@ -50,7 +50,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 // PARSE
 import Parse from 'parse'
-const Username = Parse.Object.extend("Username")
+// const Username = Parse.Object.extend("Username")
 
 // Materialize
 import '../../node_modules/materialize-css/dist/js/materialize.js'
@@ -79,6 +79,12 @@ export default ({
         {
           path : '/manage/staffs',
           name : 'จัดการสตาฟ',
+       
+        },
+         {
+          path : '/manage/customer',
+          name : 'จัดการลูกค้า',
+          
         },
         // {
         //   path : '/test',
