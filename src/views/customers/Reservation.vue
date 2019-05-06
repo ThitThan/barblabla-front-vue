@@ -18,6 +18,17 @@
             </div>
           </div>
           <div class="row">
+              <div class="input-field col s12">
+                <select v-model="date">
+                  <option value="" disabled selected>เลือกวันที่ต้องการจอง</option>
+                  <option :value="day1">{{day1}}</option>
+                  <option :value="day2">{{day2}}</option>
+                  <option :value="day3">{{day3}}</option>
+                </select>
+              <label for="date">วันที่ ({{ moment().format('dddd Do MMMM YYYY')}})</label>
+              </div>
+          </div>
+          <div class="row">
             <label for="amount">จำนวน(คน)</label>
             <div class="input-field col s12">
               <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
@@ -43,21 +54,46 @@
 import Parse from 'parse'
 var ReservationReq = Parse.Object.extend('ReservationReq')
 var Customer = Parse.Object.extend('Customer')
+var moment = require("moment");
 export default {
   name: 'reservation',
   data(){
     return {
+      moment: moment,
+      isLoading: false,
+      message: "Current Time:",
+      currentTime: null,
+      showColon: true,
+
       amount: '',
       name:'',
       phone:'',
-
+      //date
+      date:'',
+      day1:'',
+      day2:'',
+      day3:'',
+      //fb
       facebookPSID: 'N/A',
+
     }
   },
   created() {
     this.setupFacebookAPI()
+    this.setDate()    
+  },
+  mounted() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, []);
+    
   },
   methods: {
+    setDate(){
+      this.day1 = moment().format('dddd Do MMMM YYYY')
+      this.day2 = moment().day(2).format('dddd Do MMMM YYYY')
+      this.day3 = moment().day(3).format('dddd Do MMMM YYYY')
+    },
+    
     setupFacebookAPI() {
       (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -91,7 +127,7 @@ export default {
       let amount= parseInt(this.amount)
       let name= this.name
       let phone= this.phone
-
+      alert(this.date)
       if (name.length <1) {
         alert('กรุณากรอกข้อมูลให้ครบ')
         return;
@@ -104,6 +140,11 @@ export default {
       
       if (phone.length <9) {
         alert('กรุณาระบุหมายเลขโทรศัพท์ให้ถูกต้อง')
+        return;
+      }
+
+      if (this.date == '') {
+        alert('กรุณาเลือกวันที่')
         return;
       }
       var query = new Parse.Query(Customer)
