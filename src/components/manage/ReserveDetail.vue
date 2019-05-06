@@ -29,20 +29,20 @@
         <!-- TableNumber -->
 
         <div class>
-          <label for="username">หมายเลขโต๊ะ</label>
+          <label for="" style="font-size: 18px">หมายเลขโต๊ะ</label>
           <h4 style="margin-bottom: 32px">{{ curT.get('TableNumber') }}</h4>
         </div>
 
         <div class>
           <div class="row">
             <div class="col s6">
-              <p style="margin-bottom: 32px">
+              <p style="margin-bottom: 32px; font-size: 18px">
                 โซน:
                 {{ curT.get('Zone') }}
               </p>
             </div>
             <div class="col s6">
-              <p style="margin-bottom: 32px">
+              <p style="margin-bottom: 32px; font-size: 18px">
                 จำนวนที่นั่ง:
                 {{ curT.get('Seat') }}
               </p>
@@ -66,10 +66,8 @@
         </div>
       </label>
 
-      <hr>
-
       <!-- reservation -->
-      <label v-if="curR">{{ curR }}</label>
+      <!-- <label v-if="curR">{{ curR }}</label> -->
     </div>
   </div>
 </template>
