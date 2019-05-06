@@ -1,27 +1,24 @@
 
 <template>
-  <div class="about container">
+  <div class="container">
     <h3>จัดการลูกค้า</h3>
 
-    <input placeholder="รายซื่อลูกค้า" v-model='name'>
+    <!-- <input placeholder="รายซื่อลูกค้า" v-model='name'> -->
 
-    <div>{{ name }}</div>
+    <!-- <div>{{ name }}</div> -->
     <div class="row">
-      <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
-      <div class="col s3">ชื่อลูกค้า</div>
-      <div class="col s1 left"></div>
-      <div class="col s4">เบอร์โทร</div>
+      <div class="col s6">ชื่อลูกค้า</div>
+      <div class="col s6">เบอร์โทร</div>
        
     </div>
+      
     <ul class="collection" >
-        <li class="collection-item" v-for="c in customer" v-bind:key='c.id'>
-            <div>
-                {{ c.get("name") }}
-            </div>
+        <li class="collection-item row" v-for="c in customer" v-bind:key='c.id'>
+            <div class="col s6"> {{ c.get("name") }} </div>
 
-         <div> 
-               {{ c.get("phone") }}
-               </div>
+
+             <div class="col s6">{{ c.get("phone") }}</div>
+            
         </li>
     </ul>
   </div>
