@@ -63,7 +63,14 @@
             </div>
         </div>
 
-
+        <!-- delete button-->
+        <div class='flex' style='padding-top: -20px; padding-right: 0px; justify-content: flex-end'>
+            <button :class="'btn-floating btn-small waves-effect waves-light red darken-2' + (isDeleting ? 'btn-disabled':'')" align='left'
+            @click='deleteTableData()'>
+            <i class = "material-icons left">delete</i>
+            ลบโต๊ะ
+            </button>
+        </div>    
 
         
     </div>
@@ -140,7 +147,25 @@ saveTableData(){
         }        
     )
   },
-},
+
+  deleteTableData(){
+      this.table.destroy()
+      .then(
+          (object) => {
+              console.log('remove this table success')
+              this.isDeleting = false // finished saving
+              this.user = object
+              this.$emit('destroy')
+          },
+          (error) => {
+              console.error(error)
+              this.isDeleting = false // finished saving
+
+              alert('เกิดข้อผิดพลาด โปรดลองใหม่ในภายหลัง')
+          }
+      )
+  },
+}, // End method
   
     
 }
