@@ -10,10 +10,12 @@
       <span style='font-size: 15px;'>{{ moment().format('dddd Do MMMM YYYY')}}</span>
       <!-- <span class='time shadow' v-text="currentTime"></span> -->
     </div>
-
-    <center>
-      <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
-    </center>
+    
+    <div style="margin: 24px 0px; height: 35px;">
+      <center style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px;">
+        <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
+      </center>
+    </div>
 
     <!-- หมุนๆ ตอนโหลด -->
     <div style='margin-top: 24px' v-if='isLoading'>
