@@ -16,8 +16,7 @@
       <div style="margin: 24px 0px; height: 35px;">
         <div
           style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; width:70%;
-          text-align: left;"
-        >
+          text-align: left;">
         <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
           :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
           {{ day }}
