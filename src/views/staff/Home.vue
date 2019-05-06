@@ -1,17 +1,14 @@
 
 <template>
   <div>
-    
-    <div class="nav-dark z-depth-1 valign-wrapper">
+    <div class="nav-black z-depth-1 valign-wrapper">
       <img src="@/assets/refeel-logo.png" style="height: 36px">
-      
+      <div class="right-set"><a class="waves-effect waves-light btn-small deep-purple darken-2" @click="performLogout()">ล้อคเอาท์</a></div>
     </div>
-    <a class="waves-effect waves-light btn-small deep-purple darken-2 right" @click="performLogout()">ล้อคเอาท์</a>
+
 
     <div class="about container">
       <h3>ข้อมูลการจอง</h3>
-
-     
 
       <div style="margin: 24px 0px; height: 35px;">
         <center
@@ -22,28 +19,27 @@
       </div>
 
       <!-- ตาราง -->
-       <br>
+      <br>
 
-      <ul class="collection" style="margin-top: 14px; font-size: 19px" v-for="t in table" v-bind:key='t.id'>
+      <ul
+        class="collection"
+        style="margin-top: 14px; font-size: 19px"
+        v-for="t in table"
+        v-bind:key="t.id"
+      >
         <div class="collection-item">โต๊ะ {{t.get('TableNumber')}}</div>
         <!-- table -->
         <div class="row">
           <div class="col s6" style="margin-top: 10px; font-size: 23px">
-            <div class='i-badge i-badge-pill i-badge-warning' v-if="reserveList[t.id]">
-              จองแล้ว
-            </div>
-            <div class='i-badge i-badge-pill i-badge-warning' v-else>
-              ว่าง
-            </div>
+            <div class="i-badge i-badge-pill i-badge-warning" v-if="reserveList[t.id]">จองแล้ว</div>
+            <div class="i-badge i-badge-pill i-badge-green" v-else>ว่าง</div>
           </div>
-          <div class="col s6" style="margin-top: 10px; font-size: 18px" >
+          <div class="col s6" style="margin-top: 10px; font-size: 18px">
             <!-- <div class="col s3">{{t.get('TableNumber')}}</div> -->
-            <div class="col s3" v-if='reserveList[t.id]'>
-              {{reserveList[t.id].get('customer').get('name')}}
-            </div>
-            <div v-else>
-              -
-            </div>
+            <div
+              class=""
+              v-if="reserveList[t.id]">{{reserveList[t.id].get('customer').get('name')}}</div>
+            <div v-else>-</div>
           </div>
         </div>
         <!-- table -->
@@ -61,8 +57,8 @@ var Reservation = Parse.Object.extend("Reservation");
 export default {
   props: {
     value: {
-      type: Tableja,
-    },
+      type: Tableja
+    }
   },
   components: {
     vueDropdown
@@ -102,26 +98,29 @@ export default {
   methods: {
     async data_load() {
       // console.log('start loaind')
-      const query = new Parse.Query(Tableja)
-      query.ascending('TableNumber')   //List the table by Num
-      let tables = await query.find()
+      const query = new Parse.Query(Tableja);
+      query.ascending("TableNumber"); //List the table by Num
+      let tables = await query.find();
 
       for (var i = 0; i < tables.length; i++) {
-        let t = tables[i]
+        let t = tables[i];
         // console.log(t)
 
-        let reserv = await t.relation('Reservations').query().first()
+        let reserv = await t
+          .relation("Reservations")
+          .query()
+          .first();
         // console.log(t.get('TableNumber') + ': ' + reserv.length)
 
         if (reserv) {
-          await reserv.get('customer').fetch();
-          this.reserveList[t.id] = reserv
+          await reserv.get("customer").fetch();
+          this.reserveList[t.id] = reserv;
         }
       }
 
-      console.log(this.reserveList)
+      console.log(this.reserveList);
 
-      this.table = tables
+      this.table = tables;
     },
     performLogout() {
       Parse.User.logOut().then(() => {
@@ -131,24 +130,23 @@ export default {
     hello() {
       alert("Hello!");
     },
-    
+
     showAddDialog() {
-      this.selectedTable = new Tableja()
-      this.showDialog = true
+      this.selectedTable = new Tableja();
+      this.showDialog = true;
     },
     showViewDialog(tables) {
-      this.selectedTable = tables
-      this.showDialog = true
-      console.log(tables)
+      this.selectedTable = tables;
+      this.showDialog = true;
+      console.log(tables);
     },
 
     closeDetailDialog() {
-      this.showDialog = false
+      this.showDialog = false;
       // this.selectedUser = null
 
-      this.data_load()  // update the user list
-    },
-    
+      this.data_load(); // update the user list
+    }
   }
 };
 </script>
@@ -157,5 +155,33 @@ export default {
 .element-item {
   margin-bottom: 10px;
   margin-top: 10px;
+}
+
+.nav-black {
+  background: #1F1623;
+  /* background: #1B0F27; */
+  padding: 0px 12px;
+
+  min-height: 48px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  z-index: 999;
+}
+
+.right-set { 
+margin-left: auto;
+
+}
+.i-badge-danger {
+  border: 0px;
+  color: white;
+  background-color: rgb(141, 76, 1);
+}
+
+.i-badge-green {
+  color: white;
+  background-color: rgb(35, 99, 35);
 }
 </style>
