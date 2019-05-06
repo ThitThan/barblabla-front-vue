@@ -42,6 +42,11 @@ export default {
       routesWithNoNav: [ 
         'login',
         'customers-reservation',
+        'staff-home',
+      ],
+
+      staffRoutes: [
+        'staff-home',
       ],
 
       publicRoutes: [
@@ -54,15 +59,34 @@ export default {
     $route (to, from){
       this.currentNavPath = to.name.toString()
 
-      let user = Parse.User.current()
-      if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
-        this.$router.push('/login')
-      }
+      this.checkUserPermission()
     }
   },
   created() {
-
-  }
+    this.checkUserPermission()
+  },
+  methods: {
+    async checkUserPermission() {
+      let user = Parse.User.current()
+      // console.log(user)
+      
+      // check login
+      if (user === null) {
+        if (!this.publicRoutes.includes(this.currentNavPath)) {
+          this.$router.push('/login')
+        }
+      }
+      else {
+        await user.fetch()
+        let isAdmin = user.get('isAdmin')
+        // console.log(isAdmin)
+        // check admin
+        if (isAdmin !== true && !this.staffRoutes.includes(this.currentNavPath)) {
+          this.$router.push('/staff/home')
+        }
+      }
+    }
+  },
 }
 </script>
 
