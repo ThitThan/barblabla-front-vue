@@ -263,13 +263,13 @@ i.left {
 // Flex
 // 
 .flex {
-  display: flex;
+  display: flex!important;
 }
 .flex-column {
   flex-direction: column;
 }
 .flex-left {
-  align-items: left;
+  align-items: flex-start;
 }
 
 //
