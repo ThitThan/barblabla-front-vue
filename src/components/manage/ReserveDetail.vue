@@ -33,7 +33,8 @@
           <h4 style="margin-bottom: 32px">{{ curT.get('TableNumber') }}</h4>
         </div>
 
-        <div class>
+        {{ reserveDate }}
+        <div>
           <div class="row">
             <div class="col s6">
               <p style="margin-bottom: 32px; font-size: 18px">
@@ -85,6 +86,7 @@
         type: Reservation,
       },
       curT: {},
+      reserveDate: {},
     },
     data() {
       return {
@@ -155,6 +157,7 @@
         }
         reserv.set('customer', customer)
         reserv.set('Table', this.curT)
+        reserv.set('date',this.reserveDate)
         await reserv.save()  
         console.log('reservation data updated')
 
