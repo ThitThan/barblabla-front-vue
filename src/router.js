@@ -42,6 +42,12 @@ export default new Router({
     },
 
     {
+      path: '/manage/customer',
+      name: 'manage-customer',
+      component: () => import('@/views/manage/Customer.vue')
+    },
+
+    {
       path: '/customers/reservation',
       name: 'customers-reservation',
       component: () => import('@/views/customers/Reservation.vue')
