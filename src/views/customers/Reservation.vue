@@ -146,10 +146,11 @@ export default {
         return;
       }
 
-      if (date == '') {
+      if (!date) {
         alert('กรุณาเลือกวันที่')
         return;
       }
+      
       var query = new Parse.Query(Customer)
       query.equalTo("phone", phone)
       var cus = await query.first()
@@ -160,7 +161,6 @@ export default {
       }
       cus.set('name', name)
       cus.set('phone', phone)
-      cus.set('date',date)
       cus.set('facebookPSID', this.facebookPSID)
       await cus.save()
 
@@ -168,6 +168,7 @@ export default {
       var req = new ReservationReq()
       req.set('amount', amount)
       req.set('customer', cus)
+      req.set('date',date)
       await req.save()
 
       console.log('done!!')
