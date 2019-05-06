@@ -3,14 +3,16 @@
   <div class>
     <div class="nav-dark z-depth-1 valign-wrapper">
       <img src="@/assets/refeel-logo.png" style="height: 36px">
-          <a
-      class="waves-effect waves-light btn-small deep-purple darken-2" 
-      @click="performLogout()"
-    >ล้อคเอาท์</a>
+      <a
+        class="waves-effect waves-light btn-small deep-purple darken-2"
+        @click="performLogout()"
+      >ล้อคเอาท์</a>
     </div>
 
     <div class="about container">
-      <h3>This is the staff page</h3>
+      <h3>ข้อมูลการจอง</h3>
+
+      <hr>
 
       <div style="margin: 24px 0px; height: 35px;">
         <center
@@ -20,17 +22,26 @@
         </center>
       </div>
 
-      <input placeholder="ชื่อ" v-model="name">
-
-      <div>{{ name }}</div>
+      <ul class="collection" style="margin-top: 24px">
+        <div class="collection-item">
+          เลขโต๊ะ
+          </div>
+        <ul class="element-item" style>
+          <div id class="i-badge i-badge-pill i-badge-warning valign-wrapper">
+            ผู้ดูแลระบบ
+            </div>
+        </ul>
+      </ul>
     </div>
-
   </div>
 </template>
 
 <script>
 import vueDropdown from "@/components/vue-dropdown/vue-dropdown";
 import Parse from "parse";
+var Tableja = Parse.Object.extend("Tableja");
+var Reservation = Parse.Object.extend("Reservation");
+
 export default {
   components: {
     vueDropdown
@@ -62,7 +73,7 @@ export default {
     };
   },
   created() {
-    this.name = "5555";
+    this.name = "";
   },
   methods: {
     performLogout() {
@@ -76,3 +87,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.element-item {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+</style>
