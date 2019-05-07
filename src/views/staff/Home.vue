@@ -90,11 +90,14 @@ export default {
         borderRadius: "1em",
         border: "1px solid gray",
         width: 300
-      }
+      },
+
+      reserveDate: null
     };
   },
   created() {
     this.name = "";
+    this.reserveDate = moment().now()
     this.data_load();
   },
   methods: {
@@ -121,26 +124,30 @@ export default {
     
     
     async data_load() {
-      // console.log('start loaind')
+      this.reservation = {}
+      this.isLoading = true; // show the loading indicator
+
+      // table
       const query = new Parse.Query(Tableja);
-      query.ascending("TableNumber"); //List the table by Num
-      let tables = await query.find();
+      query.ascending("TableNumber");
+      let tables = await query.find(); // get the list of table
 
-      for (var i = 0; i < tables.length; i++) {
-        let t = tables[i];
-        // console.log(t)
+      // reservations
+      let date = this.reserveDate
+      const rQuery = new Parse.Query(Reservation)
+      .lessThanOrEqualTo('date', date.endOf('day').toDate())
+      .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+      let reservList = await rQuery.find(); // get the list of table
 
-        let reserv = await t
-          .relation("Reservations")
-          .query()
-          .first();
-        // console.log(t.get('TableNumber') + ': ' + reserv.length)
+      for (var i = 0; i < reservList.length; i++) {
+        // console.log(reservList[i])
+        let reserv = reservList[i]
+        await reserv.get('customer').fetch()  // get the customer info
+        let tableId = reserv.get('Table').id
 
-        if (reserv) {
-          await reserv.get("customer").fetch();
-          this.reserveList[t.id] = reserv;
-        }
+        this.reservation[tableId] = reserv
       }
+      console.log(this.reservation)
 
       console.log(this.reserveList);
 

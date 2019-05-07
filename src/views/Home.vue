@@ -53,31 +53,29 @@
     </div>
 
     <ul class="collection" style="margin-top: 24px" v-else>
-      <!-- งง ไอ้สัส นั่งทำความเข้าใจอยู่ได้ป่ะ get get ควยไร งง แม่ง ไปต่อกับ db ได้ไง เหี้ยแล้วกุต้องเช็คคอนดิชั่นไงเนี่ย หน่กหส่ฟหากสฟก -->
-
-      <li class="collection-item">
+      <!-- <li> -->
         <!-- หัวตาราง -->
-        <div class="row">
+        <li class="row valign-wrapper table-header">
           <!-- <div class='col s12'>This div is 12-columns wide on all screen sizes</div> -->
           <div class="col s2">เลขโต๊ะ</div>
-          <div class="col m3">รายชื่อลูกค้า</div>
+          <div class="col m4">รายชื่อลูกค้า</div>
           <div class="col s3">สถานะ</div>
-          <div class="col s2">โซนการนั่ง</div>
-          <div class="col s2">-</div>
-        </div>
+          <div class="col s2">โซน</div>
+          <!-- <div class="col s2"></div> -->
+        </li>
 
         <!-- แต่ละแถว -->
-        <div
-          class="row waves-effect waves-light"
+        <li
           v-for="t in table"
           v-bind:key="t.id"
-          @click="displayDialog(t)"
         >
-          <div
-            v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])"
-          >
+
+          <div class="collection-item row waves-effect waves-light"
+               @click="displayDialog(t)"
+               v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
+               
             <div class="col s2">{{ t.get('TableNumber') }}</div>
-            <div class="col m3">
+            <div class="col m4">
               <div v-if="reservation[t.id] && reservation[t.id].get('customer')">{{ reservation[t.id].get('customer').get('name') }}</div>
               <div v-else>-</div>
             </div>
@@ -87,10 +85,11 @@
               <!-- {{ reservation[t.id] }} -->
             </div>
             <div class="col s2">{{ t.get('Zone') ? 'INSIDE':'OUTSIDE'}}</div>
-            <div class="col s2">-</div>
+            <!-- <div class="col s2">-</div> -->
           </div>
-        </div>
-      </li>
+
+        </li>
+      <!-- </li> -->
     </ul>
   </div>
 </template>
@@ -160,6 +159,14 @@ h3.is-3:not(:last-child) {
 
 .time {
   font-size: 3em;
+}
+
+.table-header {
+  height: 32px;
+  margin-bottom: 0;
+}
+.table-row {
+  padding: 16px 16px;
 }
 </style>
 
@@ -242,14 +249,25 @@ export default {
     }
   },
   created() {
-    this.name = "5555";
-    // this.data_load();
-    this.selectedDay = 0;     // this line also calls data_load()
-
     // this.currentTime = moment().format("LTS");
     let timeFormat = this.getTimeFormat();
     this.currentTime = moment().format(timeFormat);
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  },
+
+  mounted() {
+    this.name = "5555";
+    // this.data_load();
+    this.selectedDay = 0;     // this line also calls data_load()
+  },
+
+  showDialog(newVal, oldVal) {
+    if (newVal === false) {
+      console.log('close!!')
+      this.curT = undefined     // set to undefined to clear the form 
+      this.curR = undefined     // set to undefined to clear the form
+      // this.selectedUser = null
+    }
   },
 
   methods: {
@@ -286,7 +304,12 @@ export default {
       console.log(t);
       this.showDialog = true;
       this.curT = t;
-      this.curR = this.reservation[t.id];
+
+      let reserv = this.reservation[t.id];
+      if (!reserv) {
+        reserv = new Reservation()
+      }
+      this.curR = reserv
     },
     hideDialog() {
       this.showDialog = false;

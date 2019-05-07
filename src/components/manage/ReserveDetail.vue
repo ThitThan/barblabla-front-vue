@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='modal-content'>
     <!-- หมุนๆ ตอนโหลด -->
     <div id='loading' v-if='isLoading'>
       <div v-show='isLoading'>
@@ -46,39 +46,47 @@
 
         </div>
 
-        <li class='collection'>
-          <ul class='collection-item'>
-            <div class="col s6">
-              <p>
-                สถานะการจอง ({{ reserveDate.format('D MMM') }})
-              </p>
-              <p>
-              </p>
-            </div>
+        <!-- customer -->
+        <div class='customer-frame'>
+          <div class="col s6">
+            <p v-if='reserveDate'>
+              สถานะการจอง ({{ reserveDate.format('D MMM') }})
+            </p>
+            <p>
+            </p>
+          </div>
 
-            <div class="row" style='margin-top: 32px'>
-              <div class="input-field col">
+          <div class="input-field col">
+            <i class="material-icons prefix">account_circle</i>
+            <input v-model="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
+          </div>
 
-                <i class="material-icons prefix">account_circle</i>
-                <input v-model="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
-              </div>
-              <div class="input-field col">
+          <div class="input-field col">
+            <i class="material-icons prefix">phone_in_talk</i>
+            <input v-model="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
+          </div>
 
-                <i class="material-icons prefix">phone_in_talk</i>
-                <input v-model="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
-              </div>
-              <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
-                @click='saveUserData()'>
-                <i class="material-icons left">save</i>
-                บันทึก
-              </button>
-            </div>
-          </ul>
-        </li>
+          <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
+            @click='saveUserData()'>
+            <i class="material-icons left">save</i>
+            บันทึก
+          </button>
+
+        </div>
+
       <!-- reservation -->
       <!-- <label v-if="curR">{{ curR }}</label> -->
   </div>
 </template>
+
+<style scoped>
+.customer-frame {
+  background-color: #ffffff09;
+  padding: 24px 5%;
+  border-radius: 12px;
+}
+</style>
+
 
 <script>
   import Parse from 'parse'
@@ -113,8 +121,9 @@
       },
 
       curR(newR, oldR) {
-        console.log(oldR + '->' + newR)
-        if (newR) {
+        // console.log(oldR + '->' + newR)
+        console.log(newR)
+        if (newR && newR.get('customer')) {
           //   this.customerName = ''
           // this.curT = newR.get('Table')
           let cus = newR.get('customer')
@@ -123,6 +132,7 @@
         } else {
           this.cusName = ''
           this.cusNo = ''
+          console.log('cleared')
         }
       },
     },
