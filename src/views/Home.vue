@@ -17,14 +17,19 @@
         <div class="container"
           style="z-index: 9; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; max-width: 100%;
           text-align: left;">
-        <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
-          :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
-          {{ day }}
-        </a>
-        <!-- {{ reserveDate }} -->
-          <!-- <button class="button dayButton">วันนี้</button>
-          <button class="button dayButton">พรุ่งนี้</button>
-          <button class="button dayButton">8 พฤษภาคม</button> -->
+
+          <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
+            :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
+
+            <div v-if="day === ''">
+              {{ moment().add(index, 'days').format('D MMM') }}
+            </div>
+            <div v-else>
+              {{ day }}
+            </div>
+            
+          </a>
+          <!-- {{ reserveDate }} -->
           <vue-dropdown style="display: inline-block; margin-top: 4px; margin-left: 2px; right: 0px; float:right;" :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
         </div>
       </div>
@@ -73,7 +78,7 @@
           >
             <div class="col s2">{{ t.get('TableNumber') }}</div>
             <div class="col m3">
-              <div v-if="reservation[t.id]">{{ reservation[t.id].get('customer').get('name') }}</div>
+              <div v-if="reservation[t.id] && reservation[t.id].get('customer')">{{ reservation[t.id].get('customer').get('name') }}</div>
               <div v-else>-</div>
             </div>
             <div class="col s3">
@@ -223,8 +228,8 @@ export default {
       // date
       days: [
         'วันนี้',
-        'พรุ่งนี้',
-        'วันมะรืน',
+        '',
+        '',
       ],
       selectedDay: -1,
       reserveDate: null,
@@ -232,14 +237,15 @@ export default {
   },
   watch: {
     selectedDay(newD) {
-      this.reserveDate = moment().day(newD + 1).endOf('day').toDate()
+      this.reserveDate = moment().add(newD, 'days').endOf('day')
       this.data_load()
     }
   },
   created() {
     this.name = "5555";
-    this.selectedDay = 0;
-    this.data_load();
+    // this.data_load();
+    this.selectedDay = 0;     // this line also calls data_load()
+
     // this.currentTime = moment().format("LTS");
     let timeFormat = this.getTimeFormat();
     this.currentTime = moment().format(timeFormat);
@@ -292,46 +298,62 @@ export default {
     },
 
     async data_load() {
-      this.reservation = []
+      this.reservation = {}
       this.isLoading = true; // show the loading indicator
 
+      // table
       const query = new Parse.Query(Tableja);
       query.ascending("TableNumber");
       let tables = await query.find(); // get the list of table
 
-      for (var i = 0; i < tables.length; i++) {
-        let t = tables[i];
-        // console.log(t);
-          // query.equalTo('merchant', Parse.User.current().get('merchantObj'))   // WHERE merchant = us
-          // query.lessThanOrEqualTo('createdAt', moment().subtract(val, 'day').endOf('day').toDate())
-          // query.greaterThanOrEqualTo('createdAt', moment().subtract(val, 'day').startOf('day').toDate())
-        let reservList = t.relation("Reservations");
-        // console.log(reservList)
-        let date = moment().day(this.selectedDay + 1)
-        let r = await reservList
-          .query()
-          .lessThanOrEqualTo('date', date.endOf('day').toDate())
-          .greaterThanOrEqualTo('date', date.startOf('day').toDate())
-          .select("customer")
-          .first();
-        if (r) {
-          this.reservation[t.id] = r;
-          await r.get("customer").fetch();
-          console.log(r);
-        }
+      // reservations
+      let date = this.reserveDate
+      const rQuery = new Parse.Query(Reservation)
+      .lessThanOrEqualTo('date', date.endOf('day').toDate())
+      .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+      let reservList = await rQuery.find(); // get the list of table
 
-        // const query = new Parse.Query(Reservation);
-        // query.equalTo("Table", t);
-        // let r = await query.first();
+      for (var i = 0; i < reservList.length; i++) {
+        // console.log(reservList[i])
+        let reserv = reservList[i]
+        await reserv.get('customer').fetch()  // get the customer info
+        let tableId = reserv.get('Table').id
 
-        // if (r !== null && r !== undefined) {
-        //   let cus = r.get("customer");
-        //   await cus.fetch();
-        //   console.log(cus);
-
-        //   this.reservation[t.id] = r;
-        // }
+        this.reservation[tableId] = reserv
       }
+      console.log(this.reservation)
+
+      // for (var i = 0; i < tables.length; i++) {
+      //   let t = tables[i];
+      //   // console.log(t);
+      //   let reservList = t.relation("Reservations");
+      //   // console.log(reservList)
+      //   // let date = moment().day(this.selectedDay + 1)
+      //   let date = this.reserveDate
+      //   let r = await reservList
+      //     .query()
+      //     .lessThanOrEqualTo('date', date.endOf('day').toDate())
+      //     .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+      //     .select("customer")
+      //     .first();
+      //   if (r) {
+      //     this.reservation[t.id] = r;
+      //     await r.get("customer").fetch();
+      //     console.log(r);
+      //   }
+
+      //   // const query = new Parse.Query(Reservation);
+      //   // query.equalTo("Table", t);
+      //   // let r = await query.first();
+
+      //   // if (r !== null && r !== undefined) {
+      //   //   let cus = r.get("customer");
+      //   //   await cus.fetch();
+      //   //   console.log(cus);
+
+      //   //   this.reservation[t.id] = r;
+      //   // }
+      // }
 
       this.table = tables;
       this.isLoading = false; // hide the loading indicator

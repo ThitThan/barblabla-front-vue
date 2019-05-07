@@ -83,7 +83,7 @@ export default ({
         },
          {
           path : '/manage/customer',
-          name : 'จัดการลูกค้า',
+          name : 'รายชื่อลูกค้า',
           
         },
         // {

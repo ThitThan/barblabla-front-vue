@@ -20,56 +20,63 @@
     </div>
 
     <div v-if="curT">
-      <label>
-        <h4 style="margin-bottom: 32px">
-          <!-- {{ title }} -->
-          <!-- {{ user ? 'ข้อมูลสตาฟ':'เพิ่มสตาฟ' }} -->
-        </h4>
 
         <!-- TableNumber -->
-
-        <div class>
-          <label for="" style="font-size: 18px">หมายเลขโต๊ะ</label>
-          <h4 style="margin-bottom: 32px">{{ curT.get('TableNumber') }}</h4>
+        <div style='margin: 32px 0;'>
+          <label for="" style="font-size: 18px">โต๊ะ</label>
+          <h3>{{ curT.get('TableNumber') }}</h3>
         </div>
 
-        {{ reserveDate }}
         <div>
-          <div class="row">
+          <div class="row" style="margin-bottom: 32px; font-size: 18px">
             <div class="col s6">
-              <p style="margin-bottom: 32px; font-size: 18px">
+              <p>
                 โซน:
                 {{ curT.get('Zone') ? 'INSIDE':'OUTSIDE' }}
               </p>
             </div>
             <div class="col s6">
-              <p style="margin-bottom: 32px; font-size: 18px">
+              <p>
                 จำนวนที่นั่ง:
                 {{ curT.get('Seat') }}
               </p>
             </div>
-            <div class="input-field col">
-
-              <i class="material-icons prefix">account_circle</i>
-              <input v-model="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
-            </div>
-            <div class="input-field col">
-
-              <i class="material-icons prefix">phone_in_talk</i>
-              <input v-model="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
-            </div>
-            <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
-              @click='saveUserData()'>
-              <i class="material-icons left">save</i>
-              บันทึก
-            </button>
           </div>
         </div>
-      </label>
 
+        </div>
+
+        <li class='collection'>
+          <ul class='collection-item'>
+            <div class="col s6">
+              <p>
+                สถานะการจอง ({{ reserveDate.format('D MMM') }})
+              </p>
+              <p>
+              </p>
+            </div>
+
+            <div class="row" style='margin-top: 32px'>
+              <div class="input-field col">
+
+                <i class="material-icons prefix">account_circle</i>
+                <input v-model="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
+              </div>
+              <div class="input-field col">
+
+                <i class="material-icons prefix">phone_in_talk</i>
+                <input v-model="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
+              </div>
+              <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
+                @click='saveUserData()'>
+                <i class="material-icons left">save</i>
+                บันทึก
+              </button>
+            </div>
+          </ul>
+        </li>
       <!-- reservation -->
       <!-- <label v-if="curR">{{ curR }}</label> -->
-    </div>
   </div>
 </template>
 
@@ -157,7 +164,7 @@
         }
         reserv.set('customer', customer)
         reserv.set('Table', this.curT)
-        reserv.set('date',this.reserveDate)
+        reserv.set('date',this.reserveDate.toDate())
         await reserv.save()  
         console.log('reservation data updated')
 
