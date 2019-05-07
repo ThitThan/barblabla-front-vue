@@ -21,9 +21,9 @@
               <div class="input-field col s12">
                 <select v-model="date">
                   <option value="" disabled selected>เลือกวันที่ต้องการจอง</option>
-                  <option :value="day1">{{moment().day(1).format('dddd Do MMMM YYYY')}}</option>
-                  <option :value="day2">{{moment().day(2).format('dddd Do MMMM YYYY')}}</option>
-                  <option :value="day3">{{moment().day(3).format('dddd Do MMMM YYYY')}}</option>
+                  <option :value="day1">{{moment().format('dddd Do MMMM YYYY')}}</option>
+                  <option :value="day2">{{moment().add(1,'day').format('dddd Do MMMM YYYY')}}</option>
+                  <option :value="day3">{{moment().add(2,'day').format('dddd Do MMMM YYYY')}}</option>
                 </select>
               <label for="date">วันที่ ({{ moment().format('dddd Do MMMM YYYY')}})</label>
               </div>
