@@ -1,8 +1,20 @@
 
 <template>
   <div class="container">
-    <h3>ลูกค้า</h3> 
-    <h6>{{ customer.length }} คน</h6>
+    <!-- <h3>ลูกค้า</h3>  -->
+    <label for='search'>ค้นหา</label>
+      <div class="input-field col ">
+        <i class="material-icons prefix ">search</i>
+        <input v-model='username' id='search' placeholder='ค้นหา' type='text' />
+
+        <button :class="'waves-effect waves-light btn deep-purple darken-2 align top:20px '"
+          @click='searchData()'>
+          <i class="material-icons left">search</i>
+          ค้นหา
+        </button>
+
+        </div>
+    <!-- <h6>{{ customer.length }} คน</h6> -->
 
     <!-- <input placeholder="รายซื่อลูกค้า" v-model='name'> -->
 
@@ -12,10 +24,10 @@
        
     </div>
       <center>
-    <ul class="collection" >
+    <!-- <ul class="collection" >
         <li class="collection-item flex flex-column " style='padding: 17px 26px;' v-for="c in customer" v-bind:key='c.id'>
             <div style='text-align: left; font-size: 27px; margin: 8px 0;'>
-                <!-- <i class="material-icons">person</i> -->
+
                 {{ c.get("name") }} 
             </div>
             <div style='text-align: left;'>
@@ -24,7 +36,7 @@
             </div>
        
         </li>
-    </ul>
+    </ul> -->
       </center>
   </div>
 </template>
@@ -49,6 +61,9 @@ export default {
     hello() {
       alert('Hello!')
 
+    },
+    searchData(){
+      //รอเขียน คำสั่งค้นหา
     }
     ,async loadData(){
         const query = new Parse.Query(Customer)
