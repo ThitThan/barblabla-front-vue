@@ -2,18 +2,22 @@
 <template>
   <div class="container">
     <!-- <h3>ลูกค้า</h3>  -->
-    <label for='search'>ค้นหา</label>
+
+    <center>
+        <div>
+           <!-- <label for='search'>ค้นหา</label> -->
       <div class="input-field col ">
         <i class="material-icons prefix ">search</i>
-        <input v-model='username' id='search' placeholder='ค้นหา' type='text' />
-
-        <button :class="'waves-effect waves-light btn deep-purple darken-2 align top:20px '"
+        <input style= " max-width: 50%" v-model='username' id='search' placeholder='ค้นหา' type='text' />
+        <button class="'waves-effect waves-light btn deep-purple darken-2 align top:20px '" style="margin-left: 20px;"
           @click='searchData()'>
           <i class="material-icons left">search</i>
           ค้นหา
         </button>
-
         </div>
+        </div>
+    </center>
+
     <!-- <h6>{{ customer.length }} คน</h6> -->
 
     <!-- <input placeholder="รายซื่อลูกค้า" v-model='name'> -->
