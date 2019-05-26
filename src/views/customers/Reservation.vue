@@ -7,9 +7,21 @@
       <h4 style='margin-bottom: 12px; margin-top: 0px'>
         [ข้อมูลการจอง]
       </h4>
+
+     <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
+            :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
+
+            <div v-if="day === ''">
+              {{ moment().add(index, 'days').format('D MMM') }}
+            </div>
+            <div v-else>
+              {{ day }}
+            </div>
+            
+          </a>
+
       <label>{{ facebookPSID }}</label>
       <div class="row">
-
         <form class="col s12" @submit.prevent="makeReservation()">
           <div class="row">
               <label for="name">ชื่อ(สามารถระบุชื่อเล่นได้)</label>
@@ -18,7 +30,7 @@
             </div>
           </div>
           <div class="row">
-              <div class="input-field col s12">
+              <!-- <div class="input-field col s12">
                 <select v-model="date">
                   <option value="" disabled selected>เลือกวันที่ต้องการจอง</option>
                   <option :value="day1">{{moment().format('dddd Do MMMM YYYY')}}</option>
@@ -26,7 +38,7 @@
                   <option :value="day3">{{moment().add(2,'day').format('dddd Do MMMM YYYY')}}</option>
                 </select>
               <label for="date">วันที่ ({{ moment().format('dddd Do MMMM YYYY')}})</label>
-              </div>
+              </div> -->
           </div>
           <div class="row">
             <label for="amount">จำนวน(คน)</label>
@@ -59,6 +71,15 @@ export default {
   name: 'reservation',
   data(){
     return {
+      // date
+      days: [
+        'วันนี้',
+        '',
+        '',
+      ],
+      selectedDay: -1,
+      reserveDate: null,
+      //
       moment: moment,
       isLoading: false,
       message: "Current Time:",
@@ -75,6 +96,7 @@ export default {
       day3: null,
       //fb
       facebookPSID: 'N/A',
+      
 
     }
   },
@@ -93,6 +115,8 @@ export default {
       this.day2 = moment().day(2).toDate()  
       this.day3 = moment().day(3).toDate()  
     },
+
+
     
     setupFacebookAPI() {
       (function(d, s, id){
