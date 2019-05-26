@@ -1,16 +1,20 @@
 
 <template>
 <div class="" style="margin-bottom: 50px;">
-    <div class ="flex" v-for='(row) in map' :key='row'>
-      <div class="testja" v-for='t in row' :key='t'>
+    <div class ="flex" v-for='(row, i) in map' :key='i'>
+      <div class="testja" v-for='(t, j) in row' :key='j'>
         <!-- Have table -->
-        <div class='tableja' v-if='t !== null'>
+        <div v-if='t !== null'
+          class='tableja'
+          @click='$emit("tableClicked", { x: j, y: i})' >
           {{ t }}
         </div>
 
         <!-- blank space -->
-        <div class='emptyja' v-else>
-          <div class="btn-flat  button1">+</div>
+        <div v-else
+          class='emptyja waves-effect waves-light'
+          @click='$emit("emptyClicked", { x: j, y: i})'>
+          <i class='material-icons'>add_circle</i>
         </div>
       </div>
         <!-- <div class="testja">
@@ -75,7 +79,7 @@ export default {
 
 .tableja {
   min-width: 45px;
-  min-height: 30px;
+  min-height: 40px;
   background-color: #ffffff33;
 
   display: flex;
@@ -85,7 +89,7 @@ export default {
 
 .emptyja {
   min-width: 45px;
-  min-height: 30px;
+  min-height: 40px;
   /* background-color: #ffffff33; */
 
   display: flex;
