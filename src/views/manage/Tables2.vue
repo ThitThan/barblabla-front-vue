@@ -13,7 +13,7 @@
 
     <h4> Zone A </h4>
 
-    <TableZone :map='zones[0]' />
+    <TableZone :map='zones[0]' @emptyClicked='addTable(0, e)' @tableClicked='editTable(0, e)' />
 
     <h4> Zone B </h4>
     <TableZone :map='zones[1]' />
@@ -137,6 +137,10 @@ export default {
       // this.selectedUser = null
 
       this.data_load()  // update the user list
+    },
+
+    addTable(zone, offset) {
+      alert(zone + "\n\n" + offset)
     },
     
   }
