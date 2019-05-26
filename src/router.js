@@ -38,7 +38,7 @@ export default new Router({
     {
       path: '/manage/tables',
       name: 'manage-tables',
-      component: () => import('@/views/manage/Tables.vue')
+      component: () => import('@/views/manage/Tables2.vue')
     },
 
     {

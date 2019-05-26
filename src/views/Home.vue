@@ -80,8 +80,8 @@
               <div v-else>-</div>
             </div>
             <div class="col s3">
-              <div v-if="reservation[t.id]">จองแล้ว</div>
-              <div v-else>ว่าง</div>
+              <div class="i-badge i-badge-pill i-badge-warning" v-if="reservation[t.id]">จองแล้ว</div>
+              <div class="i-badge i-badge-pill i-badge-green" v-else>ว่าง</div>
               <!-- {{ reservation[t.id] }} -->
             </div>
             <div class="col s2">{{ t.get('Zone') ? 'INSIDE':'OUTSIDE'}}</div>
