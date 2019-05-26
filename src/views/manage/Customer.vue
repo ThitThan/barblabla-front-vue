@@ -107,8 +107,26 @@ export default {
       alert('Hello!')
 
     },
-    searchData(){
+    async searchData(){
       //รอเขียน คำสั่งค้นหา
+      const cQuery = new Parse.Query('Customer')
+      .equalTo("name", this.username);
+  
+      let cList = await cQuery.find(); // get the list of table
+      
+       for (var i = 0; i <cList.length; i++) {
+
+        let cus = cList[i]
+
+          const rQuery = new Parse.Query('Reservation')
+
+
+            .equalTo('customer', cus)
+          let rList = await rQuery.find(); // get the list of table
+
+          console.log(rList)
+
+}
     }
     ,async loadData(){
         // table
