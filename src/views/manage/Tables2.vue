@@ -1,17 +1,22 @@
 
 <template>
-  <div class="container-grid">
+  <div class="container">
     <Modal v-model='showDialog'>
       <TableDetail v-model='selectedTable' @save='closeDetailDialog($event)' @destroy='closeDetailDialog($event)'/>
     </Modal>
 
     <!-- titles -->
-    <h2> โต๊ะ NEW </h2>
-    <h6>{{ table.length }} ตัว</h6>
+    <h2> แผนผังโต๊ะ </h2>
 
     <br>
-    
-    
+    <hr>
+
+    <h4> Zone A </h4>
+
+    <TableZone :map='zones[0]' @emptyClicked='addTable(0, e)' @tableClicked='editTable(0, e)' />
+
+    <h4> Zone B </h4>
+    <TableZone :map='zones[1]' />
 
     <!-- ปุ่ม + -->
     <a class="btn-floating btn-large waves-effect waves-light deep-purple darken-2 i-fab"
@@ -41,6 +46,7 @@
 <script>
 import Parse from  "parse"
 import TableDetail from '@/components/manage/TableDetail'
+import TableZone from '@/components/TableZone'
 var Tableja = Parse.Object.extend("Tableja");
 
 import Modal from '@/components/Modal'
@@ -49,12 +55,24 @@ export default {
   components: {
     Modal,
     TableDetail,
+    TableZone
 
   },
   data() {
     return {
       isLoading: false,
-      name: '...',
+      zones: [
+        [ 
+          [1, null, 3 ],
+          [4, 2, 3 ],
+          [5, 99, null ],
+        ],
+        [ 
+          [1, null, 3 ],
+          [4, 2, 3 ],
+          [5, 99, null ],
+        ],
+      ],
 
       // Reserve: false,
 
@@ -120,6 +138,10 @@ export default {
 
       this.data_load()  // update the user list
     },
+
+    addTable(zone, offset) {
+      alert(zone + "\n\n" + offset)
+    },
     
   }
 }
@@ -137,12 +159,41 @@ export default {
   font-size: 15px;
 }
 
-.container-grid {
-  justify-content: flex-start;
+.flex {
+  display: flex;
+  height: auto;
+
+  background: #ffffff10;
 }
 
-.item {
-  order: 3; /* default is 0 */
+.testja {
+  height: auto;
+  margin: auto;  /* Magic! */
+  flex-flow: row wrap;
+  justify-content: space-around;
+  /* flex: 1; */
+
+  padding: 12px;
+}
+
+.tableja {
+  min-width: 30px;
+  min-height: 30px;
+  background-color: #ffffff33;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyja {
+  min-width: 30px;
+  min-height: 30px;
+  /* background-color: #ffffff33; */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>
