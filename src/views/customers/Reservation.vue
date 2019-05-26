@@ -7,7 +7,7 @@
       <h4 style='margin-bottom: 12px; margin-top: 0px'>
         [ข้อมูลการจอง]
       </h4>
-
+      <p>กรุณาเลือกวันที่</p>
      <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
             :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
 
@@ -102,11 +102,17 @@ export default {
   },
   created() {
     this.setupFacebookAPI()
-    this.setDate()    
+    this.setDate()   
+    //
+    let timeFormat = this.getTimeFormat();
+    this.currentTime = moment().format(timeFormat);
+    setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
   mounted() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, []);
+     // this.data_load();
+    this.selectedDay = 0;
     
   },
   methods: {
