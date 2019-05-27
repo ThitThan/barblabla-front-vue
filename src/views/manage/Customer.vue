@@ -8,14 +8,14 @@
            <!-- <label for='search'>ค้นหา</label> -->
       <div class="input-field col ">
         <i class="material-icons prefix ">search</i>
-        <input style= " max-width: 50%" v-model='username' id='search' placeholder='ชื่อเล่น' type='text' />
+        <input style= " max-width: 50%" v-model='name' id='search' placeholder='ชื่อเล่น' type='text' />
         <button class="'waves-effect waves-light btn deep-purple darken-2 align top:20px '" style="margin-left: 20px;"
           @click='searchData()'>
           <i class="material-icons left">search</i>
           ค้นหา
         </button>
         </div>
-        </div>
+      </div>
     </center>
 
     <!-- หมุนๆ ตอนโหลด -->
@@ -49,26 +49,33 @@
 
         <!-- แต่ละแถว -->
         <li
-          v-for="t in table"
-          v-bind:key="t.id"
+          v-for="c in customers"
+          v-bind:key="c.id"
         >
+          <!-- {{ c }} -->
 
-          <div class="collection-item row waves-effect waves-light"
-               @click="displayDialog(t)"
-               v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])">
+          <div class="collection-item row waves-effect waves-light">
+               <!-- @click="displayDialog(t)"
+               v-if="(displayAvailable === true && !reservation[t.id]) || (displayReserved === true && reservation[t.id])"> -->
                
-            <div class="col s2">{{ t.get('TableNumber') }}</div>
+            <div class="col s2">
+              {{ tables[c.id].get('TableNumber') }}
+            </div>
+
             <div class="col m4">
-              <div v-if="reservation[t.id] && reservation[t.id].get('customer')">{{ reservation[t.id].get('customer').get('name') }}</div>
+              <div v-if="reservation[c.id] && reservation[c.id].get('customer')">{{ reservation[c.id].get('customer').get('name') }}</div>
               <div v-else>-</div>
             </div>
+            
             <div class="col s3">
-              <div v-if="reservation[t.id]">จองแล้ว</div>
-              <div v-else>ว่าง</div>
-              <!-- {{ reservation[t.id] }} -->
+              <div v-if="reservation[c.id]">จองแล้ว</div>
+              <div v-else>ว่าง</div>  
             </div>
-            <div class="col s2">{{ t.get('Zone') ? 'INSIDE':'OUTSIDE'}}</div>
-            <!-- <div class="col s2">-</div> -->
+
+            <div class="col s2">
+              {{ tables[c.id].get('Zone') ? 'INSIDE':'OUTSIDE'}}
+            </div>
+            
           </div>
 
         </li>
@@ -89,10 +96,13 @@ export default {
       // moment: moment,
       name: '...',
       isLoading: false,
-      username:'',
-      table: [],
+      name:'',
+      customers: [],
       reservation: {
-        // 'tableID': 'reserve'
+        // 'cusID': 'reserve'
+      },
+      tables: {
+        // 'cusID': 'table'
       },
       reserveDate: null,
     }
@@ -107,8 +117,36 @@ export default {
       alert('Hello!')
 
     },
-    searchData(){
+    async searchData(){
       //รอเขียน คำสั่งค้นหา
+      const cQuery = new Parse.Query('Customer')
+                          .equalTo("name", this.name);
+  
+      let cList = await cQuery.find(); // get the list of CUSTOMERS
+      this.customers = cList
+
+      this.reservation = {}
+      for (var i = 0; i <cList.length; i++) {
+        let cus = cList[i]
+
+        const rQuery = new Parse.Query('Reservation')
+                            .equalTo('customer', cus)
+                            .descending('date')
+        // let rList = await rQuery.find(); // get the list of table
+
+        // console.log(rList)
+
+        let reserv = await rQuery.first() // get the list of table
+
+        let table = reserv.get('Table')
+        await table.fetch()
+
+        this.tables[cus.id] = table
+
+        this.reservation[cus.id] = reserv
+      }
+
+      console.log(this.tables)
     }
     ,async loadData(){
         // table
