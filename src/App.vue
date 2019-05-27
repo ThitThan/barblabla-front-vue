@@ -72,7 +72,7 @@ export default {
         // console.log(user)
         
         // check login
-        console.log(this.currentNavPath)
+        // console.log(this.currentNavPath)
         if (user === null && !this.publicRoutes.includes(this.currentNavPath)) {
             this.$router.push('/login')
         }
