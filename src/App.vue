@@ -107,6 +107,9 @@ html {
   // background-color: #1A1B20;
   background-color: #231A2B;
   // background-color: #231A2C;
+
+  overflow-x: overlay;
+  overflow-y: overlay;
 }
 h1, h2, h3, h4, h5, h6, label, input, div, button {
   font-family: 'Prompt', sans-serif !important;
@@ -133,6 +136,62 @@ label {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    // background-color: rgba(246, 178, 181, 0.2);
+    background-color: #ffffff00;
+    outline: none;
+}
+
+.tabs.tabs-transparent .indicator {
+    background-color: #ffe082!important;
+    // background-color: #ce93d8!important;
+}
+.tabs.tabs-transparent .tab a.active {
+    color: #ffe082!important;
+    // color: #ce93d8!important;
+}
+
+/* 
+  scrollbar
+*/
+/* width */
+::-webkit-scrollbar {
+  position: absolute;
+  width: 16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f100; 
+  width: 4px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #f1f1f10f; 
+  width: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffffff33; 
+  border-radius: 8px; 
+
+  border-style: solid;
+  border-color: transparent;
+  border-width: 5px;
+  background-clip: padding-box;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff33;
+  border-radius: 8px; 
+
+  border-style: solid;
+  border-color: transparent;
+  border-width: 4px;
+  background-clip: padding-box;
 }
 
 

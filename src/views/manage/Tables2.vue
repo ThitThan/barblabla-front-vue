@@ -18,7 +18,7 @@
     <div v-for='(map, zoneID) in zone' :key='zoneID'>
       <h5> โซน {{ zone[zoneID].get('Name') }} </h5>
       <!-- <h5> {{ '<' + zoneID + '>' }} </h5> -->
-      <TableMap :zone='zone[zoneID]' :tables='tables[zoneID]' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
+      <TableMap :editMode='true' :zone='zone[zoneID]' :tables='tables[zoneID]' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
     </div>
 
     <!-- <h4> Zone B </h4>
@@ -110,10 +110,6 @@ export default {
     // this.tableDialogVisible = true
   },
   methods: {
-    hello() {
-      alert('Hello!')
-    },
-
     async load_data() {
       await this.load_table()
       await this.load_zone()

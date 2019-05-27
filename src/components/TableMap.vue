@@ -1,6 +1,5 @@
-
 <template>
-<div class="frame" style="margin-bottom: 50px;">
+  <div class="frame">
     <div class ="i-flex" v-for='(row, i) in map' :key='i'>
       <div class="testja" v-for='(t, j) in row' :key='j'>
         <!-- Have table -->
@@ -11,11 +10,18 @@
           {{ t.get('TableNumber') }}
         </div>
 
-        <!-- blank space -->
+        <!-- empty grid -->
         <div v-else
-          class='emptyja waves-effect waves-light'
+          class='emptyja'
           @click='$emit("emptyClicked", { zone: zone, x: j, y: i })'>
-          <i class='material-icons'>add</i>
+          <!-- :class="'emptyja' + (editMode ? 'edit-mode waves-effect waves-light':'')" -->
+
+          <!-- EDITING: show add button -->
+          <div v-if='editMode'
+            class='edit-mode waves-effect waves-light'>
+            <i class='material-icons'>add</i>
+          </div>
+
         </div>
       </div>
         <!-- <div class="testja">
@@ -25,9 +31,9 @@
     <div class="testja">
     <div style="background-color:red;">white</div></div> -->
     </div>
-    </div>
+  </div>
 
-    </template>
+</template>
 
 <script>
 
@@ -36,6 +42,7 @@ export default {
     // 'map', 
     'tables',
     'zone',
+    'editMode',
   ],
   components: {
   },
@@ -63,11 +70,11 @@ export default {
   },
   methods: {
     generateMap() {
-      console.log(this.zone !== undefined)
-      console.log(this.zone.length)
-      console.log(this.map !== undefined)
-      console.log(this.map.length)
-      console.log('=-=-=-=-=-=-=-=-=')
+      // console.log(this.zone !== undefined)
+      // console.log(this.zone.length)
+      // console.log(this.map !== undefined)
+      // console.log(this.map.length)
+      // console.log('=-=-=-=-=-=-=-=-=')
       if (this.zone) {
         //
         // generate map
@@ -162,7 +169,17 @@ export default {
   min-height: 40px;
   /* background-color: #ffffff33; */
 
-  border: #ffffff33 solid 1px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+
+.edit-mode {
+  min-width: 45px;
+  min-height: 40px;
+
+  border: #ffffff22 solid 2px;
+  color: #ffffff30;
   border-radius: 4px;
 
   display: flex;

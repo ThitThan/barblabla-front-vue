@@ -25,7 +25,7 @@
             </h4>
 
             <!-- table No -->
-            <label for = 'TableNumber'> เลขโต๊ะ </label>
+            <label for = 'TableNumber'>เลขโต๊ะ</label>
             <div class = "input-field col">
                 <i class = "material-icons prefix">info_outline</i>
                 <input v-model = 'TableNumber' id='TableNumber' placeholder = 'เลขโต๊ะ' type='text' />
