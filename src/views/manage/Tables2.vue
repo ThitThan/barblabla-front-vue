@@ -105,8 +105,7 @@ export default {
     },
   },
   created() {
-    this.load_table()
-    this.load_zone()
+    this.load_data()
 
     // this.tableDialogVisible = true
   },
@@ -116,8 +115,8 @@ export default {
     },
 
     async load_data() {
-      await load_zone()
-      await load_table()
+      await this.load_table()
+      await this.load_zone()
     },
 
     async load_table() {
@@ -197,7 +196,7 @@ export default {
     closeZoneDialog(e) {
       this.zoneDialogVisible = false
 
-      this.load_zone()
+      this.load_data()
     },
 
     nextChar(c) {
@@ -233,13 +232,6 @@ export default {
       this.tableDialogVisible = true
     },
 
-    closeTableDialog() {
-      this.showDialog = false
-      // this.selectedUser = null
-
-      this.data_load()  // update the user list
-    },
-
     showTableDialog(t) {
       this.selectedTable = t
       this.tableDialogVisible = true
@@ -248,7 +240,7 @@ export default {
     closeTableDialog(e) {
       this.tableDialogVisible = false
 
-      this.load_table()
+      this.load_data()
     },
     
   }
