@@ -5,7 +5,7 @@
       <div class="testja" v-for='(t, j) in row' :key='j'>
         <!-- Have table -->
         <div v-if='t !== null'
-          class='tableja'
+          class='tableja waves-effect waves-light'
           @click='$emit("tableClicked", t)' >
           <!-- @click='$emit("tableClicked", { x: j, y: i})' > -->
           {{ t.get('TableNumber') }}
@@ -14,7 +14,7 @@
         <!-- blank space -->
         <div v-else
           class='emptyja waves-effect waves-light'
-          @click='$emit("emptyClicked", { zone: zone, x: j, y: i})'>
+          @click='$emit("emptyClicked", { zone: zone, x: j, y: i })'>
           <i class='material-icons'>add</i>
         </div>
       </div>
@@ -63,6 +63,11 @@ export default {
   },
   methods: {
     generateMap() {
+      console.log(this.zone !== undefined)
+      console.log(this.zone.length)
+      console.log(this.map !== undefined)
+      console.log(this.map.length)
+      console.log('=-=-=-=-=-=-=-=-=')
       if (this.zone) {
         //
         // generate map
@@ -95,11 +100,11 @@ export default {
             let OffsetY = t.get('OffsetY')
             let OffsetX = t.get('OffsetX')
 
-            console.log(Zone.get('Name') + ' ' + OffsetY + ' ' + OffsetX)
+            // console.log(Zone.get('Name') + ' ' + OffsetY + ' ' + OffsetX)
             arr[OffsetY][OffsetX] = t
           }
         }
-        console.log('=-=-=-=-=-=-=-=-=-')
+        // console.log('=-=-=-=-=-=-=-=-=-')
 
         // maps[z.id] = arr
         // zone[z.id] = z

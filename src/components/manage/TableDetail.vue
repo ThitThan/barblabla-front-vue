@@ -27,28 +27,31 @@
             <!-- table No -->
             <label for = 'TableNumber'> เลขโต๊ะ </label>
             <div class = "input-field col">
-                <i class = "material-icons prefix">account_circle</i>
+                <i class = "material-icons prefix">info_outline</i>
                 <input v-model = 'TableNumber' id='TableNumber' placeholder = 'เลขโต๊ะ' type='text' />
             </div>
+
+            <br>
 
             <!-- Seat -->
             <label for = 'Seat'> จำนวนที่ </label>
             <div class = "input-field col">
-                <i class = "material-icons prefix">account_circle</i>
+                <i class = "material-icons prefix">event_seat</i>
                 <input v-model = 'Seat' id='Seat' placeholder = 'จำนวนที่' type='text' />
             </div>
 
             <!-- Zone -->
-            <div>
-                <label>โซนห้องแอร์</label>
-                <div class = 'input-field col'>
+            <div v-if='Zone'>
+                <label>โซน</label>
+                <h5>{{ Zone.get('Name') }}</h5>
+                <!-- <div class = 'input-field col'>
                     <div class="switch">
                         <label>
                             <input type="checkbox" v-model='Zone'>
                             <span class="lever"></span>
                         </label>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!--ปุ่มเซฟนะจ๊ะ-->
@@ -96,7 +99,7 @@ export default {
         isDeleting: false,
         
         TableNumber: '',
-        Zone: true,
+        Zone: null,
         Seat: '',
         table: '',
       }

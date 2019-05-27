@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <Modal v-model='tableDialogVisible'>
-      <TableDetail v-model='selectedTable' @save='closeDetailDialog($event)' @destroy='closeDetailDialog($event)'/>
+      <TableDetail v-model='selectedTable' @save='closeTableDialog($event)' @destroy='closeTableDialog($event)'/>
     </Modal>
 
     <Modal v-model='zoneDialogVisible'>
@@ -16,8 +16,9 @@
     <hr>
 
     <div v-for='(map, zoneID) in zone' :key='zoneID'>
-      <h5> Zone {{ zone[zoneID].get('Name') }} </h5>
-      <TableMap :zone='zone[zoneID]' :tables='tables' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
+      <h5> โซน {{ zone[zoneID].get('Name') }} </h5>
+      <!-- <h5> {{ '<' + zoneID + '>' }} </h5> -->
+      <TableMap :zone='zone[zoneID]' :tables='tables[zoneID]' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
     </div>
 
     <!-- <h4> Zone B </h4>
@@ -97,7 +98,7 @@ export default {
   watch: {
     tableDialogVisible(newVal, oldVal) {
       if (newVal === false) {
-        console.log('close!!')
+        // console.log('close!!')
         this.selectedTable = undefined     // set to undefined to clear the form (null is for adding new user, an obj is for editing existing user)
         // this.selectedUser = null
       }
@@ -115,8 +116,8 @@ export default {
     },
 
     async load_data() {
-      await load_table()
       await load_zone()
+      await load_table()
     },
 
     async load_table() {
@@ -127,25 +128,27 @@ export default {
       query.ascending('Zone', 'OffsetY', 'OffsetX')   //List the table by Num
       let rawTables = await query.find()
 
-      // let tables = {}
-      //// for (var i = 0; i < rawTables.length; i++) {
-      // for (const i in rawTables) {
-      //   // let t = rawTables[i]
-      //   let t = rawTables[i]
-      //   console.log(t.id)
+      let tables = {}
+      // for (var i = 0; i < rawTables.length; i++) {
+      for (const i in rawTables) {
+        // let t = rawTables[i]
+        let t = rawTables[i]
+        // console.log(t.id)
 
-      //   // console.log(t.get('Zone') + ' ' + t.get('OffsetY') + ' ' + t.get('OffsetX'))
-      //   let zone = t.get('Zone')
-      //   if (zone && tables.hasOwnProperty(zone.id) === false) {
-      //     tables[zone.id] = {}
-      //   }
-      //   tables[t.id] = t
-      // }
-
+        // console.log(t.get('Zone') + ' ' + t.get('OffsetY') + ' ' + t.get('OffsetX'))
+        let zone = t.get('Zone')
+        if (zone) {
+          if (tables.hasOwnProperty(zone.id) === false) {
+            tables[zone.id] = []
+          }
+          tables[zone.id].push(t)
+        }
+        // tables[t.id] = t
+      }
       // console.log(tables)
 
-      // this.tables = tables
-      this.tables = rawTables
+      this.tables = tables
+      // this.tables = rawTables
       this.isLoading = false
     },
 
@@ -157,12 +160,24 @@ export default {
       //
       const query = new Parse.Query("TableZone")
       query.ascending('Name')
-      let zone = await query.find()
+      let rawZone = await query.find()
+
+      // make sure every zones have table set
+      let zone = {}
+      for (const i in rawZone) {
+        let z = rawZone[i]
+        if (this.tables.hasOwnProperty(z.id) === false) {
+          this.tables[z.id] = []
+          console.log('added ' + z.id)
+        }
+
+        zone[z.id] = z
+      }
+      // console.log(this.tables)
 
       // this.tableMaps = maps
       this.zone = zone
       this.isLoading = false
-      console.log(this.tableMaps)
       // console.log(this.zone)
     },
     
@@ -191,26 +206,26 @@ export default {
     },
 
     addTable(e) {
-      let zone = e.zone
-      let x = e.x
-      let y = e.y
-
+      // let zone = e.zone
+      // let x = e.x
+      // let y = e.y
       // alert(zone + "\n\n" + JSON.stringify(offset))
-      console.log(zone.get('Name'))
-      console.log(x)
-      console.log(y)
+      // console.log(zone.get('Name'))
+      // console.log(x)
+      // console.log(y)
+      let table = new Tableja()
+      table.set('Zone', e.zone)
+      table.set('OffsetY', e.y)
+      table.set('OffsetX', e.x)
 
-      console.log()
+      this.showTableDialog(table);
     },
 
     editTable(t) {
-      let zone = t.get('Zone')
-      let x = t.get('OffsetX')
-      let y = t.get('OffsetY')
-
-      console.log(zone.get('Name'))
-      console.log(x)
-      console.log(y)
+      this.showTableDialog(t);
+      // let zone = t.get('Zone')
+      // let x = t.get('OffsetX')
+      // let y = t.get('OffsetY')
     },
 
     showTableDialog(table) {
@@ -223,6 +238,17 @@ export default {
       // this.selectedUser = null
 
       this.data_load()  // update the user list
+    },
+
+    showTableDialog(t) {
+      this.selectedTable = t
+      this.tableDialogVisible = true
+    },
+
+    closeTableDialog(e) {
+      this.tableDialogVisible = false
+
+      this.load_table()
     },
     
   }
