@@ -57,10 +57,10 @@
 
       <!-- Table Maps -->
       <div v-else-if='zone && tables'>
-        <div v-for='(zone, zoneID) in zone' :key='zoneID' style="margin: 64px 0px;" >
+        <div v-for='(zone, zoneID) in zone' :key='zoneID' style="margin: 32px 0px;" >
           <h5 style='margin: 0px; margin-bottom: 12px; text-align: left;'> โซน {{ zone.get('Name') }} </h5>
           <!-- <h5> {{ '<' + zoneID + '>' }} </h5> -->
-          <TableMap :editMode='false' :zone='zone' :tables='tables[zoneID]' @tableClicked='displayDialog($event)' />
+          <TableMap :editMode='false' :zone='zone' :tables='tables[zoneID]' :reservList='reservation' @tableClicked='displayDialog($event)' />
         </div>
       </div>
     </div>
@@ -224,6 +224,7 @@ export default {
     selectedDay(newD) {
       this.reserveDate = moment().add(newD, 'days').endOf('day')
       this.load_data()
+      // this.load_reservation()
     }
   },
   created() {
@@ -235,8 +236,8 @@ export default {
 
   mounted() {
     this.name = "5555";
-    // this.load_data();
     this.selectedDay = 0;     // this line also calls load_data()
+    this.load_data ();
   },
 
   showDialog(newVal, oldVal) {
@@ -299,7 +300,7 @@ export default {
     },
 
     async load_table() {
-      this.isLoading = true
+      // this.isLoading = true
 
       const query = new Parse.Query(Tableja)
       // query.ascending('TableNumber')   //List the table by Num
@@ -327,11 +328,11 @@ export default {
 
       this.tables = tables
       // this.tables = rawTables
-      this.isLoading = false
+      // this.isLoading = false
     },
 
     async load_zone() {
-      this.isLoading = true
+      // this.isLoading = true
 
       //
       // Get Zones
@@ -355,13 +356,15 @@ export default {
 
       // this.tableMaps = maps
       this.zone = zone
-      this.isLoading = false
+      // this.isLoading = false
       // console.log(this.zone)
     },
 
     async load_reservation() {
       // reservations
+      this.reservation = {}
       let date = this.reserveDate
+      console.log(this.date)
       const rQuery = new Parse.Query(Reservation)
       .lessThanOrEqualTo('date', date.endOf('day').toDate())
       .greaterThanOrEqualTo('date', date.startOf('day').toDate())
@@ -379,9 +382,13 @@ export default {
     },
 
     async load_data() {
+      this.isLoading = true
+
       await this.load_table()
       await this.load_zone()
       await this.load_reservation()
+
+      this.isLoading = false
     },
   }
 };

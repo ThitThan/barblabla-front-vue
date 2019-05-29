@@ -13,12 +13,20 @@
     <h2> แผนผังโต๊ะ </h2>
 
     <br>
-    <hr>
+    <!-- <hr> -->
 
-    <div v-for='(map, zoneID) in zone' :key='zoneID'>
-      <h5> โซน {{ zone[zoneID].get('Name') }} </h5>
-      <!-- <h5> {{ '<' + zoneID + '>' }} </h5> -->
-      <TableMap :editMode='true' :zone='zone[zoneID]' :tables='tables[zoneID]' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
+    <div class='card' style='padding: 8px 10%'>
+      <div v-for='(map, zoneID) in zone' :key='zoneID' style="margin: 32px 0px;">
+        <h5 style='margin: 0px; margin-bottom: 12px; text-align: left;'> 
+          โซน {{ zone[zoneID].get('Name') }} 
+          <button :class="'btn-floating btn-small waves-effect waves-light deep-purple darken-2' + (isDeleting ? 'btn-disabled':'')" align='left'
+            @click='showEditZoneDialog(zone[zoneID])'>
+            <i class='material-icons'>edit</i>
+        </button></h5>
+        
+        <!-- <h5> {{ '<' + zoneID + '>' }} </h5> -->
+        <TableMap :editMode='true' :zone='zone[zoneID]' :tables='tables[zoneID]' @emptyClicked='addTable($event)' @tableClicked='editTable($event)' />
+      </div>
     </div>
 
     <!-- <h4> Zone B </h4>
@@ -26,7 +34,7 @@
 
     <!-- ปุ่ม + -->
     <a class="btn-floating btn-large waves-effect waves-light deep-purple darken-2 i-fab"
-      @click='showZoneDialog()'>
+      @click='showAddZoneDialog()'>
       <i class="material-icons">add</i>
     </a>
 
@@ -176,7 +184,7 @@ export default {
       // console.log(this.zone)
     },
     
-    showZoneDialog() {
+    showAddZoneDialog() {
       let lastZone = this.zone[this.zone.length - 1]
       let newZone = new TableZone()
       if (lastZone) {
@@ -186,6 +194,11 @@ export default {
       }
       
       this.selectedZone = newZone
+      this.zoneDialogVisible = true
+    },
+
+    showEditZoneDialog(zone) {
+      this.selectedZone = zone
       this.zoneDialogVisible = true
     },
 

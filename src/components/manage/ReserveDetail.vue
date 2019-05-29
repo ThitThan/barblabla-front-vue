@@ -58,18 +58,26 @@
 
           <div class="input-field col">
             <i class="material-icons prefix">account_circle</i>
-            <input v-model="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
+            <input v-model.trim="cusName" id="cusName" placeholder="ชื่อลูกค้า" type="text">
           </div>
 
           <div class="input-field col">
             <i class="material-icons prefix">phone_in_talk</i>
-            <input v-model="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
+            <input v-model.trim="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
           </div>
 
-          <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (isSaving ? 'btn-disabled':'')"
+          <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (cusNo == '' || cusName == '' || isSaving ? 'disabled ':'')"
             @click='saveUserData()'>
             <i class="material-icons left">save</i>
             บันทึก
+          </button>
+
+          <button class="waves-effect waves-light btn red darken-2"
+            style='margin-left: 12px'
+            v-if='value && value.id'
+            @click='clearReservation()'>
+            <i class="material-icons left">delete</i>
+            นำออก
           </button>
 
         </div>
@@ -198,7 +206,15 @@
         // Everything is saved --> transmit the 'save' event
         this.isSaving = false
         this.$emit('save', reserv)
-      }
+      },
+
+      async clearReservation() {
+        let reserv = this.curR
+        if (reserv) {
+          await reserv.destroy()
+          this.$emit('save', reserv)
+        }
+      },
     }
 
   }
