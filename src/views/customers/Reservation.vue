@@ -104,24 +104,27 @@ export default {
    watch: {
     selectedDay(newD) {
       this.reserveDate = moment().add(newD, 'days').endOf('day')
+      // console.log(this.reserveDate)
       this.loadReserve()
     }
   },
-  created() {
-    // this.setupFacebookAPI()
-    this.facebookPSID = '2472335649468044'
-    this.loadReserve()
-    this.setDate()   
-    //
-    // this.currentTime = moment().format(timeFormat);
-    // setInterval(() => this.updateCurrentTime(), 1 * 1000);
-  },
+  // created() {
+  //   //
+  //   // this.currentTime = moment().format(timeFormat);
+  //   // setInterval(() => this.updateCurrentTime(), 1 * 1000);
+  // },
   mounted() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, []);
      // this.data_load();
-    this.selectedDay = 0;
     
+    
+    this.setupFacebookAPI()
+    // this.facebookPSID = '2472335649468044'
+    this.setDate()   
+    this.selectedDay = 0;
+    // console.log(this.reserveDate)
+    // this.loadReserve()
   },
   methods: {
     setDate(){
@@ -165,14 +168,15 @@ export default {
       let date = this.reserveDate
       const cQuery = new Parse.Query('Customer')
             .equalTo("facebookPSID", this.facebookPSID)
-            .lessThanOrEqualTo('date', date.endOf('day').toDate())
-            .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+            // .lessThanOrEqualTo('date', date.endOf('day').toDate())
+            // .greaterThanOrEqualTo('date', date.startOf('day').toDate())
   
-      let cList = await cQuery.find(); // get the list of CUSTOMERS
-      if(cList.length != 0){
+      let cus = await cQuery.first(); // get the list of CUSTOMERS
+      if(cus.length != 0){
 
         alert("คุณเคยลงทะเบียนแล้ว")
       }
+      console.log(cus);
     },
     async makeReservation() {
 
