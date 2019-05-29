@@ -95,18 +95,24 @@ export default {
       day2: null,
       day3: null,
       //fb
-      facebookPSID: 'N/A',
+      // facebookPSID: 'N/A',
+      facebookPSID: undefined,
       
 
+    }
+  },
+   watch: {
+    selectedDay(newD) {
+      this.reserveDate = moment().add(newD, 'days').endOf('day')
+      this.loadReserve()
     }
   },
   created() {
     this.setupFacebookAPI()
     this.setDate()   
     //
-    let timeFormat = this.getTimeFormat();
-    this.currentTime = moment().format(timeFormat);
-    setInterval(() => this.updateCurrentTime(), 1 * 1000);
+    // this.currentTime = moment().format(timeFormat);
+    // setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
   mounted() {
     var elems = document.querySelectorAll('select');
@@ -143,6 +149,7 @@ export default {
             // success
             this.facebookPSID = thread_context['psid']
             console.log('facebook PSID gathered')
+            this.loadReserve()
           }.bind(this),
           function error(err) {
             // error
@@ -152,12 +159,27 @@ export default {
         );
       }.bind(this);
     },
+    async loadReserve(){
+      let date = this.reserveDate
+      const cQuery = new Parse.Query('Customer')
+            .equalTo("facebookPSID", this.facebookPSID)
+            .lessThanOrEqualTo('date', date.endOf('day').toDate())
+            .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+  
+      let cList = await cQuery.find(); // get the list of CUSTOMERS
+      if(cList.length != 0){
+
+        alert("คุณเคยลงทะเบียนแล้ว")
+      }
+    },
     async makeReservation() {
 
       let amount= parseInt(this.amount)
       let name= this.name
       let phone= this.phone
-      let date = this.date
+      let date = this.reserveDate.toDate()
+
+      console.log(date)
       // alert(date)
       // alert(typeof date)
       
