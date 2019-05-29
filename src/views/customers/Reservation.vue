@@ -108,7 +108,9 @@ export default {
     }
   },
   created() {
-    this.setupFacebookAPI()
+    // this.setupFacebookAPI()
+    this.facebookPSID = '2472335649468044'
+    this.loadReserve()
     this.setDate()   
     //
     // this.currentTime = moment().format(timeFormat);
