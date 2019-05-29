@@ -123,6 +123,9 @@ input::placeholder {
 label {
   font-size: 0.9rem;
 }
+.btn.disabled {
+  background-color: #33333380 !important;
+}
 #nav {
   padding: 30px;
 }
@@ -247,14 +250,14 @@ label {
 .modal {
   background-color: #1A1B20;
   // overflow: hidden;
-  -ms-overflow-style: none;  // IE 10+
-  scrollbar-width: none;  // Firefox
+  // -ms-overflow-style: none;  // IE 10+
+  // scrollbar-width: none;  // Firefox
   // background-color: #231A2B;
   // background-color: #231A2C;
 }
-.modal::-webkit-scrollbar { 
-    display: none;  // Safari and Chrome
-}
+// .modal::-webkit-scrollbar { 
+//     display: none;  // Safari and Chrome
+// }
 .card {
   background-color: #24202F;
   border-radius: 12px;

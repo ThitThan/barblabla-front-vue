@@ -74,18 +74,18 @@ export default ({
         },
         {
           path : '/manage/tables',
-          name : 'จัดการโต๊ะ',
+          name : 'ผังโต๊ะ',
         },
         {
           path : '/manage/staffs',
           name : 'จัดการสตาฟ',
        
         },
-         {
-          path : '/manage/customer',
-          name : 'รายชื่อลูกค้า',
+        //  {
+        //   path : '/manage/customer',
+        //   name : 'รายชื่อลูกค้า',
           
-        },
+        // },
         // {
         //   path : '/test',
         //   name : 'test',

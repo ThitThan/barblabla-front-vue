@@ -4,10 +4,22 @@
       <div class="testja" v-for='(t, j) in row' :key='j'>
         <!-- Have table -->
         <div v-if='t !== null'
-          class='tableja waves-effect waves-light'
+          class='tableja'
           @click='$emit("tableClicked", t)' >
-          <!-- @click='$emit("tableClicked", { x: j, y: i})' > -->
-          {{ t.get('TableNumber') }}
+          <!-- {{ editMode }}
+          {{ reservList.hasOwnProperty(t.id) }} -->
+          <div v-if='editMode == false && reservList && reservList.hasOwnProperty(t.id)'
+            class='table-unavailable waves-effect waves-light'>
+            <i class='material-icons'>supervisor_account</i>
+          </div>
+          <div v-else-if='editMode == false'
+            class='table-available waves-effect waves-light'>
+            {{ t.get('TableNumber') }}
+          </div>
+          <div v-else
+            class='table-editmode waves-effect waves-light'>
+            {{ t.get('TableNumber') }}
+          </div>
         </div>
 
         <!-- empty grid -->
@@ -42,6 +54,7 @@ export default {
     // 'map', 
     'tables',
     'zone',
+    'reservList',
     'editMode',
   ],
   components: {
@@ -54,6 +67,11 @@ export default {
     tables(newT) {
       this.generateMap()
       // console.log(newT.length)
+    },
+    reservList(newR) {
+      // this.generateMap()
+      console.log('RESERV UPDATED'); 
+      console.log(newR); 
     }
   },
   data() {
@@ -67,6 +85,8 @@ export default {
   },
   created() {
     this.generateMap()
+
+    console.log(this.reservList)
   },
   methods: {
     generateMap() {
@@ -155,10 +175,41 @@ export default {
 .tableja {
   min-width: 45px;
   min-height: 40px;
-  background-color: #ffffff33;
+}
 
+.table-available {
+  /* background-color: #ffffff33; */
+  background-color: #2e7d32;
+  color: #fff;
+  font-size: 15px;
   border-radius: 4px;
 
+  min-width: 45px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.table-editmode {
+  background-color: #ffffff33;
+  color: #fff;
+  border-radius: 4px;
+
+  min-width: 45px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.table-unavailable {
+  /* background-color: #ffffff33; */
+  /* background-color: #e65100; */
+  background-color: #8B0000;
+  color: #fff;
+  border-radius: 4px;
+
+  min-width: 45px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
