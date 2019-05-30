@@ -7,20 +7,8 @@
       <h4 style='margin-bottom: 12px; margin-top: 0px'>
         [ข้อมูลการจอง]
       </h4>
-      <p>กรุณาเลือกวันที่</p>
-     <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
-            :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
-
-            <div v-if="day === ''">
-              {{ moment().add(index, 'days').format('D MMM') }}
-            </div>
-            <div v-else>
-              {{ day }}
-            </div>
-            
-          </a>
-
       <label>{{ facebookPSID }}</label>
+
       <div class="row">
         <form class="col s12" @submit.prevent="makeReservation()">
           <div class="row">
@@ -41,17 +29,32 @@
               </div> -->
           </div>
           <div class="row">
-            <label for="amount">จำนวน(คน)</label>
-            <div class="input-field col s12">
-              <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
-            </div>
-          </div>    
-          <div class="row">
             <label for="tel">เบอร์โทร(ไม่ต้องเว้นวรรค)</label>
             <div class="input-field col s12">
               <input id="์tel" v-model="phone" type="tel" >
             </div>    
           </div>
+
+          <p>กรุณาเลือกวันที่</p>
+          <a v-for='(day, index) in days' :key='index' @click='selectedDay = index'
+            :class="'button dayButton ' + (index === selectedDay ? 'selected':'')">
+
+            <div v-if="day === ''">
+              {{ moment().add(index, 'days').format('D MMM') }}
+            </div>
+            <div v-else>
+              {{ day }}
+            </div>
+          </a>
+          
+          <hr>
+          
+          <div class="row">
+            <label for="amount">จำนวน(คน)</label>
+            <div class="input-field col s12">
+              <input id="์amount" v-model.number="amount" type="number" min="1" max="99">
+            </div>
+          </div>    
           <button class="btn btn-white waves-effect waves-purple" type="submit" name="action">Submit
             <i class="material-icons right">send</i>
           </button>    
@@ -64,6 +67,7 @@
 
 <script>
 import Parse from 'parse'
+import { async } from 'q';
 var ReservationReq = Parse.Object.extend('ReservationReq')
 var Customer = Parse.Object.extend('Customer')
 var moment = require("moment");
@@ -85,11 +89,11 @@ export default {
       message: "Current Time:",
       currentTime: null,
       showColon: true,
-
+      cus: null,
       amount: '',
       name:'',
       phone:'',
-      //date
+      // date : null,
       date: null,
       day1: null,
       day2: null,
@@ -108,23 +112,22 @@ export default {
       this.loadReserve()
     }
   },
-  // created() {
-  //   //
-  //   // this.currentTime = moment().format(timeFormat);
-  //   // setInterval(() => this.updateCurrentTime(), 1 * 1000);
-  // },
+  created() {
+    this.loadCus()
+  },
   mounted() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, []);
      // this.data_load();
     
     
-    this.setupFacebookAPI()
-    // this.facebookPSID = '2472335649468044'
+    // this.setupFacebookAPI()
+    this.facebookPSID = '2472335649468044'
     this.setDate()   
     this.selectedDay = 0;
     // console.log(this.reserveDate)
-    // this.loadReserve()
+    this.loadCus()
+    this.loadReserve()
   },
   methods: {
     setDate(){
@@ -150,11 +153,13 @@ export default {
 
         // Context
         MessengerExtensions.getContext('2310738632317537', 
-          function success(thread_context) {
+          async function success(thread_context) {
             // success
             this.facebookPSID = thread_context['psid']
             console.log('facebook PSID gathered')
-            this.loadReserve()
+
+           await this.loadCus() 
+           await this.loadReserve()
           }.bind(this),
           function error(err) {
             // error
@@ -164,19 +169,39 @@ export default {
         );
       }.bind(this);
     },
+    async loadCus(){
+      if (this.facebookPSID) {
+        // console.log(date)
+        const cQuery = new Parse.Query('Customer')
+              .equalTo("facebookPSID", this.facebookPSID)
+    
+        let cus = await cQuery.first(); // get the list of CUSTOMERS
+        
+        this.name = cus.get('name')
+        this.phone = cus.get('phone')
+
+        this.cus = cus
+      }
+    },
     async loadReserve(){
       let date = this.reserveDate
-      const cQuery = new Parse.Query('Customer')
-            .equalTo("facebookPSID", this.facebookPSID)
-            // .lessThanOrEqualTo('date', date.endOf('day').toDate())
-            // .greaterThanOrEqualTo('date', date.startOf('day').toDate())
-  
-      let cus = await cQuery.first(); // get the list of CUSTOMERS
-      if(cus.length != 0){
-
-        alert("คุณเคยลงทะเบียนแล้ว")
-      }
-      console.log(cus);
+      let cus = this.cus
+      if(cus && date){
+          const rQuery = new Parse.Query('Reservation')
+                .equalTo("customer", cus)
+                .lessThanOrEqualTo('date', date.endOf('day').toDate())
+                .greaterThanOrEqualTo('date', date.startOf('day').toDate())
+          let reserve = await rQuery.find(); // check
+          console.log(reserve)
+          // if(reserve.length == 0){
+          //   this.name = null
+          //   this.phone = null
+          // }
+          // else
+          //   this.name = cus.get('name')
+          //   this.phone = cus.get('phone')
+          //   console.log(this.phone)
+        }
     },
     async makeReservation() {
 
