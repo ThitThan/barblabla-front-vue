@@ -305,10 +305,10 @@ export default {
     this.setupFacebookAPI()
     // this.facebookPSID = '2472335649468044'
     this.setDate()
-    this.loadCus().then(() => {
-      this.selectedDay = 0;
-      // this.loadReserve() is automatically called
-    })
+    // this.loadCus().then(() => {
+    //   this.selectedDay = 0;
+    //   // this.loadReserve() is automatically called
+    // })
   },
   methods: {
     setDate(){
