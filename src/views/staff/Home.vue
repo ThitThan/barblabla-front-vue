@@ -10,11 +10,11 @@
     <div class="about container">
       <h3>ข้อมูลการจอง</h3>
 
-      <div style="margin: 24px 0px; height: 35px;">
+      <!-- <div style="margin: 24px 0px; height: 35px;">
         <center style="z-index: 1000; position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px;">
           <vue-dropdown :config="config" @setSelectedOption="setNewSelectedOption($event);"></vue-dropdown>
         </center>
-      </div>
+      </div> -->
 
       <!-- ตาราง -->
       <br>
@@ -25,18 +25,18 @@
         v-for="t in table"
         v-bind:key="t.id"
       >
-        <div class="collection-item">โต๊ะ {{t.get('Zone').get('Name')}} {{t.get('TableNumber')}}</div>
+        <div class="collection-item">โต๊ะ {{t.get('Zone').get('Name') + t.get('TableNumber')}}</div>
         <!-- table -->
         <div class="row">
           <div class="col s6" style="margin-top: 10px; font-size: 23px">
-            <div class="i-badge i-badge-pill i-badge-warning" v-if="reserveList[t.id]">จองแล้ว</div>
+            <div class="i-badge i-badge-pill i-badge-warning" v-if="reservations[t.id]">จองแล้ว</div>
             <div class="i-badge i-badge-pill i-badge-green" v-else>ว่าง</div>
           </div>
           <div class="col s6" style="margin-top: 10px; font-size: 18px">
             <!-- <div class="col s3">{{t.get('TableNumber')}}</div> -->
             <div
               class=""
-              v-if="reserveList[t.id]">{{reserveList[t.id].get('customer').get('name')}}</div>
+              v-if="reservations[t.id]">{{reservations[t.id].get('customer').get('name')}}</div>
             <div v-else>-</div>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default {
       displayAvailable: true,
       displayReserved: true,
       table: [],
-      reserveList: {
+      reservations: {
         
       },
       config: {
@@ -128,12 +128,12 @@ export default {
     
     
     async data_load() {
-      this.reservation = {}
+      this.reservations = {}
       this.isLoading = true; // show the loading indicator
 
       // table
       const query = new Parse.Query(Tableja);
-      query.ascending("TableNumber");
+      query.ascending("Zone", "TableNumber");
       let tables = await query.find(); // get the list of table
        for (var i = 0; i < tables.length; i++) {
         // console.log(reservList[i])
@@ -158,14 +158,13 @@ export default {
         await reserv.get('customer').fetch()  // get the customer info
         let tableId = reserv.get('Table').id
 
-        this.reservation[tableId] = reserv
+        this.reservations[tableId] = reserv
+        console.log(tableId)
       }
-      console.log(this.reservation)
-
-      console.log(this.reserveList)
+      console.log(this.reservations)
 
       this.table = tables
-      console.log(this.table)
+      // console.log(this.table)
     },
     performLogout() {
       Parse.User.logOut().then(() => {
