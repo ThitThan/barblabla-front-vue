@@ -23,7 +23,23 @@
             <h4 style='margin-bottom: 32px'>
                 {{ (table && table.id) ? 'แก้ไขโต๊ะ':'เพิ่มโต๊ะ'}}
             </h4>
+            
+            <!-- Zone -->
+            <div v-if='Zone'>
+                <label>โซน</label>
+                <h5>{{ Zone.get('Name') }}</h5>
+                <!-- <div class = 'input-field col'>
+                    <div class="switch">
+                        <label>
+                            <input type="checkbox" v-model='Zone'>
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </div> -->
+            </div>
 
+            <br>
+            
             <!-- table No -->
             <label for = 'TableNumber'>เลขโต๊ะ</label>
             <div class = "input-field col">
@@ -38,20 +54,6 @@
             <div class = "input-field col">
                 <i class = "material-icons prefix">event_seat</i>
                 <input v-model = 'Seat' id='Seat' placeholder = 'จำนวนที่' type='text' />
-            </div>
-
-            <!-- Zone -->
-            <div v-if='Zone'>
-                <label>โซน</label>
-                <h5>{{ Zone.get('Name') }}</h5>
-                <!-- <div class = 'input-field col'>
-                    <div class="switch">
-                        <label>
-                            <input type="checkbox" v-model='Zone'>
-                            <span class="lever"></span>
-                        </label>
-                    </div>
-                </div> -->
             </div>
 
             <!--ปุ่มเซฟนะจ๊ะ-->
