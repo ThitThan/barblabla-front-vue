@@ -14,11 +14,11 @@
           </div>
           <div v-else-if='editMode == false'
             class='table-available waves-effect waves-light'>
-            {{ t.get('TableNumber') }}
+            {{ t.get('Zone').get('Name') + t.get('TableNumber') }}
           </div>
           <div v-else
             class='table-editmode waves-effect waves-light'>
-            {{ t.get('TableNumber') }}
+            {{ t.get('Zone').get('Name') + t.get('TableNumber') }}
           </div>
         </div>
 
@@ -138,6 +138,8 @@ export default {
         this.map = arr
 
         // console.log(this.map)
+
+        this.$emit('mapGenerated', arr)
       }
     },
   }

@@ -63,7 +63,7 @@
 
           <div class="input-field col">
             <i class="material-icons prefix">phone_in_talk</i>
-            <input v-model.trim="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="number">
+            <input v-model.trim="cusNo" id="cusNo" placeholder="เบอร์ติดต่อ" type="tel">
           </div>
 
           <button :class="'waves-effect waves-light btn deep-purple darken-2 ' + (cusNo == '' || cusName == '' || isSaving ? 'disabled ':'')"

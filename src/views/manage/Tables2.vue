@@ -19,7 +19,7 @@
       <div v-for='(map, zoneID) in zone' :key='zoneID' style="margin: 32px 0px;">
         <h5 style='margin: 0px; margin-bottom: 12px; text-align: left;'> 
           โซน {{ zone[zoneID].get('Name') }} 
-          <button :class="'btn-floating btn-small waves-effect waves-light deep-purple darken-2' + (isDeleting ? 'btn-disabled':'')" align='left'
+          <button class='btn-floating btn-small waves-effect waves-light deep-purple darken-2' align='left'
             @click='showEditZoneDialog(zone[zoneID])'>
             <i class='material-icons'>edit</i>
         </button></h5>
