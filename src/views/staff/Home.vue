@@ -25,7 +25,7 @@
         v-for="t in table"
         v-bind:key="t.id"
       >
-        <div class="collection-item">โต๊ะ {{t.get('TableNumber')}}</div>
+        <div class="collection-item">โต๊ะ {{t.get('Zone').get('Name')}} {{t.get('TableNumber')}}</div>
         <!-- table -->
         <div class="row">
           <div class="col s6" style="margin-top: 10px; font-size: 23px">
@@ -52,6 +52,9 @@ import vueDropdown from "@/components/vue-dropdown/vue-dropdown";
 import Parse from "parse";
 var Tableja = Parse.Object.extend("Tableja");
 var Reservation = Parse.Object.extend("Reservation");
+var moment = require("moment");
+// var moment = require('moment');
+// moment().format();
 
 export default {
   props: {
@@ -92,12 +95,13 @@ export default {
         width: 300
       },
 
-      reserveDate: null
+      reserveDate: null,
+      fetchedZones: []
     };
   },
   created() {
     this.name = "";
-    this.reserveDate = moment().now()
+    this.reserveDate = moment()
     this.data_load();
   },
   methods: {
@@ -131,7 +135,16 @@ export default {
       const query = new Parse.Query(Tableja);
       query.ascending("TableNumber");
       let tables = await query.find(); // get the list of table
+       for (var i = 0; i < tables.length; i++) {
+        // console.log(reservList[i])
+        let t = tables[i]
+        if (this.fetchedZones.includes(t.get('Zone').id) === false) {
+          await t.get('Zone').fetch()  // get the TableZone info
+          this.fetchedZones.push(t.get('Zone').id)
+        }
+      }
 
+      // con
       // reservations
       let date = this.reserveDate
       const rQuery = new Parse.Query(Reservation)
@@ -149,9 +162,10 @@ export default {
       }
       console.log(this.reservation)
 
-      console.log(this.reserveList);
+      console.log(this.reserveList)
 
-      this.table = tables;
+      this.table = tables
+      console.log(this.table)
     },
     performLogout() {
       Parse.User.logOut().then(() => {

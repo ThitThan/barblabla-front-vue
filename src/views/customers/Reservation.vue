@@ -186,6 +186,7 @@ export default {
     async loadReserve(){
       let date = this.reserveDate
       let cus = this.cus
+      console.log(moment.now())
       if(cus && date){
           const rQuery = new Parse.Query('Reservation')
                 .equalTo("customer", cus)
