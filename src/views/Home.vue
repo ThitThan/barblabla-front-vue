@@ -84,7 +84,7 @@
               <div class="i-badge i-badge-pill i-badge-green" v-else>ว่าง</div>
               <!-- {{ reservation[t.id] }} -->
             </div>
-            <div class="col s2">{{ t.get('Zone') ? 'INSIDE':'OUTSIDE'}}</div>
+            <div class="col s2">{{ t.get('Zone') ? t.get('Zone').get('Name') : '-' }}</div>
             <!-- <div class="col s2">-</div> -->
           </div>
 

@@ -73,7 +73,7 @@
             </div>
 
             <div class="col s2">
-              {{ tables[c.id].get('Zone') ? 'INSIDE':'OUTSIDE'}}
+              {{ tables[c.id].get('Zone') ? tables[c.id].get('Zone').get('Name') : '-' }}
             </div>
             
           </div>

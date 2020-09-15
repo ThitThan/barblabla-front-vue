@@ -99,7 +99,7 @@ export default {
             break
           default:
             // msg = 'เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง \n(รหัสข้อผิดหลาด: ' + error.code + ')'
-            msg = error.message
+            msg = `Error (${error.code}): \n${error.message}`
         }
         alert(
           // 'Error (' + error.code + ')' + '\n' +

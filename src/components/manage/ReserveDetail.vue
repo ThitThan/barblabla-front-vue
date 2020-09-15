@@ -32,7 +32,7 @@
             <div class="col s6">
               <p>
                 โซน:
-                {{ curT.get('Zone') ? 'INSIDE':'OUTSIDE' }}
+                {{ curT.get('Zone') ? curT.get('Zone').get('Name') : '-' }}
               </p>
             </div>
             <div class="col s6">
