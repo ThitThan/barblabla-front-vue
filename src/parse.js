@@ -1,10 +1,13 @@
 // import Vue from 'vue'
 import Parse from 'parse'
 
-// var Parse = require('parse')
-Parse._initialize('gOXzeflDQ8opBMiiGlk39sLiJZ5HoeHw6Z6JcTiz', '', 'YkNCuydCwc2rgxVNeP2z8nRnP9MyxHhQDfn9Yjwh') ; // just APP_ID is okay, since JS_KEY is not provided in the server, but MASTER_KEY is to allow user to modify other users.
-Parse.serverURL = 'https://barblabla.me/parse'
-// Parse.Cloud.useMasterKey();
+Parse._initialize(
+    'SqIb8jEvzPDuvUFrJuyIYFB6RAxEDFWVS3GSlbSy',     // APP_ID
+    'iFWa2bs1bb0dAliy8uPhuKTkvDqeuJk4HNfCCInN',     // JS_KEY
+    'Hu4w42FTCclQzVRiW1XQ01npSs9T8HE2CurE8pse',     // MASTER_KEY (required so users can modify other users)
+);
+
+Parse.serverURL = 'https://parseapi.back4app.com/'
 Parse.User.enableUnsafeCurrentUser();
 
 export default Parse
